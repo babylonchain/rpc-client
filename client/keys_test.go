@@ -1,6 +1,7 @@
 package client_test
 
 import (
+	"go.uber.org/zap/zaptest"
 	"math/rand"
 	"strings"
 	"testing"
@@ -8,8 +9,8 @@ import (
 
 	bbn "github.com/babylonchain/babylon/app"
 	"github.com/babylonchain/babylon/testutil/datagen"
-	"github.com/babylonchain/vigilante/babylonclient"
-	"github.com/babylonchain/vigilante/config"
+	"github.com/babylonchain/rpc-client/client"
+	"github.com/babylonchain/rpc-client/config"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/stretchr/testify/require"
@@ -43,7 +44,7 @@ func FuzzKeys(f *testing.F) {
 		cfg := config.DefaultBabylonConfig()
 		cfg.KeyDirectory = dir
 		cfg.Key = keyName
-		cl, err := babylonclient.New(&cfg, 1*time.Minute, 5*time.Minute)
+		cl, err := client.New(&cfg, zaptest.NewLogger(t), 1*time.Minute, 5*time.Minute)
 		require.NoError(t, err)
 
 		// retrieve the key info from key ring

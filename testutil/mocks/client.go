@@ -11,7 +11,7 @@ import (
 	types0 "github.com/babylonchain/babylon/x/btclightclient/types"
 	types1 "github.com/babylonchain/babylon/x/checkpointing/types"
 	types2 "github.com/babylonchain/babylon/x/epoching/types"
-	config "github.com/babylonchain/vigilante/config"
+	config "github.com/babylonchain/rpc-client/config"
 	chainhash "github.com/btcsuite/btcd/chaincfg/chainhash"
 	wire "github.com/btcsuite/btcd/wire"
 	types3 "github.com/cosmos/cosmos-sdk/types"

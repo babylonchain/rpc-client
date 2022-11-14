@@ -5,7 +5,7 @@ import (
 	btclctypes "github.com/babylonchain/babylon/x/btclightclient/types"
 	checkpointingtypes "github.com/babylonchain/babylon/x/checkpointing/types"
 	epochingtypes "github.com/babylonchain/babylon/x/epoching/types"
-	"github.com/babylonchain/vigilante/config"
+	"github.com/babylonchain/rpc-client/config"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/wire"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -18,18 +18,28 @@ type BabylonClient interface {
 	GetTagIdx() uint8
 	GetAddr() (sdk.AccAddress, error)
 	MustGetAddr() sdk.AccAddress
-	QueryStakingParams() (*stakingtypes.Params, error)
-	QueryEpochingParams() (*epochingtypes.Params, error)
-	QueryBTCLightclientParams() (*btclctypes.Params, error)
-	QueryBTCCheckpointParams() (*btcctypes.Params, error)
-	MustQueryBTCCheckpointParams() *btcctypes.Params
-	QueryHeaderChainTip() (*chainhash.Hash, uint64, error)
-	QueryRawCheckpoint(epochNumber uint64) (*checkpointingtypes.RawCheckpointWithMeta, error)
-	QueryRawCheckpointList(status checkpointingtypes.CheckpointStatus) ([]*checkpointingtypes.RawCheckpointWithMeta, error)
-	QueryBaseHeader() (*wire.BlockHeader, uint64, error)
-	QueryContainsBlock(blockHash *chainhash.Hash) (bool, error)
 	InsertBTCSpvProof(msg *btcctypes.MsgInsertBTCSpvProof) (*sdk.TxResponse, error)
 	InsertHeader(msg *btclctypes.MsgInsertHeader) (*sdk.TxResponse, error)
 	InsertHeaders(msgs []*btclctypes.MsgInsertHeader) (*sdk.TxResponse, error)
 	MustInsertBTCSpvProof(msg *btcctypes.MsgInsertBTCSpvProof) *sdk.TxResponse
+
+	// staking module related queries
+	QueryStakingParams() (*stakingtypes.Params, error)
+
+	// epoch module related queries
+	QueryEpochingParams() (*epochingtypes.Params, error)
+
+	// btclightclient module related queries
+	QueryBTCLightclientParams() (*btclctypes.Params, error)
+	QueryHeaderChainTip() (*chainhash.Hash, uint64, error)
+	QueryBaseHeader() (*wire.BlockHeader, uint64, error)
+	QueryContainsBlock(blockHash *chainhash.Hash) (bool, error)
+
+	// btccheckpoint module related queries
+	QueryBTCCheckpointParams() (*btcctypes.Params, error)
+	MustQueryBTCCheckpointParams() *btcctypes.Params
+
+	// checkpointing module related queries
+	QueryRawCheckpoint(epochNumber uint64) (*checkpointingtypes.RawCheckpointWithMeta, error)
+	QueryRawCheckpointList(status checkpointingtypes.CheckpointStatus) ([]*checkpointingtypes.RawCheckpointWithMeta, error)
 }
