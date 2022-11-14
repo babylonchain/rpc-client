@@ -29,13 +29,6 @@ func New(cfg *config.BabylonConfig, log *zap.Logger, retrySleepTime, maxRetrySle
 		return nil, err
 	}
 
-	// show addresses in the key ring
-	// TODO: specify multiple addresses in config
-	_, err = cc.ListAddresses()
-	if err != nil {
-		return nil, err
-	}
-
 	// wrap to our type
 	client := &Client{cc, cfg, log, retrySleepTime, maxRetrySleepTime}
 
