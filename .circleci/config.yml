@@ -5,7 +5,7 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build:
+  test:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     machine:
@@ -15,6 +15,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
+      - add_ssh_keys
       - run:
           name: Print Go environment
           command: "go env"
@@ -25,8 +26,8 @@ jobs:
           name: Install Dependencies
           command: sudo apt-get install libzmq3-dev
       - run:
-          name: Build vigilante
-          command: make build
+          name: Retrieve dependencies
+          command: go mod download
       - save_cache:
           key: go-mod-v6-{{ checksum "go.sum" }}
           paths:
@@ -41,4 +42,4 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - build
+      - test
