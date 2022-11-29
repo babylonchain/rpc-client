@@ -8,9 +8,9 @@ require (
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/cosmos/cosmos-sdk v0.46.3
 	github.com/golang/mock v1.6.0
+	github.com/sirupsen/logrus v1.9.0
 	github.com/strangelove-ventures/lens v0.5.2-0.20221031215155-be1a07750273
 	github.com/stretchr/testify v1.8.1
-	go.uber.org/zap v1.23.0
 )
 
 require (
@@ -27,7 +27,6 @@ require (
 	github.com/armon/go-metrics v0.4.0 // indirect
 	github.com/avast/retry-go/v4 v4.3.0 // indirect
 	github.com/aws/aws-sdk-go v1.40.45 // indirect
-	github.com/benbjohnson/clock v1.3.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/bgentry/speakeasy v0.1.0 // indirect
@@ -139,6 +138,7 @@ require (
 	go.opencensus.io v0.23.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
+	go.uber.org/zap v1.23.0 // indirect
 	golang.org/x/crypto v0.0.0-20220924013350-4ba4fb4dd9e7 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
 	golang.org/x/net v0.0.0-20221002022538-bcab6841153b // indirect
