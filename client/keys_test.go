@@ -1,7 +1,6 @@
 package client_test
 
 import (
-	"go.uber.org/zap/zaptest"
 	"math/rand"
 	"strings"
 	"testing"
@@ -44,7 +43,7 @@ func FuzzKeys(f *testing.F) {
 		cfg := config.DefaultBabylonConfig()
 		cfg.KeyDirectory = dir
 		cfg.Key = keyName
-		cl, err := client.New(&cfg, zaptest.NewLogger(t), 1*time.Minute, 5*time.Minute)
+		cl, err := client.New(&cfg, 1*time.Minute, 5*time.Minute)
 		require.NoError(t, err)
 
 		// retrieve the key info from key ring
