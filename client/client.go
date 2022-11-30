@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/babylonchain/rpc-client/config"
-	"github.com/sirupsen/logrus"
 	lensclient "github.com/strangelove-ventures/lens/client"
 )
 
@@ -15,14 +14,12 @@ type Client struct {
 	*lensclient.ChainClient
 	cfg *config.BabylonConfig
 
-	log *logrus.Logger
-
 	// retry attributes
 	retrySleepTime    time.Duration
 	maxRetrySleepTime time.Duration
 }
 
-func New(cfg *config.BabylonConfig, log *logrus.Logger, retrySleepTime, maxRetrySleepTime time.Duration) (*Client, error) {
+func New(cfg *config.BabylonConfig, retrySleepTime, maxRetrySleepTime time.Duration) (*Client, error) {
 	// create a Tendermint/Cosmos client for Babylon
 	cc, err := newLensClient(cfg.Unwrap())
 	if err != nil {
@@ -30,7 +27,7 @@ func New(cfg *config.BabylonConfig, log *logrus.Logger, retrySleepTime, maxRetry
 	}
 
 	// wrap to our type
-	client := &Client{cc, cfg, log, retrySleepTime, maxRetrySleepTime}
+	client := &Client{cc, cfg, retrySleepTime, maxRetrySleepTime}
 
 	return client, nil
 }
