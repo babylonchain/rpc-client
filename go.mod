@@ -3,7 +3,7 @@ module github.com/babylonchain/rpc-client
 go 1.18
 
 require (
-	github.com/babylonchain/babylon v0.3.0
+	github.com/babylonchain/babylon v0.0.0-20221208092040-2ca49f0e68cb
 	github.com/btcsuite/btcd v0.22.1
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/cosmos/cosmos-sdk v0.46.6
@@ -89,6 +89,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hdevalence/ed25519consensus v0.0.0-20220222234857-c00d1f31bab3 // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
+	github.com/jinzhu/copier v0.3.5 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/jmhodges/levigo v1.0.0 // indirect
 	github.com/keybase/go-keychain v0.0.0-20190712205309-48d3d31d256d // indirect
