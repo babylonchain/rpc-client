@@ -37,3 +37,20 @@ func (c *Client) QueryRawCheckpointList(status checkpointingtypes.CheckpointStat
 	}
 	return resp.RawCheckpoints, nil
 }
+
+func (c *Client) BlsPublicKeyList(epochNumber uint64) ([]*checkpointingtypes.ValidatorWithBlsKey, error) {
+	query := query.Query{Client: c.ChainClient, Options: query.DefaultOptions()}
+	ctx, cancel := query.GetQueryContext()
+	defer cancel()
+
+	queryClient := checkpointingtypes.NewQueryClient(c.ChainClient)
+	req := &checkpointingtypes.QueryBlsPublicKeyListRequest{
+		EpochNum: epochNumber,
+	}
+	resp, err := queryClient.BlsPublicKeyList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.ValidatorWithBlsKeys, nil
+}
