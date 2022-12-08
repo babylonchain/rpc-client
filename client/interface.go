@@ -42,4 +42,5 @@ type BabylonClient interface {
 	// checkpointing module related queries
 	QueryRawCheckpoint(epochNumber uint64) (*checkpointingtypes.RawCheckpointWithMeta, error)
 	QueryRawCheckpointList(status checkpointingtypes.CheckpointStatus) ([]*checkpointingtypes.RawCheckpointWithMeta, error)
+	BlsPublicKeyList(epochNumber uint64) ([]*checkpointingtypes.ValidatorWithBlsKey, error)
 }
