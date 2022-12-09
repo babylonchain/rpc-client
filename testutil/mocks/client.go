@@ -42,6 +42,21 @@ func (m *MockBabylonClient) EXPECT() *MockBabylonClientMockRecorder {
 	return m.recorder
 }
 
+// BlsPublicKeyList mocks base method.
+func (m *MockBabylonClient) BlsPublicKeyList(epochNumber uint64) ([]*types1.ValidatorWithBlsKey, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BlsPublicKeyList", epochNumber)
+	ret0, _ := ret[0].([]*types1.ValidatorWithBlsKey)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// BlsPublicKeyList indicates an expected call of BlsPublicKeyList.
+func (mr *MockBabylonClientMockRecorder) BlsPublicKeyList(epochNumber interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlsPublicKeyList", reflect.TypeOf((*MockBabylonClient)(nil).BlsPublicKeyList), epochNumber)
+}
+
 // GetAddr mocks base method.
 func (m *MockBabylonClient) GetAddr() (types3.AccAddress, error) {
 	m.ctrl.T.Helper()
