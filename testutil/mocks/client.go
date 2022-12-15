@@ -248,6 +248,21 @@ func (mr *MockBabylonClientMockRecorder) QueryContainsBlock(blockHash interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryContainsBlock", reflect.TypeOf((*MockBabylonClient)(nil).QueryContainsBlock), blockHash)
 }
 
+// QueryCurrentEpoch mocks base method.
+func (m *MockBabylonClient) QueryCurrentEpoch() (uint64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryCurrentEpoch")
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueryCurrentEpoch indicates an expected call of QueryCurrentEpoch.
+func (mr *MockBabylonClientMockRecorder) QueryCurrentEpoch() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryCurrentEpoch", reflect.TypeOf((*MockBabylonClient)(nil).QueryCurrentEpoch))
+}
+
 // QueryEpochingParams mocks base method.
 func (m *MockBabylonClient) QueryEpochingParams() (*types2.Params, error) {
 	m.ctrl.T.Helper()
