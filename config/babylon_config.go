@@ -10,6 +10,7 @@ import (
 	"github.com/babylonchain/babylon/x/btclightclient"
 	"github.com/babylonchain/babylon/x/checkpointing"
 	"github.com/babylonchain/babylon/x/epoching"
+	"github.com/babylonchain/babylon/x/zoneconcierge"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/strangelove-ventures/lens/client"
 )
@@ -22,6 +23,7 @@ var ModuleBasics = append(
 	checkpointing.AppModuleBasic{},
 	btclightclient.AppModuleBasic{},
 	btccheckpoint.AppModuleBasic{},
+	zoneconcierge.AppModuleBasic{},
 )
 
 // BabylonConfig defines configuration for the Babylon client
@@ -48,10 +50,13 @@ type BabylonConfig struct {
 
 func (cfg *BabylonConfig) Validate() error {
 	if cfg.Timeout <= 0 {
-		return errors.New("timeout must be positive")
+		return errors.New("cfg.Timeout must be positive")
 	}
 	if cfg.BlockTimeout < 0 {
-		return errors.New("block-timeout can't be negative")
+		return errors.New("cfg.BlockTimeout can't be negative")
+	}
+	if len(cfg.Modules) < len(ModuleBasics) {
+		return errors.New("cfg.Modules does not include all required modules")
 	}
 	return nil
 }
