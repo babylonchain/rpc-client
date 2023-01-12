@@ -55,8 +55,13 @@ func (cfg *BabylonConfig) Validate() error {
 	if cfg.BlockTimeout < 0 {
 		return errors.New("cfg.BlockTimeout can't be negative")
 	}
-	if len(cfg.Modules) < len(ModuleBasics) {
-		return errors.New("cfg.Modules does not include all required modules")
+	if len(cfg.Modules) != len(ModuleBasics) {
+		return errors.New("cfg.Modules is different from ModuleBasics")
+	}
+	for i := range cfg.Modules {
+		if cfg.Modules[i].Name() != ModuleBasics[i].Name() {
+			return errors.New("cfg.Modules is different from ModuleBasics")
+		}
 	}
 	return nil
 }
