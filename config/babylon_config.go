@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"time"
@@ -60,7 +61,7 @@ func (cfg *BabylonConfig) Validate() error {
 	}
 	for i := range cfg.Modules {
 		if cfg.Modules[i].Name() != ModuleBasics[i].Name() {
-			return errors.New("cfg.Modules is different from ModuleBasics")
+			return fmt.Errorf("cfg.Modules is different from ModuleBasics: expected: %s, actual: %s", ModuleBasics[i].Name(), cfg.Modules[i].Name())
 		}
 	}
 	return nil
@@ -106,7 +107,7 @@ func DefaultBabylonConfig() BabylonConfig {
 		SignModeStr:      "direct",
 		SubmitterAddress: "bbn1v6k7k9s8md3k29cu9runasstq5zaa0lpznk27w", // this is currently a placeholder, will not recognized by Babylon
 		TagIdx:           "0",
-		Modules:          client.ModuleBasics,
+		Modules:          ModuleBasics,
 	}
 }
 
