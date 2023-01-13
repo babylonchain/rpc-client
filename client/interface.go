@@ -28,6 +28,7 @@ type BabylonClient interface {
 
 	// epoch module related queries
 	QueryEpochingParams() (*epochingtypes.Params, error)
+	QueryCurrentEpoch() (uint64, error)
 
 	// btclightclient module related queries
 	QueryBTCLightclientParams() (*btclctypes.Params, error)

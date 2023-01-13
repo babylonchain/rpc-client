@@ -31,13 +31,14 @@ func FuzzKeys(f *testing.F) {
 
 		// create a random key pair in this keyring
 		keyName := datagen.GenRandomHexStr(10)
-		kr.NewMnemonic(
+		_, _, err = kr.NewMnemonic(
 			keyName,
 			keyring.English,
 			hd.CreateHDPath(118, 0, 0).String(),
 			keyring.DefaultBIP39Passphrase,
 			hd.Secp256k1,
 		)
+        require.NoError(t, err)
 
 		// create a Babylon client with this random keyring
 		cfg := config.DefaultBabylonConfig()

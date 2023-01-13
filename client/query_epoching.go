@@ -20,3 +20,24 @@ func (c *Client) QueryEpochingParams() (*epochingtypes.Params, error) {
 	}
 	return &resp.Params, nil
 }
+
+// QueryCurrentEpoch queries the current epoch number via ChainClient
+func (c *Client) QueryCurrentEpoch() (uint64, error) {
+	var (
+		epochNum uint64
+		err      error
+	)
+
+	q := query.Query{Client: c.ChainClient, Options: query.DefaultOptions()}
+	ctx, cancel := q.GetQueryContext()
+	defer cancel()
+
+	queryClient := epochingtypes.NewQueryClient(c.ChainClient)
+	req := &epochingtypes.QueryCurrentEpochRequest{}
+	resp, err := queryClient.CurrentEpoch(ctx, req)
+	if err != nil {
+		return epochNum, err
+	}
+
+	return resp.CurrentEpoch, nil
+}
