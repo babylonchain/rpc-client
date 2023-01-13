@@ -10,7 +10,7 @@ import (
 	"github.com/babylonchain/babylon/x/btclightclient"
 	"github.com/babylonchain/babylon/x/checkpointing"
 	"github.com/babylonchain/babylon/x/epoching"
-	"github.com/cosmos/cosmos-sdk/types/module"
+	"github.com/babylonchain/babylon/x/zoneconcierge"
 	"github.com/strangelove-ventures/lens/client"
 )
 
@@ -22,36 +22,36 @@ var ModuleBasics = append(
 	checkpointing.AppModuleBasic{},
 	btclightclient.AppModuleBasic{},
 	btccheckpoint.AppModuleBasic{},
+	zoneconcierge.AppModuleBasic{},
 )
 
 // BabylonConfig defines configuration for the Babylon client
 // adapted from https://github.com/strangelove-ventures/lens/blob/v0.5.1/client/config.go
 type BabylonConfig struct {
-	Key              string                  `mapstructure:"key"`
-	ChainID          string                  `mapstructure:"chain-id"`
-	RPCAddr          string                  `mapstructure:"rpc-addr"`
-	GRPCAddr         string                  `mapstructure:"grpc-addr"`
-	AccountPrefix    string                  `mapstructure:"account-prefix"`
-	KeyringBackend   string                  `mapstructure:"keyring-backend"`
-	GasAdjustment    float64                 `mapstructure:"gas-adjustment"`
-	GasPrices        string                  `mapstructure:"gas-prices"`
-	KeyDirectory     string                  `mapstructure:"key-directory"`
-	Debug            bool                    `mapstructure:"debug"`
-	Timeout          time.Duration           `mapstructure:"timeout"`
-	BlockTimeout     time.Duration           `mapstructure:"block-timeout"`
-	OutputFormat     string                  `mapstructure:"output-format"`
-	SignModeStr      string                  `mapstructure:"sign-mode"`
-	SubmitterAddress string                  `mapstructure:"submitter-address"`
-	TagIdx           string                  `mapstructure:"tag-idx"`
-	Modules          []module.AppModuleBasic `mapstructure:"-"`
+	Key              string        `mapstructure:"key"`
+	ChainID          string        `mapstructure:"chain-id"`
+	RPCAddr          string        `mapstructure:"rpc-addr"`
+	GRPCAddr         string        `mapstructure:"grpc-addr"`
+	AccountPrefix    string        `mapstructure:"account-prefix"`
+	KeyringBackend   string        `mapstructure:"keyring-backend"`
+	GasAdjustment    float64       `mapstructure:"gas-adjustment"`
+	GasPrices        string        `mapstructure:"gas-prices"`
+	KeyDirectory     string        `mapstructure:"key-directory"`
+	Debug            bool          `mapstructure:"debug"`
+	Timeout          time.Duration `mapstructure:"timeout"`
+	BlockTimeout     time.Duration `mapstructure:"block-timeout"`
+	OutputFormat     string        `mapstructure:"output-format"`
+	SignModeStr      string        `mapstructure:"sign-mode"`
+	SubmitterAddress string        `mapstructure:"submitter-address"`
+	TagIdx           string        `mapstructure:"tag-idx"`
 }
 
 func (cfg *BabylonConfig) Validate() error {
 	if cfg.Timeout <= 0 {
-		return errors.New("timeout must be positive")
+		return errors.New("cfg.Timeout must be positive")
 	}
 	if cfg.BlockTimeout < 0 {
-		return errors.New("block-timeout can't be negative")
+		return errors.New("cfg.BlockTimeout can't be negative")
 	}
 	return nil
 }
@@ -71,7 +71,7 @@ func (cfg *BabylonConfig) Unwrap() *client.ChainClientConfig {
 		Timeout:        cfg.Timeout.String(),
 		OutputFormat:   cfg.OutputFormat,
 		SignModeStr:    cfg.SignModeStr,
-		Modules:        cfg.Modules,
+		Modules:        ModuleBasics,
 	}
 }
 
@@ -96,7 +96,6 @@ func DefaultBabylonConfig() BabylonConfig {
 		SignModeStr:      "direct",
 		SubmitterAddress: "bbn1v6k7k9s8md3k29cu9runasstq5zaa0lpznk27w", // this is currently a placeholder, will not recognized by Babylon
 		TagIdx:           "0",
-		Modules:          client.ModuleBasics,
 	}
 }
 

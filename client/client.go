@@ -20,6 +20,11 @@ type Client struct {
 }
 
 func New(cfg *config.BabylonConfig, retrySleepTime, maxRetrySleepTime time.Duration) (*Client, error) {
+	// ensure cfg is valid
+	if err := cfg.Validate(); err != nil {
+		return nil, err
+	}
+
 	// create a Tendermint/Cosmos client for Babylon
 	cc, err := newLensClient(cfg.Unwrap())
 	if err != nil {
