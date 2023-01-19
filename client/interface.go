@@ -47,5 +47,5 @@ type BabylonClient interface {
 
 	// monitor module related queries
 	QueryFinishedEpochBtcHeight(epochNum uint64) (uint64, error)
-	QueryReportedCheckpointBtcHeight(hash []byte) (uint64, error)
+	QueryReportedCheckpointBtcHeight(hash string) (uint64, error)
 }

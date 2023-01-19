@@ -29,7 +29,7 @@ func (c *Client) QueryFinishedEpochBtcHeight(epochNum uint64) (uint64, error) {
 }
 
 // QueryReportedCheckpointBtcHeight queries the tip height of BTC light client when a given checkpoint is reported
-func (c *Client) QueryReportedCheckpointBtcHeight(hash []byte) (uint64, error) {
+func (c *Client) QueryReportedCheckpointBtcHeight(hashStr string) (uint64, error) {
 	var (
 		btcHeight uint64
 		err       error
@@ -40,7 +40,7 @@ func (c *Client) QueryReportedCheckpointBtcHeight(hash []byte) (uint64, error) {
 	defer cancel()
 
 	queryClient := monitortypes.NewQueryClient(c.ChainClient)
-	req := &monitortypes.QueryReportedCheckpointBtcHeightRequest{CkptHash: hash}
+	req := &monitortypes.QueryReportedCheckpointBtcHeightRequest{CkptHash: hashStr}
 	resp, err := queryClient.ReportedCheckpointBtcHeight(ctx, req)
 	if err != nil {
 		return btcHeight, err

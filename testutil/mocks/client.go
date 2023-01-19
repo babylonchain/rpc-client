@@ -340,7 +340,7 @@ func (mr *MockBabylonClientMockRecorder) QueryRawCheckpointList(status interface
 }
 
 // QueryReportedCheckpointBtcHeight mocks base method.
-func (m *MockBabylonClient) QueryReportedCheckpointBtcHeight(hash []byte) (uint64, error) {
+func (m *MockBabylonClient) QueryReportedCheckpointBtcHeight(hash string) (uint64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "QueryReportedCheckpointBtcHeight", hash)
 	ret0, _ := ret[0].(uint64)
