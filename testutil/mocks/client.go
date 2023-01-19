@@ -278,6 +278,21 @@ func (mr *MockBabylonClientMockRecorder) QueryEpochingParams() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryEpochingParams", reflect.TypeOf((*MockBabylonClient)(nil).QueryEpochingParams))
 }
 
+// QueryFinishedEpochBtcHeight mocks base method.
+func (m *MockBabylonClient) QueryFinishedEpochBtcHeight(epochNum uint64) (uint64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryFinishedEpochBtcHeight", epochNum)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueryFinishedEpochBtcHeight indicates an expected call of QueryFinishedEpochBtcHeight.
+func (mr *MockBabylonClientMockRecorder) QueryFinishedEpochBtcHeight(epochNum interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryFinishedEpochBtcHeight", reflect.TypeOf((*MockBabylonClient)(nil).QueryFinishedEpochBtcHeight), epochNum)
+}
+
 // QueryHeaderChainTip mocks base method.
 func (m *MockBabylonClient) QueryHeaderChainTip() (*chainhash.Hash, uint64, error) {
 	m.ctrl.T.Helper()
@@ -322,6 +337,21 @@ func (m *MockBabylonClient) QueryRawCheckpointList(status types1.CheckpointStatu
 func (mr *MockBabylonClientMockRecorder) QueryRawCheckpointList(status interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryRawCheckpointList", reflect.TypeOf((*MockBabylonClient)(nil).QueryRawCheckpointList), status)
+}
+
+// QueryReportedCheckpointBtcHeight mocks base method.
+func (m *MockBabylonClient) QueryReportedCheckpointBtcHeight(hash []byte) (uint64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryReportedCheckpointBtcHeight", hash)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueryReportedCheckpointBtcHeight indicates an expected call of QueryReportedCheckpointBtcHeight.
+func (mr *MockBabylonClientMockRecorder) QueryReportedCheckpointBtcHeight(hash interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryReportedCheckpointBtcHeight", reflect.TypeOf((*MockBabylonClient)(nil).QueryReportedCheckpointBtcHeight), hash)
 }
 
 // QueryStakingParams mocks base method.
