@@ -3,8 +3,8 @@ module github.com/babylonchain/rpc-client
 go 1.19
 
 require (
-	github.com/babylonchain/babylon v0.0.0-20221208092040-2ca49f0e68cb
-	github.com/btcsuite/btcd v0.22.1
+	github.com/babylonchain/babylon v0.0.0-20230123025628-039d4ab14e4c
+	github.com/btcsuite/btcd v0.22.3
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/cosmos/cosmos-sdk v0.46.6
 	github.com/golang/mock v1.6.0
@@ -142,10 +142,10 @@ require (
 	go.uber.org/zap v1.23.0 // indirect
 	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
-	golang.org/x/net v0.1.0 // indirect
+	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783 // indirect
-	golang.org/x/sys v0.1.0 // indirect
-	golang.org/x/term v0.1.0 // indirect
+	golang.org/x/sys v0.2.0 // indirect
+	golang.org/x/term v0.2.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 	google.golang.org/api v0.93.0 // indirect
