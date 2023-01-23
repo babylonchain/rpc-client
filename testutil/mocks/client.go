@@ -263,6 +263,21 @@ func (mr *MockBabylonClientMockRecorder) QueryCurrentEpoch() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryCurrentEpoch", reflect.TypeOf((*MockBabylonClient)(nil).QueryCurrentEpoch))
 }
 
+// QueryEndedEpochBtcHeight mocks base method.
+func (m *MockBabylonClient) QueryEndedEpochBtcHeight(epochNum uint64) (uint64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryEndedEpochBtcHeight", epochNum)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueryEndedEpochBtcHeight indicates an expected call of QueryEndedEpochBtcHeight.
+func (mr *MockBabylonClientMockRecorder) QueryEndedEpochBtcHeight(epochNum interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryEndedEpochBtcHeight", reflect.TypeOf((*MockBabylonClient)(nil).QueryEndedEpochBtcHeight), epochNum)
+}
+
 // QueryEpochingParams mocks base method.
 func (m *MockBabylonClient) QueryEpochingParams() (*types2.Params, error) {
 	m.ctrl.T.Helper()
@@ -276,21 +291,6 @@ func (m *MockBabylonClient) QueryEpochingParams() (*types2.Params, error) {
 func (mr *MockBabylonClientMockRecorder) QueryEpochingParams() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryEpochingParams", reflect.TypeOf((*MockBabylonClient)(nil).QueryEpochingParams))
-}
-
-// QueryFinishedEpochBtcHeight mocks base method.
-func (m *MockBabylonClient) QueryFinishedEpochBtcHeight(epochNum uint64) (uint64, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryFinishedEpochBtcHeight", epochNum)
-	ret0, _ := ret[0].(uint64)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// QueryFinishedEpochBtcHeight indicates an expected call of QueryFinishedEpochBtcHeight.
-func (mr *MockBabylonClientMockRecorder) QueryFinishedEpochBtcHeight(epochNum interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryFinishedEpochBtcHeight", reflect.TypeOf((*MockBabylonClient)(nil).QueryFinishedEpochBtcHeight), epochNum)
 }
 
 // QueryHeaderChainTip mocks base method.

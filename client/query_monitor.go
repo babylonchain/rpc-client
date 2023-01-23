@@ -5,8 +5,8 @@ import (
 	"github.com/strangelove-ventures/lens/client/query"
 )
 
-// QueryFinishedEpochBtcHeight queries the tip height of BTC light client at epoch ends
-func (c *Client) QueryFinishedEpochBtcHeight(epochNum uint64) (uint64, error) {
+// QueryEndedEpochBtcHeight queries the tip height of BTC light client at epoch ends
+func (c *Client) QueryEndedEpochBtcHeight(epochNum uint64) (uint64, error) {
 	var (
 		btcHeight uint64
 		err       error
@@ -17,8 +17,8 @@ func (c *Client) QueryFinishedEpochBtcHeight(epochNum uint64) (uint64, error) {
 	defer cancel()
 
 	queryClient := monitortypes.NewQueryClient(c.ChainClient)
-	req := &monitortypes.QueryFinishedEpochBtcHeightRequest{EpochNum: epochNum}
-	resp, err := queryClient.FinishedEpochBtcHeight(ctx, req)
+	req := &monitortypes.QueryEndedEpochBtcHeightRequest{EpochNum: epochNum}
+	resp, err := queryClient.EndedEpochBtcHeight(ctx, req)
 	if err != nil {
 		return btcHeight, err
 	}

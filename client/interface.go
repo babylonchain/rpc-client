@@ -46,6 +46,6 @@ type BabylonClient interface {
 	BlsPublicKeyList(epochNumber uint64) ([]*checkpointingtypes.ValidatorWithBlsKey, error)
 
 	// monitor module related queries
-	QueryFinishedEpochBtcHeight(epochNum uint64) (uint64, error)
+	QueryEndedEpochBtcHeight(epochNum uint64) (uint64, error)
 	QueryReportedCheckpointBtcHeight(hash string) (uint64, error)
 }
