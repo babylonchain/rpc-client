@@ -95,8 +95,8 @@ github.com/avast/retry-go/v4 v4.3.0/go.mod h1:bqOlT4nxk4phk9buiQFaghzjpqdchOSwPg
 github.com/aws/aws-sdk-go v1.15.78/go.mod h1:E3/ieXAlvM0XWO57iftYVDLLvQ824smPP3ATZkfNZeM=
 github.com/aws/aws-sdk-go v1.40.45 h1:QN1nsY27ssD/JmW4s83qmSb+uL6DG4GmCDzjmJB4xUI=
 github.com/aws/aws-sdk-go v1.40.45/go.mod h1:585smgzpB/KqRA+K3y/NL/oYRqQvpNJYvLm+LY1U59Q=
-github.com/babylonchain/babylon v0.0.0-20230123025628-039d4ab14e4c h1:cyRGbdQBePVhhGBP1KN1ii5vhGvYn8FGqoI0VcQJGDQ=
-github.com/babylonchain/babylon v0.0.0-20230123025628-039d4ab14e4c/go.mod h1:+8JQtkHZZ4bUU6JYJiDLAiGsSNzR1+FbkxwxWE01jHg=
+github.com/babylonchain/babylon v0.5.0 h1:E24DvPm/c4GWEDVWulBKMIh5wo6V4WfV3bDfWAHmp0c=
+github.com/babylonchain/babylon v0.5.0/go.mod h1:+8JQtkHZZ4bUU6JYJiDLAiGsSNzR1+FbkxwxWE01jHg=
 github.com/babylonchain/ibc-go/v5 v5.0.1-0.20221107054049-dbf7e4efe6fd h1:0y7HPL7xb/N1Oa/q5cQJ80K3ZfnQoKSG5sveZwpm0/E=
 github.com/babylonchain/ibc-go/v5 v5.0.1-0.20221107054049-dbf7e4efe6fd/go.mod h1:Wqsguq98Iuns8tgTv8+xaGYbC+Q8zJfbpjzT6IgMJbs=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
