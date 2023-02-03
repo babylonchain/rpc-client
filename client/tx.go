@@ -16,7 +16,8 @@ func (c *Client) InsertBTCSpvProof(msg *btcctypes.MsgInsertBTCSpvProof) (*sdk.Tx
 	// ctx, cancelCtx := context.WithTimeout(context.TODO(), 30*time.Second)
 	// defer cancelCtx()
 	ctx := context.TODO()
-	res, err := c.SendMsg(ctx, msg, "")
+	res, err := c.ChainClient.SendMsg(ctx, msg, "")
+
 	ctx.Done()
 
 	return res, err
@@ -43,7 +44,8 @@ func (c *Client) InsertHeader(msg *btclctypes.MsgInsertHeader) (*sdk.TxResponse,
 	// ctx, cancelCtx := context.WithTimeout(context.TODO(), 30*time.Second)
 	// defer cancelCtx()
 	ctx := context.TODO()
-	res, err := c.SendMsg(ctx, msg, "")
+	res, err := c.ChainClient.SendMsg(ctx, msg, "")
+
 	ctx.Done()
 
 	return res, err
@@ -62,7 +64,8 @@ func (c *Client) InsertHeaders(msgs []*btclctypes.MsgInsertHeader) (*sdk.TxRespo
 		imsgs = append(imsgs, msg)
 	}
 
-	res, err := c.SendMsgs(ctx, imsgs, "")
+	res, err := c.ChainClient.SendMsgs(ctx, imsgs, "")
+
 	ctx.Done()
 
 	return res, err

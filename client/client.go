@@ -51,7 +51,7 @@ func (c *Client) GetTagIdx() uint8 {
 }
 
 func (c *Client) Stop() {
-	if c.RPCClient != nil && c.RPCClient.IsRunning() {
-		<-c.RPCClient.Quit()
+	if c.ChainClient.RPCClient != nil && c.ChainClient.RPCClient.IsRunning() {
+		<-c.ChainClient.RPCClient.Quit()
 	}
 }
