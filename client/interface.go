@@ -18,5 +18,4 @@ type BabylonClient interface {
 	InsertBTCSpvProof(msg *btcctypes.MsgInsertBTCSpvProof) (*sdk.TxResponse, error)
 	InsertHeader(msg *btclctypes.MsgInsertHeader) (*sdk.TxResponse, error)
 	InsertHeaders(msgs []*btclctypes.MsgInsertHeader) (*sdk.TxResponse, error)
-	MustInsertBTCSpvProof(msg *btcctypes.MsgInsertBTCSpvProof) *sdk.TxResponse
 }
