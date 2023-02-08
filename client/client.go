@@ -3,11 +3,9 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/strangelove-ventures/lens/client/query"
-	"time"
-
 	"github.com/babylonchain/rpc-client/config"
 	lensclient "github.com/strangelove-ventures/lens/client"
+	"github.com/strangelove-ventures/lens/client/query"
 )
 
 var _ BabylonClient = &Client{}
@@ -17,7 +15,7 @@ type Client struct {
 	cfg *config.BabylonConfig
 }
 
-func New(cfg *config.BabylonConfig, retrySleepTime, maxRetrySleepTime time.Duration) (*Client, error) {
+func New(cfg *config.BabylonConfig) (*Client, error) {
 	// ensure cfg is valid
 	if err := cfg.Validate(); err != nil {
 		return nil, err
