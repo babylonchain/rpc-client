@@ -8,6 +8,8 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
+// QueryEpoching queries the Epoching module of the Babylon node
+// according to the given function
 func (c *QueryClient) QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()

@@ -7,6 +7,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 )
 
+// QueryMonitor queries the Monitor module of the Babylon node
+// according to the given function
 func (c *QueryClient) QueryMonitor(f func(ctx context.Context, queryClient monitortypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()

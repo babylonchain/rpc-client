@@ -8,6 +8,8 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
+// QueryZoneConcierge queries the ZoneConcierge module of the Babylon node
+// according to the given function
 func (c *QueryClient) QueryZoneConcierge(f func(ctx context.Context, queryClient zctypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()

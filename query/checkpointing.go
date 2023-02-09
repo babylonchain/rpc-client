@@ -8,6 +8,8 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
+// QueryCheckpointing queries the Checkpointing module of the Babylon node
+// according to the given function
 func (c *QueryClient) QueryCheckpointing(f func(ctx context.Context, queryClient checkpointingtypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()

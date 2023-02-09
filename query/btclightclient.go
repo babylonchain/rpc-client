@@ -9,6 +9,8 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
+// QueryBTCLightclient queries the BTCLightclient module of the Babylon node
+// according to the given function
 func (c *QueryClient) QueryBTCLightclient(f func(ctx context.Context, queryClient btclctypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
@@ -50,8 +52,8 @@ func (c *QueryClient) BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error) 
 	return resp, err
 }
 
-// BTCHeader queries the base BTC header of the btclightclient module
-func (c *QueryClient) BTCHeader() (*btclctypes.QueryBaseHeaderResponse, error) {
+// BTCBaseHeader queries the base BTC header of the btclightclient module
+func (c *QueryClient) BTCBaseHeader() (*btclctypes.QueryBaseHeaderResponse, error) {
 	var (
 		resp *btclctypes.QueryBaseHeaderResponse
 		err  error

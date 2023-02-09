@@ -28,7 +28,7 @@ type BabylonQueryClient interface {
 	QueryBTCLightclient(f func(ctx context.Context, queryClient btclctypes.QueryClient))
 	BTCLightClientParams() (*btclctypes.Params, error)
 	BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error)
-	BTCHeader() (*btclctypes.QueryBaseHeaderResponse, error)
+	BTCBaseHeader() (*btclctypes.QueryBaseHeaderResponse, error)
 	ContainsBTCBlock(blockHash *chainhash.Hash) (*btclctypes.QueryContainsBytesResponse, error)
 	BTCMainChain(pagination *sdkquerytypes.PageRequest) (*btclctypes.QueryMainChainResponse, error)
 
