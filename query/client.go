@@ -12,6 +12,8 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+var _ BabylonQueryClient = &QueryClient{}
+
 // QueryClient is a client that can only perform queries to a Babylon node
 // It only requires `Cfg` to have `Timeout` and `RPCAddr`, but not other fields
 // such as keyring, chain ID, etc..
@@ -37,6 +39,12 @@ func New(cfg *config.BabylonConfig) (*QueryClient, error) {
 	}
 
 	return client, nil
+}
+
+func (c *QueryClient) Stop() {
+	if c.RPCClient != nil && c.RPCClient.IsRunning() {
+		<-c.RPCClient.Quit()
+	}
 }
 
 // getQueryContext returns a context that includes the height and uses the timeout from the config

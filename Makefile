@@ -9,3 +9,4 @@ test:
 mock-gen:
 	mkdir -p $(MOCKS_DIR)
 	$(MOCKGEN_CMD) -source=client/interface.go -package mocks -destination $(MOCKS_DIR)/client.go
+	$(MOCKGEN_CMD) -source=query/interface.go -package mocks -destination $(MOCKS_DIR)/query.go
