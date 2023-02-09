@@ -44,6 +44,21 @@ func (m *MockBabylonQueryClient) EXPECT() *MockBabylonQueryClientMockRecorder {
 	return m.recorder
 }
 
+// BTCBaseHeader mocks base method.
+func (m *MockBabylonQueryClient) BTCBaseHeader() (*types0.QueryBaseHeaderResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BTCBaseHeader")
+	ret0, _ := ret[0].(*types0.QueryBaseHeaderResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// BTCBaseHeader indicates an expected call of BTCBaseHeader.
+func (mr *MockBabylonQueryClientMockRecorder) BTCBaseHeader() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCBaseHeader", reflect.TypeOf((*MockBabylonQueryClient)(nil).BTCBaseHeader))
+}
+
 // BTCCheckpointParams mocks base method.
 func (m *MockBabylonQueryClient) BTCCheckpointParams() (*types.Params, error) {
 	m.ctrl.T.Helper()
@@ -57,21 +72,6 @@ func (m *MockBabylonQueryClient) BTCCheckpointParams() (*types.Params, error) {
 func (mr *MockBabylonQueryClientMockRecorder) BTCCheckpointParams() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCCheckpointParams", reflect.TypeOf((*MockBabylonQueryClient)(nil).BTCCheckpointParams))
-}
-
-// BTCHeader mocks base method.
-func (m *MockBabylonQueryClient) BTCHeader() (*types0.QueryBaseHeaderResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BTCHeader")
-	ret0, _ := ret[0].(*types0.QueryBaseHeaderResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// BTCHeader indicates an expected call of BTCHeader.
-func (mr *MockBabylonQueryClientMockRecorder) BTCHeader() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCHeader", reflect.TypeOf((*MockBabylonQueryClient)(nil).BTCHeader))
 }
 
 // BTCHeaderChainTip mocks base method.
