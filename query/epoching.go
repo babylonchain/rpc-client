@@ -8,18 +8,18 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (c *Client) QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient)) {
+func (c *QueryClient) QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.Client}
+	clientCtx := client.Context{Client: c.RPCClient}
 	queryClient := epochingtypes.NewQueryClient(clientCtx)
 
 	f(ctx, queryClient)
 }
 
 // EpochingParams queries epoching module's parameters via ChainClient
-func (c *Client) EpochingParams() (*epochingtypes.QueryParamsResponse, error) {
+func (c *QueryClient) EpochingParams() (*epochingtypes.QueryParamsResponse, error) {
 	var (
 		resp *epochingtypes.QueryParamsResponse
 		err  error
@@ -33,7 +33,7 @@ func (c *Client) EpochingParams() (*epochingtypes.QueryParamsResponse, error) {
 }
 
 // CurrentEpoch queries the current epoch number via ChainClient
-func (c *Client) CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, error) {
+func (c *QueryClient) CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, error) {
 	var (
 		resp *epochingtypes.QueryCurrentEpochResponse
 		err  error
@@ -47,7 +47,7 @@ func (c *Client) CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, error
 }
 
 // EpochsInfoForEpochRange queries the epoching module for epochs in the given range
-func (c *Client) EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64) (*epochingtypes.QueryEpochsInfoResponse, error) {
+func (c *QueryClient) EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64) (*epochingtypes.QueryEpochsInfoResponse, error) {
 	var (
 		resp *epochingtypes.QueryEpochsInfoResponse
 		err  error
@@ -64,7 +64,7 @@ func (c *Client) EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64) (*e
 }
 
 // EpochsInfo queries the epoching module for the maintained epochs
-func (c *Client) EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryEpochsInfoResponse, error) {
+func (c *QueryClient) EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryEpochsInfoResponse, error) {
 	var (
 		resp *epochingtypes.QueryEpochsInfoResponse
 		err  error
@@ -81,7 +81,7 @@ func (c *Client) EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochingtyp
 
 // LatestEpochMsgs queries the epoching module for the latest messages maintained in its delayed
 // staking queue until a specified endEpoch.
-func (c *Client) LatestEpochMsgs(endEpoch uint64, epochCount uint64, pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryLatestEpochMsgsResponse, error) {
+func (c *QueryClient) LatestEpochMsgs(endEpoch uint64, epochCount uint64, pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryLatestEpochMsgsResponse, error) {
 	var (
 		resp *epochingtypes.QueryLatestEpochMsgsResponse
 		err  error
@@ -99,7 +99,7 @@ func (c *Client) LatestEpochMsgs(endEpoch uint64, epochCount uint64, pagination 
 }
 
 // DelegationLifecycle queries the epoching module for the lifecycle of a delegator.
-func (c *Client) DelegationLifecycle(delegator string) (*epochingtypes.QueryDelegationLifecycleResponse, error) {
+func (c *QueryClient) DelegationLifecycle(delegator string) (*epochingtypes.QueryDelegationLifecycleResponse, error) {
 	var (
 		resp *epochingtypes.QueryDelegationLifecycleResponse
 		err  error

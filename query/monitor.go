@@ -7,18 +7,18 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 )
 
-func (c *Client) QueryMonitor(f func(ctx context.Context, queryClient monitortypes.QueryClient)) {
+func (c *QueryClient) QueryMonitor(f func(ctx context.Context, queryClient monitortypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.Client}
+	clientCtx := client.Context{Client: c.RPCClient}
 	queryClient := monitortypes.NewQueryClient(clientCtx)
 
 	f(ctx, queryClient)
 }
 
 // EndedEpochBTCHeight queries the tip height of BTC light client at epoch ends
-func (c *Client) EndedEpochBTCHeight(epochNum uint64) (*monitortypes.QueryEndedEpochBtcHeightResponse, error) {
+func (c *QueryClient) EndedEpochBTCHeight(epochNum uint64) (*monitortypes.QueryEndedEpochBtcHeightResponse, error) {
 	var (
 		resp *monitortypes.QueryEndedEpochBtcHeightResponse
 		err  error
@@ -34,7 +34,7 @@ func (c *Client) EndedEpochBTCHeight(epochNum uint64) (*monitortypes.QueryEndedE
 }
 
 // ReportedCheckpointBTCHeight queries the tip height of BTC light client when a given checkpoint is reported
-func (c *Client) ReportedCheckpointBTCHeight(hashStr string) (*monitortypes.QueryReportedCheckpointBtcHeightResponse, error) {
+func (c *QueryClient) ReportedCheckpointBTCHeight(hashStr string) (*monitortypes.QueryReportedCheckpointBtcHeightResponse, error) {
 	var (
 		resp *monitortypes.QueryReportedCheckpointBtcHeightResponse
 		err  error

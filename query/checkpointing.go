@@ -8,18 +8,18 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (c *Client) QueryCheckpointing(f func(ctx context.Context, queryClient checkpointingtypes.QueryClient)) {
+func (c *QueryClient) QueryCheckpointing(f func(ctx context.Context, queryClient checkpointingtypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.Client}
+	clientCtx := client.Context{Client: c.RPCClient}
 	queryClient := checkpointingtypes.NewQueryClient(clientCtx)
 
 	f(ctx, queryClient)
 }
 
 // RawCheckpoint queries the checkpointing module for the raw checkpoint for an epoch number
-func (c *Client) RawCheckpoint(epochNumber uint64) (*checkpointingtypes.QueryRawCheckpointResponse, error) {
+func (c *QueryClient) RawCheckpoint(epochNumber uint64) (*checkpointingtypes.QueryRawCheckpointResponse, error) {
 	var (
 		resp *checkpointingtypes.QueryRawCheckpointResponse
 		err  error
@@ -35,7 +35,7 @@ func (c *Client) RawCheckpoint(epochNumber uint64) (*checkpointingtypes.QueryRaw
 }
 
 // RawCheckpointList queries the checkpointing module for a list of raw checkpoints
-func (c *Client) RawCheckpointList(status checkpointingtypes.CheckpointStatus, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryRawCheckpointListResponse, error) {
+func (c *QueryClient) RawCheckpointList(status checkpointingtypes.CheckpointStatus, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryRawCheckpointListResponse, error) {
 	var (
 		resp *checkpointingtypes.QueryRawCheckpointListResponse
 		err  error
@@ -52,7 +52,7 @@ func (c *Client) RawCheckpointList(status checkpointingtypes.CheckpointStatus, p
 }
 
 // BlsPublicKeyList queries the checkpointing module for the list of BLS keys for an epoch
-func (c *Client) BlsPublicKeyList(epochNumber uint64, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryBlsPublicKeyListResponse, error) {
+func (c *QueryClient) BlsPublicKeyList(epochNumber uint64, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryBlsPublicKeyListResponse, error) {
 	var (
 		resp *checkpointingtypes.QueryBlsPublicKeyListResponse
 		err  error
@@ -69,7 +69,7 @@ func (c *Client) BlsPublicKeyList(epochNumber uint64, pagination *sdkquerytypes.
 }
 
 // EpochStatusCount queries the checkpointing module for the status of the latest `epochCount` epochs`
-func (c *Client) EpochStatusCount(epochCount uint64) (*checkpointingtypes.QueryRecentEpochStatusCountResponse, error) {
+func (c *QueryClient) EpochStatusCount(epochCount uint64) (*checkpointingtypes.QueryRecentEpochStatusCountResponse, error) {
 	var (
 		resp *checkpointingtypes.QueryRecentEpochStatusCountResponse
 		err  error
@@ -85,7 +85,7 @@ func (c *Client) EpochStatusCount(epochCount uint64) (*checkpointingtypes.QueryR
 }
 
 // LatestEpochFromStatus queries the checkpointing module for the last checkpoint with a particular status
-func (c *Client) LatestEpochFromStatus(status checkpointingtypes.CheckpointStatus) (*checkpointingtypes.QueryLastCheckpointWithStatusResponse, error) {
+func (c *QueryClient) LatestEpochFromStatus(status checkpointingtypes.CheckpointStatus) (*checkpointingtypes.QueryLastCheckpointWithStatusResponse, error) {
 	var (
 		resp *checkpointingtypes.QueryLastCheckpointWithStatusResponse
 		err  error

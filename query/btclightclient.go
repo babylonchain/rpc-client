@@ -9,18 +9,18 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (c *Client) QueryBTCLightclient(f func(ctx context.Context, queryClient btclctypes.QueryClient)) {
+func (c *QueryClient) QueryBTCLightclient(f func(ctx context.Context, queryClient btclctypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.Client}
+	clientCtx := client.Context{Client: c.RPCClient}
 	queryClient := btclctypes.NewQueryClient(clientCtx)
 
 	f(ctx, queryClient)
 }
 
 // BTCLightClientParams queries btclightclient module's parameters via ChainClient
-func (c *Client) BTCLightClientParams() (*btclctypes.Params, error) {
+func (c *QueryClient) BTCLightClientParams() (*btclctypes.Params, error) {
 	var (
 		resp *btclctypes.QueryParamsResponse
 		err  error
@@ -37,7 +37,7 @@ func (c *Client) BTCLightClientParams() (*btclctypes.Params, error) {
 }
 
 // BTCHeaderChainTip queries hash/height of the latest BTC block in the btclightclient module
-func (c *Client) BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error) {
+func (c *QueryClient) BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error) {
 	var (
 		resp *btclctypes.QueryTipResponse
 		err  error
@@ -51,7 +51,7 @@ func (c *Client) BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error) {
 }
 
 // BTCHeader queries the base BTC header of the btclightclient module
-func (c *Client) BTCHeader() (*btclctypes.QueryBaseHeaderResponse, error) {
+func (c *QueryClient) BTCHeader() (*btclctypes.QueryBaseHeaderResponse, error) {
 	var (
 		resp *btclctypes.QueryBaseHeaderResponse
 		err  error
@@ -65,7 +65,7 @@ func (c *Client) BTCHeader() (*btclctypes.QueryBaseHeaderResponse, error) {
 }
 
 // ContainsBTCBlock queries the btclightclient module for the existence of a block hash
-func (c *Client) ContainsBTCBlock(blockHash *chainhash.Hash) (*btclctypes.QueryContainsBytesResponse, error) {
+func (c *QueryClient) ContainsBTCBlock(blockHash *chainhash.Hash) (*btclctypes.QueryContainsBytesResponse, error) {
 	var (
 		resp *btclctypes.QueryContainsBytesResponse
 		err  error
@@ -81,7 +81,7 @@ func (c *Client) ContainsBTCBlock(blockHash *chainhash.Hash) (*btclctypes.QueryC
 }
 
 // BTCMainChain queries the btclightclient module for the BTC canonical chain
-func (c *Client) BTCMainChain(pagination *sdkquerytypes.PageRequest) (*btclctypes.QueryMainChainResponse, error) {
+func (c *QueryClient) BTCMainChain(pagination *sdkquerytypes.PageRequest) (*btclctypes.QueryMainChainResponse, error) {
 	var (
 		resp *btclctypes.QueryMainChainResponse
 		err  error

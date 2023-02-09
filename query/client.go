@@ -12,12 +12,12 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-type Client struct {
-	rpcclient.Client
-	cfg *config.BabylonConfig
+type QueryClient struct {
+	RPCClient rpcclient.Client
+	Cfg       *config.BabylonConfig
 }
 
-func New(cfg *config.BabylonConfig) (*Client, error) {
+func New(cfg *config.BabylonConfig) (*QueryClient, error) {
 	// ensure cfg is valid
 	if err := cfg.Validate(); err != nil {
 		return nil, err
@@ -28,9 +28,9 @@ func New(cfg *config.BabylonConfig) (*Client, error) {
 		return nil, err
 	}
 
-	client := &Client{
-		Client: tmClient,
-		cfg:    cfg,
+	client := &QueryClient{
+		RPCClient: tmClient,
+		Cfg:       cfg,
 	}
 
 	return client, nil
@@ -38,9 +38,9 @@ func New(cfg *config.BabylonConfig) (*Client, error) {
 
 // getQueryContext returns a context that includes the height and uses the timeout from the config
 // (adapted from https://github.com/strangelove-ventures/lens/blob/v0.5.4/client/query/query_options.go#L29-L36)
-func (c *Client) getQueryContext() (context.Context, context.CancelFunc) {
+func (c *QueryClient) getQueryContext() (context.Context, context.CancelFunc) {
 	defaultOptions := lensquery.DefaultOptions()
-	ctx, cancel := context.WithTimeout(context.Background(), c.cfg.Timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), c.Cfg.Timeout)
 	strHeight := strconv.Itoa(int(defaultOptions.Height))
 	ctx = metadata.AppendToOutgoingContext(ctx, grpctypes.GRPCBlockHeightHeader, strHeight)
 	return ctx, cancel

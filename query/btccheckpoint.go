@@ -8,18 +8,18 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (c *Client) QueryBTCCheckpoint(f func(ctx context.Context, queryClient btcctypes.QueryClient)) {
+func (c *QueryClient) QueryBTCCheckpoint(f func(ctx context.Context, queryClient btcctypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.Client}
+	clientCtx := client.Context{Client: c.RPCClient}
 	queryClient := btcctypes.NewQueryClient(clientCtx)
 
 	f(ctx, queryClient)
 }
 
 // BTCCheckpointParams queries btccheckpoint module's parameters via ChainClient
-func (c *Client) BTCCheckpointParams() (*btcctypes.Params, error) {
+func (c *QueryClient) BTCCheckpointParams() (*btcctypes.Params, error) {
 	var (
 		resp *btcctypes.QueryParamsResponse
 		err  error
@@ -36,7 +36,7 @@ func (c *Client) BTCCheckpointParams() (*btcctypes.Params, error) {
 }
 
 // BTCPositionAtEpoch queries btccheckpoint module for the Bitcoin position of an epoch
-func (c *Client) BTCPositionAtEpoch(epochNumber uint64) (*btcctypes.QueryBtcCheckpointInfoResponse, error) {
+func (c *QueryClient) BTCPositionAtEpoch(epochNumber uint64) (*btcctypes.QueryBtcCheckpointInfoResponse, error) {
 	var (
 		resp *btcctypes.QueryBtcCheckpointInfoResponse
 		err  error
@@ -52,7 +52,7 @@ func (c *Client) BTCPositionAtEpoch(epochNumber uint64) (*btcctypes.QueryBtcChec
 }
 
 // BTCPositionForEpochRange queries btccheckpoint module for the Bitcoin position of an epoch range
-func (c *Client) BTCPositionForEpochRange(startEpoch uint64, endEpoch uint64, pagination *sdkquerytypes.PageRequest) (*btcctypes.QueryBtcCheckpointsInfoResponse, error) {
+func (c *QueryClient) BTCPositionForEpochRange(startEpoch uint64, endEpoch uint64, pagination *sdkquerytypes.PageRequest) (*btcctypes.QueryBtcCheckpointsInfoResponse, error) {
 	var (
 		resp *btcctypes.QueryBtcCheckpointsInfoResponse
 		err  error

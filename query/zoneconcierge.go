@@ -8,18 +8,18 @@ import (
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (c *Client) QueryZoneConcierge(f func(ctx context.Context, queryClient zctypes.QueryClient)) {
+func (c *QueryClient) QueryZoneConcierge(f func(ctx context.Context, queryClient zctypes.QueryClient)) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.Client}
+	clientCtx := client.Context{Client: c.RPCClient}
 	queryClient := zctypes.NewQueryClient(clientCtx)
 
 	f(ctx, queryClient)
 }
 
 // FinalizedConnectedChainInfo queries the zoneconcierge module to get the finalization information for a connected chain
-func (c *Client) FinalizedConnectedChainInfo(chainID string) (*zctypes.QueryFinalizedChainInfoResponse, error) {
+func (c *QueryClient) FinalizedConnectedChainInfo(chainID string) (*zctypes.QueryFinalizedChainInfoResponse, error) {
 	var (
 		resp *zctypes.QueryFinalizedChainInfoResponse
 		err  error
@@ -33,7 +33,7 @@ func (c *Client) FinalizedConnectedChainInfo(chainID string) (*zctypes.QueryFina
 }
 
 // ConnectedChainInfo queries the zoneconcierge module to get information for a connected chain
-func (c *Client) ConnectedChainInfo(chainID string) (*zctypes.ChainInfo, error) {
+func (c *QueryClient) ConnectedChainInfo(chainID string) (*zctypes.ChainInfo, error) {
 	var (
 		resp *zctypes.QueryChainInfoResponse
 		err  error
@@ -50,7 +50,7 @@ func (c *Client) ConnectedChainInfo(chainID string) (*zctypes.ChainInfo, error) 
 }
 
 // ConnectedChainList queries the zoneconierge module for the chain IDs of the connected chains
-func (c *Client) ConnectedChainList() (*zctypes.QueryChainListResponse, error) {
+func (c *QueryClient) ConnectedChainList() (*zctypes.QueryChainListResponse, error) {
 	var (
 		resp *zctypes.QueryChainListResponse
 		err  error
@@ -64,7 +64,7 @@ func (c *Client) ConnectedChainList() (*zctypes.QueryChainListResponse, error) {
 }
 
 // ConnectedChainHeaders queries the zoneconcierge module for the headers of a connected chain
-func (c *Client) ConnectedChainHeaders(chainID string, pagination *sdkquerytypes.PageRequest) (*zctypes.QueryListHeadersResponse, error) {
+func (c *QueryClient) ConnectedChainHeaders(chainID string, pagination *sdkquerytypes.PageRequest) (*zctypes.QueryListHeadersResponse, error) {
 	var (
 		resp *zctypes.QueryListHeadersResponse
 		err  error
@@ -81,7 +81,7 @@ func (c *Client) ConnectedChainHeaders(chainID string, pagination *sdkquerytypes
 }
 
 // ConnectedChainEpochInfo queries the zoneconcierge module for the chain information of a connected chain at a particular epoch
-func (c *Client) ConnectedChainEpochInfo(chainID string, epochNum uint64) (*zctypes.QueryEpochChainInfoResponse, error) {
+func (c *QueryClient) ConnectedChainEpochInfo(chainID string, epochNum uint64) (*zctypes.QueryEpochChainInfoResponse, error) {
 	var (
 		resp *zctypes.QueryEpochChainInfoResponse
 		err  error
