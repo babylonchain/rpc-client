@@ -1,92 +1,98 @@
 package query
 
 import (
-	cztypes "github.com/babylonchain/babylon/x/zoneconcierge/types"
-	"github.com/babylonchain/rpc-client/client"
+	"context"
+
+	zctypes "github.com/babylonchain/babylon/x/zoneconcierge/types"
+	"github.com/cosmos/cosmos-sdk/client"
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-// FinalizedConnectedChainInfo queries the zoneconcierge module to get the finalization information for a connected chain
-func FinalizedConnectedChainInfo(c *client.Client, chainID string) (*cztypes.QueryFinalizedChainInfoResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
+func (c *Client) QueryZoneConcierge(f func(ctx context.Context, queryClient zctypes.QueryClient)) {
+	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	queryClient := cztypes.NewQueryClient(c.ChainClient)
-	req := &cztypes.QueryFinalizedChainInfoRequest{
-		ChainId: chainID,
-	}
+	clientCtx := client.Context{Client: c.Client}
+	queryClient := zctypes.NewQueryClient(clientCtx)
 
-	resp, err := queryClient.FinalizedChainInfo(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	f(ctx, queryClient)
+}
+
+// FinalizedConnectedChainInfo queries the zoneconcierge module to get the finalization information for a connected chain
+func (c *Client) FinalizedConnectedChainInfo(chainID string) (*zctypes.QueryFinalizedChainInfoResponse, error) {
+	var (
+		resp *zctypes.QueryFinalizedChainInfoResponse
+		err  error
+	)
+	c.QueryZoneConcierge(func(ctx context.Context, queryClient zctypes.QueryClient) {
+		req := &zctypes.QueryFinalizedChainInfoRequest{}
+		resp, err = queryClient.FinalizedChainInfo(ctx, req)
+	})
+
+	return resp, err
 }
 
 // ConnectedChainInfo queries the zoneconcierge module to get information for a connected chain
-func ConnectedChainInfo(c *client.Client, chainID string) (*cztypes.ChainInfo, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) ConnectedChainInfo(chainID string) (*zctypes.ChainInfo, error) {
+	var (
+		resp *zctypes.QueryChainInfoResponse
+		err  error
+	)
+	c.QueryZoneConcierge(func(ctx context.Context, queryClient zctypes.QueryClient) {
+		req := &zctypes.QueryChainInfoRequest{}
+		resp, err = queryClient.ChainInfo(ctx, req)
+	})
 
-	queryClient := cztypes.NewQueryClient(c.ChainClient)
-	req := &cztypes.QueryChainInfoRequest{
-		ChainId: chainID,
-	}
-
-	resp, err := queryClient.ChainInfo(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	return resp.ChainInfo, nil
+	return resp.ChainInfo, err
 }
 
 // ConnectedChainList queries the zoneconierge module for the chain IDs of the connected chains
-func ConnectedChainList(c *client.Client) (*cztypes.QueryChainListResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) ConnectedChainList() (*zctypes.QueryChainListResponse, error) {
+	var (
+		resp *zctypes.QueryChainListResponse
+		err  error
+	)
+	c.QueryZoneConcierge(func(ctx context.Context, queryClient zctypes.QueryClient) {
+		req := &zctypes.QueryChainListRequest{}
+		resp, err = queryClient.ChainList(ctx, req)
+	})
 
-	queryClient := cztypes.NewQueryClient(c.ChainClient)
-	req := &cztypes.QueryChainListRequest{}
-
-	resp, err := queryClient.ChainList(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return resp, err
 }
 
 // ConnectedChainHeaders queries the zoneconcierge module for the headers of a connected chain
-func ConnectedChainHeaders(c *client.Client, chainID string, pagination *sdkquerytypes.PageRequest) (*cztypes.QueryListHeadersResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) ConnectedChainHeaders(chainID string, pagination *sdkquerytypes.PageRequest) (*zctypes.QueryListHeadersResponse, error) {
+	var (
+		resp *zctypes.QueryListHeadersResponse
+		err  error
+	)
+	c.QueryZoneConcierge(func(ctx context.Context, queryClient zctypes.QueryClient) {
+		req := &zctypes.QueryListHeadersRequest{
+			ChainId:    chainID,
+			Pagination: pagination,
+		}
+		resp, err = queryClient.ListHeaders(ctx, req)
+	})
 
-	queryClient := cztypes.NewQueryClient(c.ChainClient)
-	req := &cztypes.QueryListHeadersRequest{
-		ChainId:    chainID,
-		Pagination: pagination,
-	}
-
-	resp, err := queryClient.ListHeaders(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return resp, err
 }
 
 // ConnectedChainEpochInfo queries the zoneconcierge module for the chain information of a connected chain at a particular epoch
-func ConnectedChainEpochInfo(c *client.Client, chainID string, epochNum uint64) (*cztypes.QueryEpochChainInfoResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) ConnectedChainEpochInfo(chainID string, epochNum uint64) (*zctypes.QueryEpochChainInfoResponse, error) {
+	var (
+		resp *zctypes.QueryEpochChainInfoResponse
+		err  error
+	)
+	c.QueryZoneConcierge(func(ctx context.Context, queryClient zctypes.QueryClient) {
+		req := &zctypes.QueryEpochChainInfoRequest{
+			ChainId:  chainID,
+			EpochNum: epochNum,
+		}
+		resp, err = queryClient.EpochChainInfo(ctx, req)
+	})
 
-	queryClient := cztypes.NewQueryClient(c.ChainClient)
-	req := &cztypes.QueryEpochChainInfoRequest{
-		ChainId:  chainID,
-		EpochNum: epochNum,
-	}
-
-	resp, err := queryClient.EpochChainInfo(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return resp, err
 }

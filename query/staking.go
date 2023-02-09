@@ -1,22 +1,35 @@
 package query
 
 import (
-	"github.com/babylonchain/rpc-client/client"
+	"context"
+
+	"github.com/cosmos/cosmos-sdk/client"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
-// QueryStakingParams queries staking module's parameters via ChainClient
-// code is adapted from https://github.com/strangelove-ventures/lens/blob/v0.5.1/cmd/staking.go#L128-L149
-func QueryStakingParams(c *client.Client) (*stakingtypes.QueryParamsResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
+func (c *Client) QueryStaking(f func(ctx context.Context, queryClient stakingtypes.QueryClient)) {
+	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	queryClient := stakingtypes.NewQueryClient(c.ChainClient)
-	req := &stakingtypes.QueryParamsRequest{}
-	resp, err := queryClient.Params(ctx, req)
+	clientCtx := client.Context{Client: c.Client}
+	queryClient := stakingtypes.NewQueryClient(clientCtx)
+
+	f(ctx, queryClient)
+}
+
+// QueryStakingParams queries btccheckpoint module's parameters via ChainClient
+func (c *Client) StakingParams() (*stakingtypes.Params, error) {
+	var (
+		resp *stakingtypes.QueryParamsResponse
+		err  error
+	)
+	c.QueryStaking(func(ctx context.Context, queryClient stakingtypes.QueryClient) {
+		req := &stakingtypes.QueryParamsRequest{}
+		resp, err = queryClient.Params(ctx, req)
+	})
+
 	if err != nil {
 		return nil, err
 	}
-
-	return resp, nil
+	return &resp.Params, nil
 }

@@ -1,92 +1,101 @@
 package query
 
 import (
+	"context"
+
 	checkpointingtypes "github.com/babylonchain/babylon/x/checkpointing/types"
-	"github.com/babylonchain/rpc-client/client"
+	"github.com/cosmos/cosmos-sdk/client"
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-// RawCheckpoint queries the checkpointing module for the raw checkpoint for an epoch number
-func RawCheckpoint(c *client.Client, epochNumber uint64) (*checkpointingtypes.QueryRawCheckpointResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
+func (c *Client) QueryCheckpointing(f func(ctx context.Context, queryClient checkpointingtypes.QueryClient)) {
+	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	queryClient := checkpointingtypes.NewQueryClient(c.ChainClient)
-	req := &checkpointingtypes.QueryRawCheckpointRequest{
-		EpochNum: epochNumber,
-	}
-	resp, err := queryClient.RawCheckpoint(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	clientCtx := client.Context{Client: c.Client}
+	queryClient := checkpointingtypes.NewQueryClient(clientCtx)
+
+	f(ctx, queryClient)
+}
+
+// RawCheckpoint queries the checkpointing module for the raw checkpoint for an epoch number
+func (c *Client) RawCheckpoint(epochNumber uint64) (*checkpointingtypes.QueryRawCheckpointResponse, error) {
+	var (
+		resp *checkpointingtypes.QueryRawCheckpointResponse
+		err  error
+	)
+	c.QueryCheckpointing(func(ctx context.Context, queryClient checkpointingtypes.QueryClient) {
+		req := &checkpointingtypes.QueryRawCheckpointRequest{
+			EpochNum: epochNumber,
+		}
+		resp, err = queryClient.RawCheckpoint(ctx, req)
+	})
+
+	return resp, err
 }
 
 // RawCheckpointList queries the checkpointing module for a list of raw checkpoints
-func RawCheckpointList(c *client.Client, status checkpointingtypes.CheckpointStatus, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryRawCheckpointListResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) RawCheckpointList(status checkpointingtypes.CheckpointStatus, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryRawCheckpointListResponse, error) {
+	var (
+		resp *checkpointingtypes.QueryRawCheckpointListResponse
+		err  error
+	)
+	c.QueryCheckpointing(func(ctx context.Context, queryClient checkpointingtypes.QueryClient) {
+		req := &checkpointingtypes.QueryRawCheckpointListRequest{
+			Status:     status,
+			Pagination: pagination,
+		}
+		resp, err = queryClient.RawCheckpointList(ctx, req)
+	})
 
-	queryClient := checkpointingtypes.NewQueryClient(c.ChainClient)
-	req := &checkpointingtypes.QueryRawCheckpointListRequest{
-		Status:     status,
-		Pagination: pagination,
-	}
-	resp, err := queryClient.RawCheckpointList(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return resp, err
 }
 
 // BlsPublicKeyList queries the checkpointing module for the list of BLS keys for an epoch
-func BlsPublicKeyList(c *client.Client, epochNumber uint64) (*checkpointingtypes.QueryBlsPublicKeyListResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) BlsPublicKeyList(epochNumber uint64, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryBlsPublicKeyListResponse, error) {
+	var (
+		resp *checkpointingtypes.QueryBlsPublicKeyListResponse
+		err  error
+	)
+	c.QueryCheckpointing(func(ctx context.Context, queryClient checkpointingtypes.QueryClient) {
+		req := &checkpointingtypes.QueryBlsPublicKeyListRequest{
+			EpochNum:   epochNumber,
+			Pagination: pagination,
+		}
+		resp, err = queryClient.BlsPublicKeyList(ctx, req)
+	})
 
-	queryClient := checkpointingtypes.NewQueryClient(c.ChainClient)
-	req := &checkpointingtypes.QueryBlsPublicKeyListRequest{
-		EpochNum: epochNumber,
-	}
-	resp, err := queryClient.BlsPublicKeyList(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
+	return resp, err
 }
 
 // EpochStatusCount queries the checkpointing module for the status of the latest `epochCount` epochs`
-func EpochStatusCount(c *client.Client, epochCount uint64) (*checkpointingtypes.QueryRecentEpochStatusCountResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) EpochStatusCount(epochCount uint64) (*checkpointingtypes.QueryRecentEpochStatusCountResponse, error) {
+	var (
+		resp *checkpointingtypes.QueryRecentEpochStatusCountResponse
+		err  error
+	)
+	c.QueryCheckpointing(func(ctx context.Context, queryClient checkpointingtypes.QueryClient) {
+		req := &checkpointingtypes.QueryRecentEpochStatusCountRequest{
+			EpochCount: epochCount,
+		}
+		resp, err = queryClient.RecentEpochStatusCount(ctx, req)
+	})
 
-	queryClient := checkpointingtypes.NewQueryClient(c.ChainClient)
-	req := &checkpointingtypes.QueryRecentEpochStatusCountRequest{
-		EpochCount: epochCount,
-	}
-
-	resp, err := queryClient.RecentEpochStatusCount(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return resp, err
 }
 
 // LatestEpochFromStatus queries the checkpointing module for the last checkpoint with a particular status
-func LatestEpochFromStatus(c *client.Client, status checkpointingtypes.CheckpointStatus) (*checkpointingtypes.QueryLastCheckpointWithStatusResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) LatestEpochFromStatus(status checkpointingtypes.CheckpointStatus) (*checkpointingtypes.QueryLastCheckpointWithStatusResponse, error) {
+	var (
+		resp *checkpointingtypes.QueryLastCheckpointWithStatusResponse
+		err  error
+	)
+	c.QueryCheckpointing(func(ctx context.Context, queryClient checkpointingtypes.QueryClient) {
+		req := &checkpointingtypes.QueryLastCheckpointWithStatusRequest{
+			Status: status,
+		}
+		resp, err = queryClient.LastCheckpointWithStatus(ctx, req)
+	})
 
-	queryClient := checkpointingtypes.NewQueryClient(c.ChainClient)
-	req := &checkpointingtypes.QueryLastCheckpointWithStatusRequest{
-		Status: status,
-	}
-
-	resp, err := queryClient.LastCheckpointWithStatus(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
+	return resp, err
 }

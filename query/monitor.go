@@ -1,36 +1,50 @@
 package query
 
 import (
+	"context"
+
 	monitortypes "github.com/babylonchain/babylon/x/monitor/types"
-	"github.com/babylonchain/rpc-client/client"
+	"github.com/cosmos/cosmos-sdk/client"
 )
 
-// EndedEpochBTCHeight queries the tip height of BTC light client at epoch ends
-func EndedEpochBTCHeight(c *client.Client, epochNum uint64) (*monitortypes.QueryEndedEpochBtcHeightResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
+func (c *Client) QueryMonitor(f func(ctx context.Context, queryClient monitortypes.QueryClient)) {
+	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	queryClient := monitortypes.NewQueryClient(c.ChainClient)
-	req := &monitortypes.QueryEndedEpochBtcHeightRequest{EpochNum: epochNum}
-	resp, err := queryClient.EndedEpochBtcHeight(ctx, req)
-	if err != nil {
-		return nil, err
-	}
+	clientCtx := client.Context{Client: c.Client}
+	queryClient := monitortypes.NewQueryClient(clientCtx)
 
-	return resp, nil
+	f(ctx, queryClient)
+}
+
+// EndedEpochBTCHeight queries the tip height of BTC light client at epoch ends
+func (c *Client) EndedEpochBTCHeight(epochNum uint64) (*monitortypes.QueryEndedEpochBtcHeightResponse, error) {
+	var (
+		resp *monitortypes.QueryEndedEpochBtcHeightResponse
+		err  error
+	)
+	c.QueryMonitor(func(ctx context.Context, queryClient monitortypes.QueryClient) {
+		req := &monitortypes.QueryEndedEpochBtcHeightRequest{
+			EpochNum: epochNum,
+		}
+		resp, err = queryClient.EndedEpochBtcHeight(ctx, req)
+	})
+
+	return resp, err
 }
 
 // ReportedCheckpointBTCHeight queries the tip height of BTC light client when a given checkpoint is reported
-func ReportedCheckpointBTCHeight(c *client.Client, hashStr string) (*monitortypes.QueryReportedCheckpointBtcHeightResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *Client) ReportedCheckpointBTCHeight(hashStr string) (*monitortypes.QueryReportedCheckpointBtcHeightResponse, error) {
+	var (
+		resp *monitortypes.QueryReportedCheckpointBtcHeightResponse
+		err  error
+	)
+	c.QueryMonitor(func(ctx context.Context, queryClient monitortypes.QueryClient) {
+		req := &monitortypes.QueryReportedCheckpointBtcHeightRequest{
+			CkptHash: hashStr,
+		}
+		resp, err = queryClient.ReportedCheckpointBtcHeight(ctx, req)
+	})
 
-	queryClient := monitortypes.NewQueryClient(c.ChainClient)
-	req := &monitortypes.QueryReportedCheckpointBtcHeightRequest{CkptHash: hashStr}
-	resp, err := queryClient.ReportedCheckpointBtcHeight(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
+	return resp, err
 }
