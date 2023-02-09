@@ -12,6 +12,9 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+// QueryClient is a client that can only perform queries to a Babylon node
+// It only requires `Cfg` to have `Timeout` and `RPCAddr`, but not other fields
+// such as keyring, chain ID, etc..
 type QueryClient struct {
 	RPCClient rpcclient.Client
 	Cfg       *config.BabylonConfig
