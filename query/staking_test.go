@@ -30,7 +30,7 @@ func TestStakingParams(t *testing.T) {
 	require.NoError(t, err)
 
 	clientCfg := config.DefaultBabylonConfig()
-	client, err := query.New(&clientCfg)
+	client, err := query.New(clientCfg.RPCAddr, clientCfg.Timeout)
 	require.NoError(t, err)
 	params, err := client.StakingParams()
 	require.NoError(t, err)

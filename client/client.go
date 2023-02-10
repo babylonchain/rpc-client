@@ -30,9 +30,9 @@ func New(cfg *config.BabylonConfig) (*Client, error) {
 	}
 
 	// create a queryClient so that the Client inherits all query functions
-	queryClient := &query.QueryClient{
-		RPCClient: cc.RPCClient,
-		Cfg:       cfg,
+	queryClient, err := query.NewWithClient(cc.RPCClient, cfg.Timeout)
+	if err != nil {
+		return nil, err
 	}
 
 	// wrap to our type

@@ -2,9 +2,10 @@ package query
 
 import (
 	"context"
+	"fmt"
 	"strconv"
+	"time"
 
-	"github.com/babylonchain/rpc-client/config"
 	"github.com/cosmos/cosmos-sdk/client"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 	lensquery "github.com/strangelove-ventures/lens/client/query"
@@ -19,23 +20,37 @@ var _ BabylonQueryClient = &QueryClient{}
 // such as keyring, chain ID, etc..
 type QueryClient struct {
 	RPCClient rpcclient.Client
-	Cfg       *config.BabylonConfig
+	timeout   time.Duration
 }
 
-func New(cfg *config.BabylonConfig) (*QueryClient, error) {
-	// ensure cfg is valid
-	if err := cfg.Validate(); err != nil {
-		return nil, err
+// NewWithClient creates a new QueryClient to a given rpcAddr and a given timeout
+func New(rpcAddr string, timeout time.Duration) (*QueryClient, error) {
+	if timeout <= 0 {
+		return nil, fmt.Errorf("timeout must be positive")
 	}
 
-	tmClient, err := client.NewClientFromNode(cfg.RPCAddr)
+	tmClient, err := client.NewClientFromNode(rpcAddr)
 	if err != nil {
 		return nil, err
 	}
 
 	client := &QueryClient{
 		RPCClient: tmClient,
-		Cfg:       cfg,
+		timeout:   timeout,
+	}
+
+	return client, nil
+}
+
+// NewWithClient creates a new QueryClient with a given existing rpcClient and timeout
+func NewWithClient(rpcClient rpcclient.Client, timeout time.Duration) (*QueryClient, error) {
+	if timeout <= 0 {
+		return nil, fmt.Errorf("timeout must be positive")
+	}
+
+	client := &QueryClient{
+		RPCClient: rpcClient,
+		timeout:   timeout,
 	}
 
 	return client, nil
@@ -51,7 +66,7 @@ func (c *QueryClient) Stop() {
 // (adapted from https://github.com/strangelove-ventures/lens/blob/v0.5.4/client/query/query_options.go#L29-L36)
 func (c *QueryClient) getQueryContext() (context.Context, context.CancelFunc) {
 	defaultOptions := lensquery.DefaultOptions()
-	ctx, cancel := context.WithTimeout(context.Background(), c.Cfg.Timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
 	strHeight := strconv.Itoa(int(defaultOptions.Height))
 	ctx = metadata.AppendToOutgoingContext(ctx, grpctypes.GRPCBlockHeightHeader, strHeight)
 	return ctx, cancel
