@@ -8,14 +8,13 @@ import (
 	"github.com/babylonchain/babylon/x/epoching"
 	"github.com/babylonchain/babylon/x/monitor"
 	"github.com/babylonchain/babylon/x/zoneconcierge"
-	"github.com/strangelove-ventures/lens/client"
 	lensclient "github.com/strangelove-ventures/lens/client"
 )
 
 // ModuleBasics is the list of modules used in Babylon
 // necessary for serialising/deserialising Babylon messages/queries
 var ModuleBasics = append(
-	client.ModuleBasics,
+	lensclient.ModuleBasics,
 	epoching.AppModuleBasic{},
 	checkpointing.AppModuleBasic{},
 	btclightclient.AppModuleBasic{},
