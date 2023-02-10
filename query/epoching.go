@@ -1,111 +1,108 @@
 package query
 
 import (
-	"context"
-
 	epochingtypes "github.com/babylonchain/babylon/x/epoching/types"
-	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/babylonchain/rpc-client/client"
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-// QueryEpoching queries the Epoching module of the Babylon node
-// according to the given function
-func (c *QueryClient) QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient) error) error {
-	ctx, cancel := c.getQueryContext()
+// EpochingParams queries epoching module's parameters via ChainClient
+func EpochingParams(c *client.Client) (*epochingtypes.QueryParamsResponse, error) {
+	ctx, cancel := c.GetDefaultQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.RPCClient}
-	queryClient := epochingtypes.NewQueryClient(clientCtx)
-
-	return f(ctx, queryClient)
-}
-
-// EpochingParams queries epoching module's parameters via ChainClient
-func (c *QueryClient) EpochingParams() (*epochingtypes.QueryParamsResponse, error) {
-	var resp *epochingtypes.QueryParamsResponse
-	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
-		var err error
-		req := &epochingtypes.QueryParamsRequest{}
-		resp, err = queryClient.Params(ctx, req)
-		return err
-	})
-
-	return resp, err
+	queryClient := epochingtypes.NewQueryClient(c.ChainClient)
+	req := &epochingtypes.QueryParamsRequest{}
+	resp, err := queryClient.Params(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 // CurrentEpoch queries the current epoch number via ChainClient
-func (c *QueryClient) CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, error) {
-	var resp *epochingtypes.QueryCurrentEpochResponse
-	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
-		var err error
-		req := &epochingtypes.QueryCurrentEpochRequest{}
-		resp, err = queryClient.CurrentEpoch(ctx, req)
-		return err
-	})
+func CurrentEpoch(c *client.Client) (*epochingtypes.QueryCurrentEpochResponse, error) {
+	ctx, cancel := c.GetDefaultQueryContext()
+	defer cancel()
 
-	return resp, err
+	queryClient := epochingtypes.NewQueryClient(c.ChainClient)
+	req := &epochingtypes.QueryCurrentEpochRequest{}
+	resp, err := queryClient.CurrentEpoch(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
 
 // EpochsInfoForEpochRange queries the epoching module for epochs in the given range
-func (c *QueryClient) EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64) (*epochingtypes.QueryEpochsInfoResponse, error) {
-	var resp *epochingtypes.QueryEpochsInfoResponse
-	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
-		var err error
-		req := &epochingtypes.QueryEpochsInfoRequest{
-			StartEpoch: startEpoch,
-			EndEpoch:   endEpoch,
-		}
-		resp, err = queryClient.EpochsInfo(ctx, req)
-		return err
-	})
+func EpochsInfoForEpochRange(c *client.Client, startEpoch uint64, endEpoch uint64) (*epochingtypes.QueryEpochsInfoResponse, error) {
+	ctx, cancel := c.GetDefaultQueryContext()
+	defer cancel()
 
-	return resp, err
+	queryClient := epochingtypes.NewQueryClient(c.ChainClient)
+	req := &epochingtypes.QueryEpochsInfoRequest{
+		StartEpoch: startEpoch,
+		EndEpoch:   endEpoch,
+	}
+
+	resp, err := queryClient.EpochsInfo(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 // EpochsInfo queries the epoching module for the maintained epochs
-func (c *QueryClient) EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryEpochsInfoResponse, error) {
-	var resp *epochingtypes.QueryEpochsInfoResponse
-	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
-		var err error
-		req := &epochingtypes.QueryEpochsInfoRequest{
-			Pagination: pagination,
-		}
-		resp, err = queryClient.EpochsInfo(ctx, req)
-		return err
-	})
+func EpochsInfo(c *client.Client, pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryEpochsInfoResponse, error) {
+	ctx, cancel := c.GetDefaultQueryContext()
+	defer cancel()
 
-	return resp, err
+	queryClient := epochingtypes.NewQueryClient(c.ChainClient)
+	req := &epochingtypes.QueryEpochsInfoRequest{
+		Pagination: pagination,
+	}
+
+	resp, err := queryClient.EpochsInfo(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 // LatestEpochMsgs queries the epoching module for the latest messages maintained in its delayed
 // staking queue until a specified endEpoch.
-func (c *QueryClient) LatestEpochMsgs(endEpoch uint64, epochCount uint64, pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryLatestEpochMsgsResponse, error) {
-	var resp *epochingtypes.QueryLatestEpochMsgsResponse
-	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
-		var err error
-		req := &epochingtypes.QueryLatestEpochMsgsRequest{
-			EndEpoch:   endEpoch,
-			EpochCount: epochCount,
-			Pagination: pagination,
-		}
-		resp, err = queryClient.LatestEpochMsgs(ctx, req)
-		return err
-	})
+func LatestEpochMsgs(c *client.Client, endEpoch uint64, epochCount uint64, pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryLatestEpochMsgsResponse, error) {
+	ctx, cancel := c.GetDefaultQueryContext()
+	defer cancel()
 
-	return resp, err
+	queryClient := epochingtypes.NewQueryClient(c.ChainClient)
+	req := &epochingtypes.QueryLatestEpochMsgsRequest{
+		EndEpoch:   endEpoch,
+		EpochCount: epochCount,
+		Pagination: pagination,
+	}
+
+	resp, err := queryClient.LatestEpochMsgs(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 // DelegationLifecycle queries the epoching module for the lifecycle of a delegator.
-func (c *QueryClient) DelegationLifecycle(delegator string) (*epochingtypes.QueryDelegationLifecycleResponse, error) {
-	var resp *epochingtypes.QueryDelegationLifecycleResponse
-	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
-		var err error
-		req := &epochingtypes.QueryDelegationLifecycleRequest{
-			DelAddr: delegator,
-		}
-		resp, err = queryClient.DelegationLifecycle(ctx, req)
-		return err
-	})
+func DelegationLifecycle(c *client.Client, delegator string) (*epochingtypes.QueryDelegationLifecycleResponse, error) {
+	ctx, cancel := c.GetDefaultQueryContext()
+	defer cancel()
 
-	return resp, err
+	queryClient := epochingtypes.NewQueryClient(c.ChainClient)
+	req := &epochingtypes.QueryDelegationLifecycleRequest{
+		DelAddr: delegator,
+	}
+
+	resp, err := queryClient.DelegationLifecycle(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }

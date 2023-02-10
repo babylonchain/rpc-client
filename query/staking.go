@@ -1,33 +1,22 @@
 package query
 
 import (
-	"context"
-
-	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/babylonchain/rpc-client/client"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
-// QueryStaking queries the Staking module of the Babylon node
-// according to the given function
-func (c *QueryClient) QueryStaking(f func(ctx context.Context, queryClient stakingtypes.QueryClient) error) error {
-	ctx, cancel := c.getQueryContext()
+// QueryStakingParams queries staking module's parameters via ChainClient
+// code is adapted from https://github.com/strangelove-ventures/lens/blob/v0.5.1/cmd/staking.go#L128-L149
+func QueryStakingParams(c *client.Client) (*stakingtypes.QueryParamsResponse, error) {
+	ctx, cancel := c.GetDefaultQueryContext()
 	defer cancel()
 
-	clientCtx := client.Context{Client: c.RPCClient}
-	queryClient := stakingtypes.NewQueryClient(clientCtx)
+	queryClient := stakingtypes.NewQueryClient(c.ChainClient)
+	req := &stakingtypes.QueryParamsRequest{}
+	resp, err := queryClient.Params(ctx, req)
+	if err != nil {
+		return nil, err
+	}
 
-	return f(ctx, queryClient)
-}
-
-// QueryStakingParams queries btccheckpoint module's parameters via ChainClient
-func (c *QueryClient) StakingParams() (*stakingtypes.QueryParamsResponse, error) {
-	var resp *stakingtypes.QueryParamsResponse
-	err := c.QueryStaking(func(ctx context.Context, queryClient stakingtypes.QueryClient) error {
-		var err error
-		req := &stakingtypes.QueryParamsRequest{}
-		resp, err = queryClient.Params(ctx, req)
-		return err
-	})
-
-	return resp, err
+	return resp, nil
 }

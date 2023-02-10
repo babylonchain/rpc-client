@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	context "context"
 	reflect "reflect"
 
 	types "github.com/babylonchain/babylon/x/btccheckpoint/types"
@@ -64,6 +65,21 @@ func (m *MockBabylonClient) GetConfig() *config.BabylonConfig {
 func (mr *MockBabylonClientMockRecorder) GetConfig() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConfig", reflect.TypeOf((*MockBabylonClient)(nil).GetConfig))
+}
+
+// GetDefaultQueryContext mocks base method.
+func (m *MockBabylonClient) GetDefaultQueryContext() (context.Context, context.CancelFunc) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetDefaultQueryContext")
+	ret0, _ := ret[0].(context.Context)
+	ret1, _ := ret[1].(context.CancelFunc)
+	return ret0, ret1
+}
+
+// GetDefaultQueryContext indicates an expected call of GetDefaultQueryContext.
+func (mr *MockBabylonClientMockRecorder) GetDefaultQueryContext() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDefaultQueryContext", reflect.TypeOf((*MockBabylonClient)(nil).GetDefaultQueryContext))
 }
 
 // GetTagIdx mocks base method.
