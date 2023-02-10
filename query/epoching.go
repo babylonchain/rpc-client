@@ -10,25 +10,24 @@ import (
 
 // QueryEpoching queries the Epoching module of the Babylon node
 // according to the given function
-func (c *QueryClient) QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient)) {
+func (c *QueryClient) QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient) error) error {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
 	clientCtx := client.Context{Client: c.RPCClient}
 	queryClient := epochingtypes.NewQueryClient(clientCtx)
 
-	f(ctx, queryClient)
+	return f(ctx, queryClient)
 }
 
 // EpochingParams queries epoching module's parameters via ChainClient
 func (c *QueryClient) EpochingParams() (*epochingtypes.QueryParamsResponse, error) {
-	var (
-		resp *epochingtypes.QueryParamsResponse
-		err  error
-	)
-	c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) {
+	var resp *epochingtypes.QueryParamsResponse
+	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
+		var err error
 		req := &epochingtypes.QueryParamsRequest{}
 		resp, err = queryClient.Params(ctx, req)
+		return err
 	})
 
 	return resp, err
@@ -36,13 +35,12 @@ func (c *QueryClient) EpochingParams() (*epochingtypes.QueryParamsResponse, erro
 
 // CurrentEpoch queries the current epoch number via ChainClient
 func (c *QueryClient) CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, error) {
-	var (
-		resp *epochingtypes.QueryCurrentEpochResponse
-		err  error
-	)
-	c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) {
+	var resp *epochingtypes.QueryCurrentEpochResponse
+	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
+		var err error
 		req := &epochingtypes.QueryCurrentEpochRequest{}
 		resp, err = queryClient.CurrentEpoch(ctx, req)
+		return err
 	})
 
 	return resp, err
@@ -50,16 +48,15 @@ func (c *QueryClient) CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, 
 
 // EpochsInfoForEpochRange queries the epoching module for epochs in the given range
 func (c *QueryClient) EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64) (*epochingtypes.QueryEpochsInfoResponse, error) {
-	var (
-		resp *epochingtypes.QueryEpochsInfoResponse
-		err  error
-	)
-	c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) {
+	var resp *epochingtypes.QueryEpochsInfoResponse
+	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
+		var err error
 		req := &epochingtypes.QueryEpochsInfoRequest{
 			StartEpoch: startEpoch,
 			EndEpoch:   endEpoch,
 		}
 		resp, err = queryClient.EpochsInfo(ctx, req)
+		return err
 	})
 
 	return resp, err
@@ -67,15 +64,14 @@ func (c *QueryClient) EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64
 
 // EpochsInfo queries the epoching module for the maintained epochs
 func (c *QueryClient) EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryEpochsInfoResponse, error) {
-	var (
-		resp *epochingtypes.QueryEpochsInfoResponse
-		err  error
-	)
-	c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) {
+	var resp *epochingtypes.QueryEpochsInfoResponse
+	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
+		var err error
 		req := &epochingtypes.QueryEpochsInfoRequest{
 			Pagination: pagination,
 		}
 		resp, err = queryClient.EpochsInfo(ctx, req)
+		return err
 	})
 
 	return resp, err
@@ -84,17 +80,16 @@ func (c *QueryClient) EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochi
 // LatestEpochMsgs queries the epoching module for the latest messages maintained in its delayed
 // staking queue until a specified endEpoch.
 func (c *QueryClient) LatestEpochMsgs(endEpoch uint64, epochCount uint64, pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryLatestEpochMsgsResponse, error) {
-	var (
-		resp *epochingtypes.QueryLatestEpochMsgsResponse
-		err  error
-	)
-	c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) {
+	var resp *epochingtypes.QueryLatestEpochMsgsResponse
+	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
+		var err error
 		req := &epochingtypes.QueryLatestEpochMsgsRequest{
 			EndEpoch:   endEpoch,
 			EpochCount: epochCount,
 			Pagination: pagination,
 		}
 		resp, err = queryClient.LatestEpochMsgs(ctx, req)
+		return err
 	})
 
 	return resp, err
@@ -102,15 +97,14 @@ func (c *QueryClient) LatestEpochMsgs(endEpoch uint64, epochCount uint64, pagina
 
 // DelegationLifecycle queries the epoching module for the lifecycle of a delegator.
 func (c *QueryClient) DelegationLifecycle(delegator string) (*epochingtypes.QueryDelegationLifecycleResponse, error) {
-	var (
-		resp *epochingtypes.QueryDelegationLifecycleResponse
-		err  error
-	)
-	c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) {
+	var resp *epochingtypes.QueryDelegationLifecycleResponse
+	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
+		var err error
 		req := &epochingtypes.QueryDelegationLifecycleRequest{
 			DelAddr: delegator,
 		}
 		resp, err = queryClient.DelegationLifecycle(ctx, req)
+		return err
 	})
 
 	return resp, err
