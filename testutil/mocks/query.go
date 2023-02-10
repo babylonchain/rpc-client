@@ -60,10 +60,10 @@ func (mr *MockBabylonQueryClientMockRecorder) BTCBaseHeader() *gomock.Call {
 }
 
 // BTCCheckpointParams mocks base method.
-func (m *MockBabylonQueryClient) BTCCheckpointParams() (*types.Params, error) {
+func (m *MockBabylonQueryClient) BTCCheckpointParams() (*types.QueryParamsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BTCCheckpointParams")
-	ret0, _ := ret[0].(*types.Params)
+	ret0, _ := ret[0].(*types.QueryParamsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -90,10 +90,10 @@ func (mr *MockBabylonQueryClientMockRecorder) BTCHeaderChainTip() *gomock.Call {
 }
 
 // BTCLightClientParams mocks base method.
-func (m *MockBabylonQueryClient) BTCLightClientParams() (*types0.Params, error) {
+func (m *MockBabylonQueryClient) BTCLightClientParams() (*types0.QueryParamsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BTCLightClientParams")
-	ret0, _ := ret[0].(*types0.Params)
+	ret0, _ := ret[0].(*types0.QueryParamsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -195,10 +195,10 @@ func (mr *MockBabylonQueryClientMockRecorder) ConnectedChainHeaders(chainID, pag
 }
 
 // ConnectedChainInfo mocks base method.
-func (m *MockBabylonQueryClient) ConnectedChainInfo(chainID string) (*types4.ChainInfo, error) {
+func (m *MockBabylonQueryClient) ConnectedChainInfo(chainID string) (*types4.QueryChainInfoResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ConnectedChainInfo", chainID)
-	ret0, _ := ret[0].(*types4.ChainInfo)
+	ret0, _ := ret[0].(*types4.QueryChainInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -420,9 +420,11 @@ func (mr *MockBabylonQueryClientMockRecorder) LatestEpochMsgs(endEpoch, epochCou
 }
 
 // QueryBTCCheckpoint mocks base method.
-func (m *MockBabylonQueryClient) QueryBTCCheckpoint(f func(context.Context, types.QueryClient)) {
+func (m *MockBabylonQueryClient) QueryBTCCheckpoint(f func(context.Context, types.QueryClient) error) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "QueryBTCCheckpoint", f)
+	ret := m.ctrl.Call(m, "QueryBTCCheckpoint", f)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // QueryBTCCheckpoint indicates an expected call of QueryBTCCheckpoint.
@@ -432,9 +434,11 @@ func (mr *MockBabylonQueryClientMockRecorder) QueryBTCCheckpoint(f interface{}) 
 }
 
 // QueryBTCLightclient mocks base method.
-func (m *MockBabylonQueryClient) QueryBTCLightclient(f func(context.Context, types0.QueryClient)) {
+func (m *MockBabylonQueryClient) QueryBTCLightclient(f func(context.Context, types0.QueryClient) error) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "QueryBTCLightclient", f)
+	ret := m.ctrl.Call(m, "QueryBTCLightclient", f)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // QueryBTCLightclient indicates an expected call of QueryBTCLightclient.
@@ -444,9 +448,11 @@ func (mr *MockBabylonQueryClientMockRecorder) QueryBTCLightclient(f interface{})
 }
 
 // QueryCheckpointing mocks base method.
-func (m *MockBabylonQueryClient) QueryCheckpointing(f func(context.Context, types1.QueryClient)) {
+func (m *MockBabylonQueryClient) QueryCheckpointing(f func(context.Context, types1.QueryClient) error) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "QueryCheckpointing", f)
+	ret := m.ctrl.Call(m, "QueryCheckpointing", f)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // QueryCheckpointing indicates an expected call of QueryCheckpointing.
@@ -456,9 +462,11 @@ func (mr *MockBabylonQueryClientMockRecorder) QueryCheckpointing(f interface{}) 
 }
 
 // QueryEpoching mocks base method.
-func (m *MockBabylonQueryClient) QueryEpoching(f func(context.Context, types2.QueryClient)) {
+func (m *MockBabylonQueryClient) QueryEpoching(f func(context.Context, types2.QueryClient) error) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "QueryEpoching", f)
+	ret := m.ctrl.Call(m, "QueryEpoching", f)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // QueryEpoching indicates an expected call of QueryEpoching.
@@ -468,9 +476,11 @@ func (mr *MockBabylonQueryClientMockRecorder) QueryEpoching(f interface{}) *gomo
 }
 
 // QueryMonitor mocks base method.
-func (m *MockBabylonQueryClient) QueryMonitor(f func(context.Context, types3.QueryClient)) {
+func (m *MockBabylonQueryClient) QueryMonitor(f func(context.Context, types3.QueryClient) error) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "QueryMonitor", f)
+	ret := m.ctrl.Call(m, "QueryMonitor", f)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // QueryMonitor indicates an expected call of QueryMonitor.
@@ -480,9 +490,11 @@ func (mr *MockBabylonQueryClientMockRecorder) QueryMonitor(f interface{}) *gomoc
 }
 
 // QueryStaking mocks base method.
-func (m *MockBabylonQueryClient) QueryStaking(f func(context.Context, types5.QueryClient)) {
+func (m *MockBabylonQueryClient) QueryStaking(f func(context.Context, types5.QueryClient) error) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "QueryStaking", f)
+	ret := m.ctrl.Call(m, "QueryStaking", f)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // QueryStaking indicates an expected call of QueryStaking.
@@ -492,9 +504,11 @@ func (mr *MockBabylonQueryClientMockRecorder) QueryStaking(f interface{}) *gomoc
 }
 
 // QueryZoneConcierge mocks base method.
-func (m *MockBabylonQueryClient) QueryZoneConcierge(f func(context.Context, types4.QueryClient)) {
+func (m *MockBabylonQueryClient) QueryZoneConcierge(f func(context.Context, types4.QueryClient) error) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "QueryZoneConcierge", f)
+	ret := m.ctrl.Call(m, "QueryZoneConcierge", f)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // QueryZoneConcierge indicates an expected call of QueryZoneConcierge.
@@ -549,10 +563,10 @@ func (mr *MockBabylonQueryClientMockRecorder) ReportedCheckpointBTCHeight(hashSt
 }
 
 // StakingParams mocks base method.
-func (m *MockBabylonQueryClient) StakingParams() (*types5.Params, error) {
+func (m *MockBabylonQueryClient) StakingParams() (*types5.QueryParamsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "StakingParams")
-	ret0, _ := ret[0].(*types5.Params)
+	ret0, _ := ret[0].(*types5.QueryParamsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
