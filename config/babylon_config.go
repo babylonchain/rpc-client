@@ -11,6 +11,7 @@ import (
 	"github.com/babylonchain/babylon/x/btclightclient"
 	"github.com/babylonchain/babylon/x/checkpointing"
 	"github.com/babylonchain/babylon/x/epoching"
+	"github.com/babylonchain/babylon/x/monitor"
 	"github.com/babylonchain/babylon/x/zoneconcierge"
 	"github.com/strangelove-ventures/lens/client"
 )
@@ -24,6 +25,7 @@ var ModuleBasics = append(
 	btclightclient.AppModuleBasic{},
 	btccheckpoint.AppModuleBasic{},
 	zoneconcierge.AppModuleBasic{},
+	monitor.AppModuleBasic{},
 )
 
 // BabylonConfig defines configuration for the Babylon client
