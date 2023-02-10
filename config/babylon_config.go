@@ -1,7 +1,8 @@
 package config
 
 import (
-	"errors"
+	"fmt"
+	"net/url"
 	"os"
 	"path/filepath"
 	"time"
@@ -47,11 +48,14 @@ type BabylonConfig struct {
 }
 
 func (cfg *BabylonConfig) Validate() error {
+	if _, err := url.Parse(cfg.RPCAddr); err != nil {
+		return fmt.Errorf("cfg.RPCAddr is not correctly formatted: %w", err)
+	}
 	if cfg.Timeout <= 0 {
-		return errors.New("cfg.Timeout must be positive")
+		return fmt.Errorf("cfg.Timeout must be positive")
 	}
 	if cfg.BlockTimeout < 0 {
-		return errors.New("cfg.BlockTimeout can't be negative")
+		return fmt.Errorf("cfg.BlockTimeout can't be negative")
 	}
 	return nil
 }

@@ -1,7 +1,8 @@
 package config
 
 import (
-	"errors"
+	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -12,8 +13,11 @@ type BabylonQueryConfig struct {
 }
 
 func (cfg *BabylonQueryConfig) Validate() error {
+	if _, err := url.Parse(cfg.RPCAddr); err != nil {
+		return fmt.Errorf("cfg.RPCAddr is not correctly formatted: %w", err)
+	}
 	if cfg.Timeout <= 0 {
-		return errors.New("cfg.Timeout must be positive")
+		return fmt.Errorf("cfg.Timeout must be positive")
 	}
 	return nil
 }

@@ -24,7 +24,7 @@ type QueryClient struct {
 	timeout   time.Duration
 }
 
-// NewWithClient creates a new QueryClient to a given rpcAddr and a given timeout
+// NewWithClient creates a new QueryClient according to the given config
 func New(cfg *config.BabylonQueryConfig) (*QueryClient, error) {
 	if err := cfg.Validate(); err != nil {
 		return nil, err
