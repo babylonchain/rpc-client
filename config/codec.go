@@ -1,6 +1,7 @@
 package config
 
 import (
+	appparams "github.com/babylonchain/babylon/app/params"
 	"github.com/babylonchain/babylon/x/btccheckpoint"
 	"github.com/babylonchain/babylon/x/btclightclient"
 	"github.com/babylonchain/babylon/x/checkpointing"
@@ -23,7 +24,13 @@ var ModuleBasics = append(
 	monitor.AppModuleBasic{},
 )
 
-// GetBabylonCdc returns Codec, i.e., struct for encoding/decoding messages, for Babylon
-func GetCodec() lensclient.Codec {
-	return lensclient.MakeCodec(ModuleBasics)
+// GetEncodingConfig returns EncodingConfig for Babylon
+func GetEncodingConfig() appparams.EncodingConfig {
+	lensCdc := lensclient.MakeCodec(ModuleBasics)
+	return appparams.EncodingConfig{
+		InterfaceRegistry: lensCdc.InterfaceRegistry,
+		Marshaler:         lensCdc.Marshaler,
+		TxConfig:          lensCdc.TxConfig,
+		Amino:             lensCdc.Amino,
+	}
 }
