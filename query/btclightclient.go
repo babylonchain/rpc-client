@@ -1,84 +1,91 @@
 package query
 
 import (
+	"context"
+
 	btclctypes "github.com/babylonchain/babylon/x/btclightclient/types"
-	"github.com/babylonchain/rpc-client/client"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
+	"github.com/cosmos/cosmos-sdk/client"
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 )
 
-// BTCLightClientParams queries btclightclient module's parameters via ChainClient
-func BTCLightClientParams(c *client.Client) (*btclctypes.Params, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
+// QueryBTCLightclient queries the BTCLightclient module of the Babylon node
+// according to the given function
+func (c *QueryClient) QueryBTCLightclient(f func(ctx context.Context, queryClient btclctypes.QueryClient) error) error {
+	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	queryClient := btclctypes.NewQueryClient(c.ChainClient)
-	req := &btclctypes.QueryParamsRequest{}
-	resp, err := queryClient.Params(ctx, req)
-	if err != nil {
-		return &btclctypes.Params{}, err
-	}
-	return &resp.Params, nil
+	clientCtx := client.Context{Client: c.RPCClient}
+	queryClient := btclctypes.NewQueryClient(clientCtx)
+
+	return f(ctx, queryClient)
+}
+
+// BTCLightClientParams queries btclightclient module's parameters via ChainClient
+func (c *QueryClient) BTCLightClientParams() (*btclctypes.QueryParamsResponse, error) {
+	var resp *btclctypes.QueryParamsResponse
+	err := c.QueryBTCLightclient(func(ctx context.Context, queryClient btclctypes.QueryClient) error {
+		var err error
+		req := &btclctypes.QueryParamsRequest{}
+		resp, err = queryClient.Params(ctx, req)
+		return err
+	})
+
+	return resp, err
 }
 
 // BTCHeaderChainTip queries hash/height of the latest BTC block in the btclightclient module
-func BTCHeaderChainTip(c *client.Client) (*btclctypes.QueryTipResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *QueryClient) BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error) {
+	var resp *btclctypes.QueryTipResponse
+	err := c.QueryBTCLightclient(func(ctx context.Context, queryClient btclctypes.QueryClient) error {
+		var err error
+		req := &btclctypes.QueryTipRequest{}
+		resp, err = queryClient.Tip(ctx, req)
+		return err
+	})
 
-	queryClient := btclctypes.NewQueryClient(c.ChainClient)
-	req := &btclctypes.QueryTipRequest{}
-	resp, err := queryClient.Tip(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
+	return resp, err
 }
 
-// BTCHeader queries the base BTC header of the btclightclient module
-func BTCHeader(c *client.Client) (*btclctypes.QueryBaseHeaderResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+// BTCBaseHeader queries the base BTC header of the btclightclient module
+func (c *QueryClient) BTCBaseHeader() (*btclctypes.QueryBaseHeaderResponse, error) {
+	var resp *btclctypes.QueryBaseHeaderResponse
+	err := c.QueryBTCLightclient(func(ctx context.Context, queryClient btclctypes.QueryClient) error {
+		var err error
+		req := &btclctypes.QueryBaseHeaderRequest{}
+		resp, err = queryClient.BaseHeader(ctx, req)
+		return err
+	})
 
-	queryClient := btclctypes.NewQueryClient(c.ChainClient)
-	req := &btclctypes.QueryBaseHeaderRequest{}
-	resp, err := queryClient.BaseHeader(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
+	return resp, err
 }
 
 // ContainsBTCBlock queries the btclightclient module for the existence of a block hash
-func ContainsBTCBlock(c *client.Client, blockHash *chainhash.Hash) (*btclctypes.QueryContainsBytesResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *QueryClient) ContainsBTCBlock(blockHash *chainhash.Hash) (*btclctypes.QueryContainsBytesResponse, error) {
+	var resp *btclctypes.QueryContainsBytesResponse
+	err := c.QueryBTCLightclient(func(ctx context.Context, queryClient btclctypes.QueryClient) error {
+		var err error
+		req := &btclctypes.QueryContainsBytesRequest{
+			Hash: blockHash.CloneBytes(),
+		}
+		resp, err = queryClient.ContainsBytes(ctx, req)
+		return err
+	})
 
-	queryClient := btclctypes.NewQueryClient(c.ChainClient)
-	req := btclctypes.QueryContainsBytesRequest{Hash: blockHash.CloneBytes()}
-	resp, err := queryClient.ContainsBytes(ctx, &req)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
+	return resp, err
 }
 
 // BTCMainChain queries the btclightclient module for the BTC canonical chain
-func BTCMainChain(c *client.Client, pagination *sdkquerytypes.PageRequest) (*btclctypes.QueryMainChainResponse, error) {
-	ctx, cancel := c.GetDefaultQueryContext()
-	defer cancel()
+func (c *QueryClient) BTCMainChain(pagination *sdkquerytypes.PageRequest) (*btclctypes.QueryMainChainResponse, error) {
+	var resp *btclctypes.QueryMainChainResponse
+	err := c.QueryBTCLightclient(func(ctx context.Context, queryClient btclctypes.QueryClient) error {
+		var err error
+		req := &btclctypes.QueryMainChainRequest{
+			Pagination: pagination,
+		}
+		resp, err = queryClient.MainChain(ctx, req)
+		return err
+	})
 
-	queryClient := btclctypes.NewQueryClient(c.ChainClient)
-	req := &btclctypes.QueryMainChainRequest{
-		Pagination: pagination,
-	}
-
-	resp, err := queryClient.MainChain(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
+	return resp, err
 }
