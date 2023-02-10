@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/babylonchain/rpc-client/config"
 	"github.com/cosmos/cosmos-sdk/client"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 	lensquery "github.com/strangelove-ventures/lens/client/query"
@@ -23,26 +24,27 @@ type QueryClient struct {
 	timeout   time.Duration
 }
 
-// NewWithClient creates a new QueryClient to a given rpcAddr and a given timeout
-func New(rpcAddr string, timeout time.Duration) (*QueryClient, error) {
-	if timeout <= 0 {
-		return nil, fmt.Errorf("timeout must be positive")
+// NewWithClient creates a new QueryClient according to the given config
+func New(cfg *config.BabylonQueryConfig) (*QueryClient, error) {
+	if err := cfg.Validate(); err != nil {
+		return nil, err
 	}
 
-	tmClient, err := client.NewClientFromNode(rpcAddr)
+	tmClient, err := client.NewClientFromNode(cfg.RPCAddr)
 	if err != nil {
 		return nil, err
 	}
 
 	client := &QueryClient{
 		RPCClient: tmClient,
-		timeout:   timeout,
+		timeout:   cfg.Timeout,
 	}
 
 	return client, nil
 }
 
 // NewWithClient creates a new QueryClient with a given existing rpcClient and timeout
+// used by `client/` where `ChainClient` already creates an rpc client
 func NewWithClient(rpcClient rpcclient.Client, timeout time.Duration) (*QueryClient, error) {
 	if timeout <= 0 {
 		return nil, fmt.Errorf("timeout must be positive")

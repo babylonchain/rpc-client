@@ -29,8 +29,8 @@ func TestStakingParams(t *testing.T) {
 	err = testNetwork.WaitForNextBlock()
 	require.NoError(t, err)
 
-	clientCfg := config.DefaultBabylonConfig()
-	client, err := query.New(clientCfg.RPCAddr, clientCfg.Timeout)
+	queryCfg := config.DefaultBabylonQueryConfig()
+	client, err := query.New(&queryCfg)
 	require.NoError(t, err)
 	params, err := client.StakingParams()
 	require.NoError(t, err)
