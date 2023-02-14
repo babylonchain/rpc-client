@@ -25,7 +25,9 @@ func (c *QueryClient) FinalizedConnectedChainInfo(chainID string) (*zctypes.Quer
 	var resp *zctypes.QueryFinalizedChainInfoResponse
 	err := c.QueryZoneConcierge(func(ctx context.Context, queryClient zctypes.QueryClient) error {
 		var err error
-		req := &zctypes.QueryFinalizedChainInfoRequest{}
+		req := &zctypes.QueryFinalizedChainInfoRequest{
+			ChainId: chainID,
+		}
 		resp, err = queryClient.FinalizedChainInfo(ctx, req)
 		return err
 	})
@@ -38,7 +40,9 @@ func (c *QueryClient) ConnectedChainInfo(chainID string) (*zctypes.QueryChainInf
 	var resp *zctypes.QueryChainInfoResponse
 	err := c.QueryZoneConcierge(func(ctx context.Context, queryClient zctypes.QueryClient) error {
 		var err error
-		req := &zctypes.QueryChainInfoRequest{}
+		req := &zctypes.QueryChainInfoRequest{
+			ChainId: chainID,
+		}
 		resp, err = queryClient.ChainInfo(ctx, req)
 		return err
 	})
