@@ -1,9 +1,6 @@
 package client
 
 import (
-	"fmt"
-
-	"cosmossdk.io/math"
 	lensclient "github.com/strangelove-ventures/lens/client"
 
 	"github.com/babylonchain/rpc-client/config"
@@ -48,12 +45,7 @@ func (c *Client) GetConfig() *config.BabylonConfig {
 }
 
 func (c *Client) GetTagIdx() uint8 {
-	tagIdx, err := math.ParseUint(c.cfg.TagIdx)
-	if err != nil {
-		panic(fmt.Errorf("invalid tag index"))
-	}
-	// convert tagIdx from string to its ascii value
-	return uint8(tagIdx.Uint64())
+	return c.cfg.TagIdx
 }
 
 func (c *Client) Stop() {

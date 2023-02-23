@@ -28,18 +28,18 @@ type BabylonConfig struct {
 	OutputFormat     string        `mapstructure:"output-format"`
 	SignModeStr      string        `mapstructure:"sign-mode"`
 	SubmitterAddress string        `mapstructure:"submitter-address"`
-	TagIdx           string        `mapstructure:"tag-idx"`
+	TagIdx           uint8         `mapstructure:"tag-idx"`
 }
 
 func (cfg *BabylonConfig) Validate() error {
 	if _, err := url.Parse(cfg.RPCAddr); err != nil {
-		return fmt.Errorf("cfg.RPCAddr is not correctly formatted: %w", err)
+		return fmt.Errorf("rpc-addr is not correctly formatted: %w", err)
 	}
 	if cfg.Timeout <= 0 {
-		return fmt.Errorf("cfg.Timeout must be positive")
+		return fmt.Errorf("timeout must be positive")
 	}
 	if cfg.BlockTimeout < 0 {
-		return fmt.Errorf("cfg.BlockTimeout can't be negative")
+		return fmt.Errorf("block-timeout can't be negative")
 	}
 	return nil
 }
@@ -83,7 +83,7 @@ func DefaultBabylonConfig() BabylonConfig {
 		OutputFormat:     "json",
 		SignModeStr:      "direct",
 		SubmitterAddress: "bbn1v6k7k9s8md3k29cu9runasstq5zaa0lpznk27w", // this is currently a placeholder, will not recognized by Babylon
-		TagIdx:           "0",
+		TagIdx:           0,
 	}
 }
 
