@@ -3,9 +3,10 @@ package client
 import (
 	btcctypes "github.com/babylonchain/babylon/x/btccheckpoint/types"
 	btclctypes "github.com/babylonchain/babylon/x/btclightclient/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/babylonchain/rpc-client/config"
 	bbnquery "github.com/babylonchain/rpc-client/query"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 type BabylonClient interface {

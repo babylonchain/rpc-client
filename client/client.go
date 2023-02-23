@@ -1,11 +1,10 @@
 package client
 
 import (
-	"fmt"
+	lensclient "github.com/strangelove-ventures/lens/client"
 
 	"github.com/babylonchain/rpc-client/config"
 	"github.com/babylonchain/rpc-client/query"
-	lensclient "github.com/strangelove-ventures/lens/client"
 )
 
 var _ BabylonClient = &Client{}
@@ -46,12 +45,7 @@ func (c *Client) GetConfig() *config.BabylonConfig {
 }
 
 func (c *Client) GetTagIdx() uint8 {
-	tagIdxStr := c.cfg.TagIdx
-	if len(tagIdxStr) != 1 {
-		panic(fmt.Errorf("tag index should be one byte"))
-	}
-	// convert tagIdx from string to its ascii value
-	return uint8(rune(tagIdxStr[0]))
+	return c.cfg.TagIdx
 }
 
 func (c *Client) Stop() {
