@@ -14,12 +14,12 @@ func (c *QueryClient) GetBlock(height int64) (*coretypes.ResultBlock, error) {
 	return c.RPCClient.Block(ctx, &height)
 }
 
-// BlockSearch searches for blocks satisfying the query
-func (c *QueryClient) BlockSearch(query string, page *int, perPage *int, orderBy string) (*coretypes.ResultBlockSearch, error) {
+// BlockSearch searches for blocks satisfying the events specified on the events list
+func (c *QueryClient) BlockSearch(events []string, page *int, perPage *int, orderBy string) (*coretypes.ResultBlockSearch, error) {
 	ctx, cancel := c.getQueryContext()
 	defer cancel()
 
-	return c.RPCClient.BlockSearch(ctx, query, page, perPage, orderBy)
+	return c.RPCClient.BlockSearch(ctx, strings.Join(events, " AND "), page, perPage, orderBy)
 }
 
 // TxSearch searches for transactions satisfying the events specified on the events list
