@@ -21,19 +21,6 @@ func (c *QueryClient) QueryBTCLightclient(f func(ctx context.Context, queryClien
 	return f(ctx, queryClient)
 }
 
-// BTCLightClientParams queries btclightclient module's parameters via ChainClient
-func (c *QueryClient) BTCLightClientParams() (*btclctypes.QueryParamsResponse, error) {
-	var resp *btclctypes.QueryParamsResponse
-	err := c.QueryBTCLightclient(func(ctx context.Context, queryClient btclctypes.QueryClient) error {
-		var err error
-		req := &btclctypes.QueryParamsRequest{}
-		resp, err = queryClient.Params(ctx, req)
-		return err
-	})
-
-	return resp, err
-}
-
 // BTCHeaderChainTip queries hash/height of the latest BTC block in the btclightclient module
 func (c *QueryClient) BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error) {
 	var resp *btclctypes.QueryTipResponse

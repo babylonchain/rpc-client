@@ -3,7 +3,7 @@ package query
 import (
 	"strings"
 
-	coretypes "github.com/tendermint/tendermint/rpc/core/types"
+	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 )
 
 // GetStatus returns the status of the tendermint node

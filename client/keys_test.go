@@ -23,7 +23,7 @@ func FuzzKeys(f *testing.F) {
 		keyringName := datagen.GenRandomHexStr(10)
 		dir := t.TempDir()
 		mockIn := strings.NewReader("")
-		cdc := bbn.MakeTestEncodingConfig()
+		cdc := bbn.GetEncodingConfig()
 		kr, err := keyring.New(keyringName, "test", dir, mockIn, cdc.Marshaler)
 		require.NoError(t, err)
 

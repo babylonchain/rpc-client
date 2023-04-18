@@ -18,7 +18,7 @@ import (
 	query "github.com/cosmos/cosmos-sdk/types/query"
 	types5 "github.com/cosmos/cosmos-sdk/x/staking/types"
 	gomock "github.com/golang/mock/gomock"
-	coretypes "github.com/tendermint/tendermint/rpc/core/types"
+	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 )
 
 // MockBabylonQueryClient is a mock of BabylonQueryClient interface.
@@ -87,21 +87,6 @@ func (m *MockBabylonQueryClient) BTCHeaderChainTip() (*types0.QueryTipResponse, 
 func (mr *MockBabylonQueryClientMockRecorder) BTCHeaderChainTip() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCHeaderChainTip", reflect.TypeOf((*MockBabylonQueryClient)(nil).BTCHeaderChainTip))
-}
-
-// BTCLightClientParams mocks base method.
-func (m *MockBabylonQueryClient) BTCLightClientParams() (*types0.QueryParamsResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BTCLightClientParams")
-	ret0, _ := ret[0].(*types0.QueryParamsResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// BTCLightClientParams indicates an expected call of BTCLightClientParams.
-func (mr *MockBabylonQueryClientMockRecorder) BTCLightClientParams() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCLightClientParams", reflect.TypeOf((*MockBabylonQueryClient)(nil).BTCLightClientParams))
 }
 
 // BTCMainChain mocks base method.

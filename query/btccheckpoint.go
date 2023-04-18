@@ -33,8 +33,8 @@ func (c *QueryClient) BTCCheckpointParams() (*btcctypes.QueryParamsResponse, err
 	return resp, err
 }
 
-// BTCPositionAtEpoch queries btccheckpoint module for the Bitcoin position of an epoch
-func (c *QueryClient) BTCPositionAtEpoch(epochNumber uint64) (*btcctypes.QueryBtcCheckpointInfoResponse, error) {
+// BTCCheckpointInfo queries btccheckpoint module for the Bitcoin position of an epoch
+func (c *QueryClient) BTCCheckpointInfo(epochNumber uint64) (*btcctypes.QueryBtcCheckpointInfoResponse, error) {
 	var resp *btcctypes.QueryBtcCheckpointInfoResponse
 	err := c.QueryBTCCheckpoint(func(ctx context.Context, queryClient btcctypes.QueryClient) error {
 		var err error
@@ -48,19 +48,16 @@ func (c *QueryClient) BTCPositionAtEpoch(epochNumber uint64) (*btcctypes.QueryBt
 	return resp, err
 }
 
-// BTCPositionForEpochRange queries btccheckpoint module for the Bitcoin position of an epoch range
-func (c *QueryClient) BTCPositionForEpochRange(startEpoch uint64, endEpoch uint64, pagination *sdkquerytypes.PageRequest) (*btcctypes.QueryBtcCheckpointsInfoResponse, error) {
+// BTCCheckpointsInfo queries btccheckpoint module for the Bitcoin position of an epoch range
+func (c *QueryClient) BTCCheckpointsInfo(pagination *sdkquerytypes.PageRequest) (*btcctypes.QueryBtcCheckpointsInfoResponse, error) {
 	var resp *btcctypes.QueryBtcCheckpointsInfoResponse
 	err := c.QueryBTCCheckpoint(func(ctx context.Context, queryClient btcctypes.QueryClient) error {
 		var err error
 		req := &btcctypes.QueryBtcCheckpointsInfoRequest{
-			StartEpoch: startEpoch,
-			EndEpoch:   endEpoch,
 			Pagination: pagination,
 		}
 		resp, err = queryClient.BtcCheckpointsInfo(ctx, req)
 		return err
 	})
-
 	return resp, err
 }
