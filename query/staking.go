@@ -19,7 +19,7 @@ func (c *QueryClient) QueryStaking(f func(ctx context.Context, queryClient staki
 	return f(ctx, queryClient)
 }
 
-// QueryStakingParams queries btccheckpoint module's parameters via ChainClient
+// StakingParams queries btccheckpoint module's parameters via ChainClient
 func (c *QueryClient) StakingParams() (*stakingtypes.QueryParamsResponse, error) {
 	var resp *stakingtypes.QueryParamsResponse
 	err := c.QueryStaking(func(ctx context.Context, queryClient stakingtypes.QueryClient) error {

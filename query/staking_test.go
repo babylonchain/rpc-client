@@ -16,8 +16,9 @@ import (
 // creating QueryClient for all modules
 func TestStakingParams(t *testing.T) {
 	// setup virtual network
-	cfg := network.DefaultConfig()
-	encodingCfg := app.MakeTestEncodingConfig()
+	encodingCfg := app.GetEncodingConfig()
+	cfg, err := network.DefaultConfigWithAppConfig(network.MinimumAppConfig())
+	require.NoError(t, err)
 	cfg.InterfaceRegistry = encodingCfg.InterfaceRegistry
 	cfg.TxConfig = encodingCfg.TxConfig
 	cfg.NumValidators = 1

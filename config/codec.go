@@ -25,7 +25,7 @@ var ModuleBasics = append(
 
 // GetEncodingConfig returns EncodingConfig for Babylon
 func GetEncodingConfig() appparams.EncodingConfig {
-	lensCdc := lensclient.MakeCodec(ModuleBasics)
+	lensCdc := lensclient.MakeCodec(ModuleBasics, []string{})
 	return appparams.EncodingConfig{
 		InterfaceRegistry: lensCdc.InterfaceRegistry,
 		Marshaler:         lensCdc.Marshaler,
