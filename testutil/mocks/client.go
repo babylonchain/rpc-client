@@ -106,8 +106,8 @@ func (mr *MockBabylonClientMockRecorder) BTCMainChain(pagination interface{}) *g
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCMainChain", reflect.TypeOf((*MockBabylonClient)(nil).BTCMainChain), pagination)
 }
 
-// BTCPositionAtEpoch mocks base method.
-func (m *MockBabylonClient) BTCPositionAtEpoch(epochNumber uint64) (*types.QueryBtcCheckpointInfoResponse, error) {
+// BTCCheckpointInfo mocks base method.
+func (m *MockBabylonClient) BTCCheckpointInfo(epochNumber uint64) (*types.QueryBtcCheckpointInfoResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BTCPositionAtEpoch", epochNumber)
 	ret0, _ := ret[0].(*types.QueryBtcCheckpointInfoResponse)
@@ -115,25 +115,25 @@ func (m *MockBabylonClient) BTCPositionAtEpoch(epochNumber uint64) (*types.Query
 	return ret0, ret1
 }
 
-// BTCPositionAtEpoch indicates an expected call of BTCPositionAtEpoch.
-func (mr *MockBabylonClientMockRecorder) BTCPositionAtEpoch(epochNumber interface{}) *gomock.Call {
+// BTCCheckpointInfo indicates an expected call of BTCCheckpointInfo.
+func (mr *MockBabylonClientMockRecorder) BTCCheckpointInfo(epochNumber interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCPositionAtEpoch", reflect.TypeOf((*MockBabylonClient)(nil).BTCPositionAtEpoch), epochNumber)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCCheckpointInfo", reflect.TypeOf((*MockBabylonClient)(nil).BTCCheckpointInfo), epochNumber)
 }
 
-// BTCPositionForEpochRange mocks base method.
-func (m *MockBabylonClient) BTCPositionForEpochRange(startEpoch, endEpoch uint64, pagination *query.PageRequest) (*types.QueryBtcCheckpointsInfoResponse, error) {
+// BTCCheckpointsInfo mocks base method.
+func (m *MockBabylonClient) BTCCheckpointsInfo(startEpoch, endEpoch uint64, pagination *query.PageRequest) (*types.QueryBtcCheckpointsInfoResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BTCPositionForEpochRange", startEpoch, endEpoch, pagination)
+	ret := m.ctrl.Call(m, "BTCCheckpointsInfo", startEpoch, endEpoch, pagination)
 	ret0, _ := ret[0].(*types.QueryBtcCheckpointsInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// BTCPositionForEpochRange indicates an expected call of BTCPositionForEpochRange.
-func (mr *MockBabylonClientMockRecorder) BTCPositionForEpochRange(startEpoch, endEpoch, pagination interface{}) *gomock.Call {
+// BTCCheckpointsInfo indicates an expected call of BTCCheckpointsInfo.
+func (mr *MockBabylonClientMockRecorder) BTCCheckpointsInfo(startEpoch, endEpoch, pagination interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCPositionForEpochRange", reflect.TypeOf((*MockBabylonClient)(nil).BTCPositionForEpochRange), startEpoch, endEpoch, pagination)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCCheckpointsInfo", reflect.TypeOf((*MockBabylonClient)(nil).BTCCheckpointsInfo), startEpoch, endEpoch, pagination)
 }
 
 // BlsPublicKeyList mocks base method.
