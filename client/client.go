@@ -44,10 +44,6 @@ func (c *Client) GetConfig() *config.BabylonConfig {
 	return c.cfg
 }
 
-func (c *Client) GetTagIdx() uint8 {
-	return c.cfg.TagIdx
-}
-
 func (c *Client) Stop() {
 	if c.ChainClient.RPCClient != nil && c.ChainClient.RPCClient.IsRunning() {
 		<-c.ChainClient.RPCClient.Quit()
