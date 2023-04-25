@@ -1,6 +1,6 @@
 module github.com/babylonchain/rpc-client
 
-go 1.19
+go 1.20
 
 require (
 	github.com/babylonchain/babylon v0.0.0-20230425051414-4ace11f32741
