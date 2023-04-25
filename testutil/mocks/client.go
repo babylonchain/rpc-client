@@ -390,20 +390,6 @@ func (mr *MockBabylonClientMockRecorder) GetConfig() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConfig", reflect.TypeOf((*MockBabylonClient)(nil).GetConfig))
 }
 
-// GetTagIdx mocks base method.
-func (m *MockBabylonClient) GetTagIdx() uint8 {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTagIdx")
-	ret0, _ := ret[0].(uint8)
-	return ret0
-}
-
-// GetTagIdx indicates an expected call of GetTagIdx.
-func (mr *MockBabylonClientMockRecorder) GetTagIdx() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTagIdx", reflect.TypeOf((*MockBabylonClient)(nil).GetTagIdx))
-}
-
 // GetTx mocks base method.
 func (m *MockBabylonClient) GetTx(hash []byte) (*coretypes.ResultTx, error) {
 	m.ctrl.T.Helper()
