@@ -181,19 +181,19 @@ func (mr *MockBabylonClientMockRecorder) ConnectedChainHeaders(chainID, paginati
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainHeaders", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainHeaders), chainID, pagination)
 }
 
-// ConnectedChainInfo mocks base method.
-func (m *MockBabylonClient) ConnectedChainInfo(chainID string) (*types4.QueryChainInfoResponse, error) {
+// ConnectedChainsInfo mocks base method.
+func (m *MockBabylonClient) ConnectedChainsInfo(chainIds []string) (*types4.QueryChainsInfoResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectedChainInfo", chainID)
-	ret0, _ := ret[0].(*types4.QueryChainInfoResponse)
+	ret := m.ctrl.Call(m, "ConnectedChainsInfo", chainIds)
+	ret0, _ := ret[0].(*types4.QueryChainsInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ConnectedChainInfo indicates an expected call of ConnectedChainInfo.
-func (mr *MockBabylonClientMockRecorder) ConnectedChainInfo(chainID interface{}) *gomock.Call {
+// ConnectedChainsInfo indicates an expected call of ConnectedChainsInfo.
+func (mr *MockBabylonClientMockRecorder) ConnectedChainsInfo(chainIds interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainInfo", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainInfo), chainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainsInfo", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainsInfo), chainIds)
 }
 
 // ConnectedChainList mocks base method.

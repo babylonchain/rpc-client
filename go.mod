@@ -3,10 +3,10 @@ module github.com/babylonchain/rpc-client
 go 1.20
 
 require (
-	github.com/babylonchain/babylon v0.0.0-20230426070014-795d7066ea94
+	github.com/babylonchain/babylon v0.0.0-20230428103156-f7c9e049d965
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
-	github.com/cometbft/cometbft v0.37.0
-	github.com/cosmos/cosmos-sdk v0.47.1
+	github.com/cometbft/cometbft v0.37.1
+	github.com/cosmos/cosmos-sdk v0.47.2
 	github.com/golang/mock v1.6.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/strangelove-ventures/lens v0.5.2-0.20230418174104-735a2a0195eb
@@ -103,7 +103,7 @@ require (
 	github.com/gtank/merlin v0.1.1 // indirect
 	github.com/gtank/ristretto255 v0.1.2 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
-	github.com/hashicorp/go-getter v1.7.0 // indirect
+	github.com/hashicorp/go-getter v1.7.1 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
