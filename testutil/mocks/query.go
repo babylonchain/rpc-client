@@ -330,18 +330,18 @@ func (mr *MockBabylonQueryClientMockRecorder) EpochsInfoForEpochRange(startEpoch
 }
 
 // FinalizedConnectedChainInfo mocks base method.
-func (m *MockBabylonQueryClient) FinalizedConnectedChainInfo(chainID string) (*types4.QueryFinalizedChainInfoResponse, error) {
+func (m *MockBabylonQueryClient) FinalizedConnectedChainsInfo(chainIds []string) (*types4.QueryFinalizedChainsInfoResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FinalizedConnectedChainInfo", chainID)
-	ret0, _ := ret[0].(*types4.QueryFinalizedChainInfoResponse)
+	ret := m.ctrl.Call(m, "FinalizedConnectedChainsInfo", chainIds)
+	ret0, _ := ret[0].(*types4.QueryFinalizedChainsInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FinalizedConnectedChainInfo indicates an expected call of FinalizedConnectedChainInfo.
-func (mr *MockBabylonQueryClientMockRecorder) FinalizedConnectedChainInfo(chainID interface{}) *gomock.Call {
+func (mr *MockBabylonQueryClientMockRecorder) FinalizedConnectedChainsInfo(chainIds interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizedConnectedChainInfo", reflect.TypeOf((*MockBabylonQueryClient)(nil).FinalizedConnectedChainInfo), chainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizedConnectedChainsInfo", reflect.TypeOf((*MockBabylonQueryClient)(nil).FinalizedConnectedChainsInfo), chainIds)
 }
 
 // GetBlock mocks base method.

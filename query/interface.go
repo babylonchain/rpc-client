@@ -54,7 +54,7 @@ type BabylonQueryClient interface {
 
 	// APIs for ZoneConcierge
 	QueryZoneConcierge(f func(ctx context.Context, queryClient zctypes.QueryClient) error) error
-	FinalizedConnectedChainInfo(chainID string) (*zctypes.QueryFinalizedChainInfoResponse, error)
+	FinalizedConnectedChainsInfo(chainIds []string) (*zctypes.QueryFinalizedChainsInfoResponse, error)
 	ConnectedChainsInfo(chainIds []string) (*zctypes.QueryChainsInfoResponse, error)
 	ConnectedChainList() (*zctypes.QueryChainListResponse, error)
 	ConnectedChainHeaders(chainID string, pagination *sdkquerytypes.PageRequest) (*zctypes.QueryListHeadersResponse, error)
