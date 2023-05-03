@@ -58,7 +58,7 @@ type BabylonQueryClient interface {
 	ConnectedChainsInfo(chainIds []string) (*zctypes.QueryChainsInfoResponse, error)
 	ConnectedChainList() (*zctypes.QueryChainListResponse, error)
 	ConnectedChainHeaders(chainID string, pagination *sdkquerytypes.PageRequest) (*zctypes.QueryListHeadersResponse, error)
-	ConnectedChainEpochInfo(chainID string, epochNum uint64) (*zctypes.QueryEpochChainInfoResponse, error)
+	ConnectedChainsEpochInfo(chainIds []string, epochNum uint64) (*zctypes.QueryEpochChainsInfoResponse, error)
 
 	// APIs for Staking
 	QueryStaking(f func(ctx context.Context, queryClient stakingtypes.QueryClient) error) error

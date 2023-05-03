@@ -149,19 +149,19 @@ func (mr *MockBabylonQueryClientMockRecorder) BlsPublicKeyList(epochNumber, pagi
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlsPublicKeyList", reflect.TypeOf((*MockBabylonQueryClient)(nil).BlsPublicKeyList), epochNumber, pagination)
 }
 
-// ConnectedChainEpochInfo mocks base method.
-func (m *MockBabylonQueryClient) ConnectedChainEpochInfo(chainID string, epochNum uint64) (*types4.QueryEpochChainInfoResponse, error) {
+// ConnectedChainsEpochInfo mocks base method.
+func (m *MockBabylonQueryClient) ConnectedChainsEpochInfo(chainIds []string, epochNum uint64) (*types4.QueryEpochChainsInfoResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectedChainEpochInfo", chainID, epochNum)
-	ret0, _ := ret[0].(*types4.QueryEpochChainInfoResponse)
+	ret := m.ctrl.Call(m, "ConnectedChainsEpochInfo", chainIds, epochNum)
+	ret0, _ := ret[0].(*types4.QueryEpochChainsInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ConnectedChainEpochInfo indicates an expected call of ConnectedChainEpochInfo.
-func (mr *MockBabylonQueryClientMockRecorder) ConnectedChainEpochInfo(chainID, epochNum interface{}) *gomock.Call {
+// ConnectedChainsEpochInfo indicates an expected call of ConnectedChainsEpochInfo.
+func (mr *MockBabylonQueryClientMockRecorder) ConnectedChainsEpochInfo(chainIds, epochNum interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainEpochInfo", reflect.TypeOf((*MockBabylonQueryClient)(nil).ConnectedChainEpochInfo), chainID, epochNum)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainsEpochInfo", reflect.TypeOf((*MockBabylonQueryClient)(nil).ConnectedChainsEpochInfo), chainIds, epochNum)
 }
 
 // ConnectedChainHeaders mocks base method.
