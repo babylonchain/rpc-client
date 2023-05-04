@@ -46,22 +46,6 @@ func (c *QueryClient) CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, 
 	return resp, err
 }
 
-// EpochsInfoForEpochRange queries the epoching module for epochs in the given range
-func (c *QueryClient) EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64) (*epochingtypes.QueryEpochsInfoResponse, error) {
-	var resp *epochingtypes.QueryEpochsInfoResponse
-	err := c.QueryEpoching(func(ctx context.Context, queryClient epochingtypes.QueryClient) error {
-		var err error
-		req := &epochingtypes.QueryEpochsInfoRequest{
-			StartEpoch: startEpoch,
-			EndEpoch:   endEpoch,
-		}
-		resp, err = queryClient.EpochsInfo(ctx, req)
-		return err
-	})
-
-	return resp, err
-}
-
 // EpochsInfo queries the epoching module for the maintained epochs
 func (c *QueryClient) EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryEpochsInfoResponse, error) {
 	var resp *epochingtypes.QueryEpochsInfoResponse

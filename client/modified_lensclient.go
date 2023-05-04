@@ -21,7 +21,7 @@ func newLensClient(ccc *lensclient.ChainClientConfig, kro ...keyring.Option) (*l
 	cc := &lensclient.ChainClient{
 		KeyringOptions: keyringOptions,
 		Config:         ccc,
-		Codec:          lensclient.MakeCodec(ccc.Modules),
+		Codec:          lensclient.MakeCodec(ccc.Modules, []string{}),
 	}
 	if err := cc.Init(); err != nil {
 		return nil, err

@@ -10,9 +10,9 @@ import (
 	monitortypes "github.com/babylonchain/babylon/x/monitor/types"
 	zctypes "github.com/babylonchain/babylon/x/zoneconcierge/types"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
+	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	coretypes "github.com/tendermint/tendermint/rpc/core/types"
 )
 
 type BabylonQueryClient interface {
@@ -21,12 +21,11 @@ type BabylonQueryClient interface {
 	// APIs for BTCCheckpoint
 	QueryBTCCheckpoint(f func(ctx context.Context, queryClient btcctypes.QueryClient) error) error
 	BTCCheckpointParams() (*btcctypes.QueryParamsResponse, error)
-	BTCPositionAtEpoch(epochNumber uint64) (*btcctypes.QueryBtcCheckpointInfoResponse, error)
-	BTCPositionForEpochRange(startEpoch uint64, endEpoch uint64, pagination *sdkquerytypes.PageRequest) (*btcctypes.QueryBtcCheckpointsInfoResponse, error)
+	BTCCheckpointInfo(epochNumber uint64) (*btcctypes.QueryBtcCheckpointInfoResponse, error)
+	BTCCheckpointsInfo(pagination *sdkquerytypes.PageRequest) (*btcctypes.QueryBtcCheckpointsInfoResponse, error)
 
 	// APIs for BTCLightclient
 	QueryBTCLightclient(f func(ctx context.Context, queryClient btclctypes.QueryClient) error) error
-	BTCLightClientParams() (*btclctypes.QueryParamsResponse, error)
 	BTCHeaderChainTip() (*btclctypes.QueryTipResponse, error)
 	BTCBaseHeader() (*btclctypes.QueryBaseHeaderResponse, error)
 	ContainsBTCBlock(blockHash *chainhash.Hash) (*btclctypes.QueryContainsBytesResponse, error)
@@ -39,12 +38,12 @@ type BabylonQueryClient interface {
 	BlsPublicKeyList(epochNumber uint64, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryBlsPublicKeyListResponse, error)
 	EpochStatusCount(epochCount uint64) (*checkpointingtypes.QueryRecentEpochStatusCountResponse, error)
 	LatestEpochFromStatus(status checkpointingtypes.CheckpointStatus) (*checkpointingtypes.QueryLastCheckpointWithStatusResponse, error)
+	RawCheckpoints(pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryRawCheckpointsResponse, error)
 
 	// APIs for Epoching
 	QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient) error) error
 	EpochingParams() (*epochingtypes.QueryParamsResponse, error)
 	CurrentEpoch() (*epochingtypes.QueryCurrentEpochResponse, error)
-	EpochsInfoForEpochRange(startEpoch uint64, endEpoch uint64) (*epochingtypes.QueryEpochsInfoResponse, error)
 	EpochsInfo(pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryEpochsInfoResponse, error)
 	LatestEpochMsgs(endEpoch uint64, epochCount uint64, pagination *sdkquerytypes.PageRequest) (*epochingtypes.QueryLatestEpochMsgsResponse, error)
 	DelegationLifecycle(delegator string) (*epochingtypes.QueryDelegationLifecycleResponse, error)
@@ -56,11 +55,11 @@ type BabylonQueryClient interface {
 
 	// APIs for ZoneConcierge
 	QueryZoneConcierge(f func(ctx context.Context, queryClient zctypes.QueryClient) error) error
-	FinalizedConnectedChainInfo(chainID string) (*zctypes.QueryFinalizedChainInfoResponse, error)
-	ConnectedChainInfo(chainID string) (*zctypes.QueryChainInfoResponse, error)
+	FinalizedConnectedChainsInfo(chainIds []string) (*zctypes.QueryFinalizedChainsInfoResponse, error)
+	ConnectedChainsInfo(chainIds []string) (*zctypes.QueryChainsInfoResponse, error)
 	ConnectedChainList() (*zctypes.QueryChainListResponse, error)
 	ConnectedChainHeaders(chainID string, pagination *sdkquerytypes.PageRequest) (*zctypes.QueryListHeadersResponse, error)
-	ConnectedChainEpochInfo(chainID string, epochNum uint64) (*zctypes.QueryEpochChainInfoResponse, error)
+	ConnectedChainsEpochInfo(chainIds []string, epochNum uint64) (*zctypes.QueryEpochChainsInfoResponse, error)
 
 	// APIs for Staking
 	QueryStaking(f func(ctx context.Context, queryClient stakingtypes.QueryClient) error) error

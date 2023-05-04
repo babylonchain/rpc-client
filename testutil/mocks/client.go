@@ -20,7 +20,7 @@ import (
 	query "github.com/cosmos/cosmos-sdk/types/query"
 	types6 "github.com/cosmos/cosmos-sdk/x/staking/types"
 	gomock "github.com/golang/mock/gomock"
-	coretypes "github.com/tendermint/tendermint/rpc/core/types"
+	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 )
 
 // MockBabylonClient is a mock of BabylonClient interface.
@@ -91,21 +91,6 @@ func (mr *MockBabylonClientMockRecorder) BTCHeaderChainTip() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCHeaderChainTip", reflect.TypeOf((*MockBabylonClient)(nil).BTCHeaderChainTip))
 }
 
-// BTCLightClientParams mocks base method.
-func (m *MockBabylonClient) BTCLightClientParams() (*types0.QueryParamsResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BTCLightClientParams")
-	ret0, _ := ret[0].(*types0.QueryParamsResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// BTCLightClientParams indicates an expected call of BTCLightClientParams.
-func (mr *MockBabylonClientMockRecorder) BTCLightClientParams() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCLightClientParams", reflect.TypeOf((*MockBabylonClient)(nil).BTCLightClientParams))
-}
-
 // BTCMainChain mocks base method.
 func (m *MockBabylonClient) BTCMainChain(pagination *query.PageRequest) (*types0.QueryMainChainResponse, error) {
 	m.ctrl.T.Helper()
@@ -121,8 +106,8 @@ func (mr *MockBabylonClientMockRecorder) BTCMainChain(pagination interface{}) *g
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCMainChain", reflect.TypeOf((*MockBabylonClient)(nil).BTCMainChain), pagination)
 }
 
-// BTCPositionAtEpoch mocks base method.
-func (m *MockBabylonClient) BTCPositionAtEpoch(epochNumber uint64) (*types.QueryBtcCheckpointInfoResponse, error) {
+// BTCCheckpointInfo mocks base method.
+func (m *MockBabylonClient) BTCCheckpointInfo(epochNumber uint64) (*types.QueryBtcCheckpointInfoResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BTCPositionAtEpoch", epochNumber)
 	ret0, _ := ret[0].(*types.QueryBtcCheckpointInfoResponse)
@@ -130,25 +115,25 @@ func (m *MockBabylonClient) BTCPositionAtEpoch(epochNumber uint64) (*types.Query
 	return ret0, ret1
 }
 
-// BTCPositionAtEpoch indicates an expected call of BTCPositionAtEpoch.
-func (mr *MockBabylonClientMockRecorder) BTCPositionAtEpoch(epochNumber interface{}) *gomock.Call {
+// BTCCheckpointInfo indicates an expected call of BTCCheckpointInfo.
+func (mr *MockBabylonClientMockRecorder) BTCCheckpointInfo(epochNumber interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCPositionAtEpoch", reflect.TypeOf((*MockBabylonClient)(nil).BTCPositionAtEpoch), epochNumber)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCCheckpointInfo", reflect.TypeOf((*MockBabylonClient)(nil).BTCCheckpointInfo), epochNumber)
 }
 
-// BTCPositionForEpochRange mocks base method.
-func (m *MockBabylonClient) BTCPositionForEpochRange(startEpoch, endEpoch uint64, pagination *query.PageRequest) (*types.QueryBtcCheckpointsInfoResponse, error) {
+// BTCCheckpointsInfo mocks base method.
+func (m *MockBabylonClient) BTCCheckpointsInfo(pagination *query.PageRequest) (*types.QueryBtcCheckpointsInfoResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BTCPositionForEpochRange", startEpoch, endEpoch, pagination)
+	ret := m.ctrl.Call(m, "BTCCheckpointsInfo", pagination)
 	ret0, _ := ret[0].(*types.QueryBtcCheckpointsInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// BTCPositionForEpochRange indicates an expected call of BTCPositionForEpochRange.
-func (mr *MockBabylonClientMockRecorder) BTCPositionForEpochRange(startEpoch, endEpoch, pagination interface{}) *gomock.Call {
+// BTCCheckpointsInfo indicates an expected call of BTCCheckpointsInfo.
+func (mr *MockBabylonClientMockRecorder) BTCCheckpointsInfo(pagination interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCPositionForEpochRange", reflect.TypeOf((*MockBabylonClient)(nil).BTCPositionForEpochRange), startEpoch, endEpoch, pagination)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCCheckpointsInfo", reflect.TypeOf((*MockBabylonClient)(nil).BTCCheckpointsInfo), pagination)
 }
 
 // BlsPublicKeyList mocks base method.
@@ -166,19 +151,34 @@ func (mr *MockBabylonClientMockRecorder) BlsPublicKeyList(epochNumber, paginatio
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlsPublicKeyList", reflect.TypeOf((*MockBabylonClient)(nil).BlsPublicKeyList), epochNumber, pagination)
 }
 
-// ConnectedChainEpochInfo mocks base method.
-func (m *MockBabylonClient) ConnectedChainEpochInfo(chainID string, epochNum uint64) (*types4.QueryEpochChainInfoResponse, error) {
+// RawCheckpoints mocks base method.
+func (m *MockBabylonClient) RawCheckpoints(pagination *query.PageRequest) (*types1.QueryRawCheckpointsResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectedChainEpochInfo", chainID, epochNum)
-	ret0, _ := ret[0].(*types4.QueryEpochChainInfoResponse)
+	ret := m.ctrl.Call(m, "RawCheckpoints", pagination)
+	ret0, _ := ret[0].(*types1.QueryRawCheckpointsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ConnectedChainEpochInfo indicates an expected call of ConnectedChainEpochInfo.
-func (mr *MockBabylonClientMockRecorder) ConnectedChainEpochInfo(chainID, epochNum interface{}) *gomock.Call {
+// RawCheckpoints indicates an expected call of RawCheckpoints.
+func (mr *MockBabylonClientMockRecorder) RawCheckpoints(pagination interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainEpochInfo", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainEpochInfo), chainID, epochNum)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RawCheckpoints", reflect.TypeOf((*MockBabylonClient)(nil).RawCheckpoints), pagination)
+}
+
+// ConnectedChainsEpochInfo mocks base method.
+func (m *MockBabylonClient) ConnectedChainsEpochInfo(chainIds []string, epochNum uint64) (*types4.QueryEpochChainsInfoResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ConnectedChainsEpochInfo", chainIds, epochNum)
+	ret0, _ := ret[0].(*types4.QueryEpochChainsInfoResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ConnectedChainsEpochInfo indicates an expected call of ConnectedChainEpochInfo.
+func (mr *MockBabylonClientMockRecorder) ConnectedChainsEpochInfo(chainIds, epochNum interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainsEpochInfo", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainsEpochInfo), chainIds, epochNum)
 }
 
 // ConnectedChainHeaders mocks base method.
@@ -196,19 +196,19 @@ func (mr *MockBabylonClientMockRecorder) ConnectedChainHeaders(chainID, paginati
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainHeaders", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainHeaders), chainID, pagination)
 }
 
-// ConnectedChainInfo mocks base method.
-func (m *MockBabylonClient) ConnectedChainInfo(chainID string) (*types4.QueryChainInfoResponse, error) {
+// ConnectedChainsInfo mocks base method.
+func (m *MockBabylonClient) ConnectedChainsInfo(chainIds []string) (*types4.QueryChainsInfoResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectedChainInfo", chainID)
-	ret0, _ := ret[0].(*types4.QueryChainInfoResponse)
+	ret := m.ctrl.Call(m, "ConnectedChainsInfo", chainIds)
+	ret0, _ := ret[0].(*types4.QueryChainsInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ConnectedChainInfo indicates an expected call of ConnectedChainInfo.
-func (mr *MockBabylonClientMockRecorder) ConnectedChainInfo(chainID interface{}) *gomock.Call {
+// ConnectedChainsInfo indicates an expected call of ConnectedChainsInfo.
+func (mr *MockBabylonClientMockRecorder) ConnectedChainsInfo(chainIds interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainInfo", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainInfo), chainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectedChainsInfo", reflect.TypeOf((*MockBabylonClient)(nil).ConnectedChainsInfo), chainIds)
 }
 
 // ConnectedChainList mocks base method.
@@ -347,18 +347,18 @@ func (mr *MockBabylonClientMockRecorder) EpochsInfoForEpochRange(startEpoch, end
 }
 
 // FinalizedConnectedChainInfo mocks base method.
-func (m *MockBabylonClient) FinalizedConnectedChainInfo(chainID string) (*types4.QueryFinalizedChainInfoResponse, error) {
+func (m *MockBabylonClient) FinalizedConnectedChainsInfo(chainIds []string) (*types4.QueryFinalizedChainsInfoResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FinalizedConnectedChainInfo", chainID)
-	ret0, _ := ret[0].(*types4.QueryFinalizedChainInfoResponse)
+	ret := m.ctrl.Call(m, "FinalizedConnectedsChainInfo", chainIds)
+	ret0, _ := ret[0].(*types4.QueryFinalizedChainsInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FinalizedConnectedChainInfo indicates an expected call of FinalizedConnectedChainInfo.
-func (mr *MockBabylonClientMockRecorder) FinalizedConnectedChainInfo(chainID interface{}) *gomock.Call {
+func (mr *MockBabylonClientMockRecorder) FinalizedConnectedChainsInfo(chainIds interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizedConnectedChainInfo", reflect.TypeOf((*MockBabylonClient)(nil).FinalizedConnectedChainInfo), chainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizedConnectedChainsInfo", reflect.TypeOf((*MockBabylonClient)(nil).FinalizedConnectedChainsInfo), chainIds)
 }
 
 // GetAddr mocks base method.
@@ -403,20 +403,6 @@ func (m *MockBabylonClient) GetConfig() *config.BabylonConfig {
 func (mr *MockBabylonClientMockRecorder) GetConfig() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConfig", reflect.TypeOf((*MockBabylonClient)(nil).GetConfig))
-}
-
-// GetTagIdx mocks base method.
-func (m *MockBabylonClient) GetTagIdx() uint8 {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTagIdx")
-	ret0, _ := ret[0].(uint8)
-	return ret0
-}
-
-// GetTagIdx indicates an expected call of GetTagIdx.
-func (mr *MockBabylonClientMockRecorder) GetTagIdx() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTagIdx", reflect.TypeOf((*MockBabylonClient)(nil).GetTagIdx))
 }
 
 // GetTx mocks base method.

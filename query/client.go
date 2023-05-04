@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/babylonchain/rpc-client/config"
+	rpcclient "github.com/cometbft/cometbft/rpc/client"
 	"github.com/cosmos/cosmos-sdk/client"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 	lensquery "github.com/strangelove-ventures/lens/client/query"
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -24,7 +24,7 @@ type QueryClient struct {
 	timeout   time.Duration
 }
 
-// NewWithClient creates a new QueryClient according to the given config
+// New creates a new QueryClient according to the given config
 func New(cfg *config.BabylonQueryConfig) (*QueryClient, error) {
 	if err := cfg.Validate(); err != nil {
 		return nil, err
@@ -35,12 +35,10 @@ func New(cfg *config.BabylonQueryConfig) (*QueryClient, error) {
 		return nil, err
 	}
 
-	client := &QueryClient{
+	return &QueryClient{
 		RPCClient: tmClient,
 		timeout:   cfg.Timeout,
-	}
-
-	return client, nil
+	}, nil
 }
 
 // NewWithClient creates a new QueryClient with a given existing rpcClient and timeout

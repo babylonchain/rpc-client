@@ -17,18 +17,18 @@ func FuzzKeys(f *testing.F) {
 	datagen.AddRandomSeedsToFuzzer(f, 10)
 
 	f.Fuzz(func(t *testing.T, seed int64) {
-		rand.Seed(seed)
+		r := rand.New(rand.NewSource(seed))
 
 		// create a keyring
-		keyringName := datagen.GenRandomHexStr(10)
+		keyringName := datagen.GenRandomHexStr(r, 10)
 		dir := t.TempDir()
 		mockIn := strings.NewReader("")
-		cdc := bbn.MakeTestEncodingConfig()
+		cdc := bbn.GetEncodingConfig()
 		kr, err := keyring.New(keyringName, "test", dir, mockIn, cdc.Marshaler)
 		require.NoError(t, err)
 
 		// create a random key pair in this keyring
-		keyName := datagen.GenRandomHexStr(10)
+		keyName := datagen.GenRandomHexStr(r, 10)
 		_, _, err = kr.NewMnemonic(
 			keyName,
 			keyring.English,

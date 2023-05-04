@@ -67,6 +67,21 @@ func (c *QueryClient) BlsPublicKeyList(epochNumber uint64, pagination *sdkqueryt
 	return resp, err
 }
 
+// RawCheckpoints queries the checkpointing module for a set of raw checkpoints
+func (c *QueryClient) RawCheckpoints(pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryRawCheckpointsResponse, error) {
+	var resp *checkpointingtypes.QueryRawCheckpointsResponse
+	err := c.QueryCheckpointing(func(ctx context.Context, queryClient checkpointingtypes.QueryClient) error {
+		var err error
+		req := &checkpointingtypes.QueryRawCheckpointsRequest{
+			Pagination: pagination,
+		}
+		resp, err = queryClient.RawCheckpoints(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
+
 // EpochStatusCount queries the checkpointing module for the status of the latest `epochCount` epochs`
 func (c *QueryClient) EpochStatusCount(epochCount uint64) (*checkpointingtypes.QueryRecentEpochStatusCountResponse, error) {
 	var resp *checkpointingtypes.QueryRecentEpochStatusCountResponse

@@ -13,7 +13,6 @@ type BabylonClient interface {
 	bbnquery.BabylonQueryClient
 
 	GetConfig() *config.BabylonConfig
-	GetTagIdx() uint8
 	GetAddr() (sdk.AccAddress, error)
 	MustGetAddr() sdk.AccAddress
 
