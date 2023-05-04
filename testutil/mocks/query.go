@@ -149,6 +149,21 @@ func (mr *MockBabylonQueryClientMockRecorder) BlsPublicKeyList(epochNumber, pagi
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlsPublicKeyList", reflect.TypeOf((*MockBabylonQueryClient)(nil).BlsPublicKeyList), epochNumber, pagination)
 }
 
+// RawCheckpoints mocks base method.
+func (m *MockBabylonQueryClient) RawCheckpoints(pagination *query.PageRequest) (*types1.QueryRawCheckpointsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RawCheckpoints", pagination)
+	ret0, _ := ret[0].(*types1.QueryRawCheckpointsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// RawCheckpoints indicates an expected call of RawCheckpoints.
+func (mr *MockBabylonQueryClientMockRecorder) RawCheckpoints(pagination interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RawCheckpoints", reflect.TypeOf((*MockBabylonQueryClient)(nil).RawCheckpoints), pagination)
+}
+
 // ConnectedChainsEpochInfo mocks base method.
 func (m *MockBabylonQueryClient) ConnectedChainsEpochInfo(chainIds []string, epochNum uint64) (*types4.QueryEpochChainsInfoResponse, error) {
 	m.ctrl.T.Helper()

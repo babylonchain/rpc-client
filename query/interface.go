@@ -38,6 +38,7 @@ type BabylonQueryClient interface {
 	BlsPublicKeyList(epochNumber uint64, pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryBlsPublicKeyListResponse, error)
 	EpochStatusCount(epochCount uint64) (*checkpointingtypes.QueryRecentEpochStatusCountResponse, error)
 	LatestEpochFromStatus(status checkpointingtypes.CheckpointStatus) (*checkpointingtypes.QueryLastCheckpointWithStatusResponse, error)
+	RawCheckpoints(pagination *sdkquerytypes.PageRequest) (*checkpointingtypes.QueryRawCheckpointsResponse, error)
 
 	// APIs for Epoching
 	QueryEpoching(f func(ctx context.Context, queryClient epochingtypes.QueryClient) error) error
