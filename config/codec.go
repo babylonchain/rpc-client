@@ -24,6 +24,8 @@ var ModuleBasics = append(
 	btccheckpoint.AppModuleBasic{},
 	zoneconcierge.AppModuleBasic{},
 	monitor.AppModuleBasic{},
+	// Given that Babylon maintains a fork of IBC
+	// we insert our own versions of IBC related modules here.
 	ibc.AppModuleBasic{},
 	ibctm.AppModuleBasic{},
 	transfer.AppModuleBasic{},
