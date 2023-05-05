@@ -8,6 +8,7 @@ import (
 	"github.com/babylonchain/babylon/x/epoching"
 	"github.com/babylonchain/babylon/x/monitor"
 	"github.com/babylonchain/babylon/x/zoneconcierge"
+	ibc "github.com/cosmos/ibc-go/v7/modules/core"
 	lensclient "github.com/strangelove-ventures/lens/client"
 )
 
@@ -21,6 +22,7 @@ var ModuleBasics = append(
 	btccheckpoint.AppModuleBasic{},
 	zoneconcierge.AppModuleBasic{},
 	monitor.AppModuleBasic{},
+	ibc.AppModuleBasic{},
 )
 
 // GetEncodingConfig returns EncodingConfig for Babylon
