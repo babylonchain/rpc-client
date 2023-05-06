@@ -2,6 +2,8 @@ package config
 
 import (
 	"fmt"
+	bbn "github.com/babylonchain/babylon/app"
+	"github.com/cosmos/cosmos-sdk/types/module"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -44,6 +46,11 @@ func (cfg *BabylonConfig) Validate() error {
 }
 
 func (cfg *BabylonConfig) Unwrap() *client.ChainClientConfig {
+	var moduleBasics []module.AppModuleBasic
+	for _, mbasic := range bbn.ModuleBasics {
+		moduleBasics = append(moduleBasics, mbasic)
+	}
+
 	return &client.ChainClientConfig{
 		Key:            cfg.Key,
 		ChainID:        cfg.ChainID,
@@ -58,7 +65,7 @@ func (cfg *BabylonConfig) Unwrap() *client.ChainClientConfig {
 		Timeout:        cfg.Timeout.String(),
 		OutputFormat:   cfg.OutputFormat,
 		SignModeStr:    cfg.SignModeStr,
-		Modules:        ModuleBasics,
+		Modules:        moduleBasics,
 	}
 }
 
