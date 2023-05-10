@@ -2,9 +2,6 @@ package client
 
 import (
 	"context"
-	"fmt"
-
-	"github.com/babylonchain/babylon/types/retry"
 	btcctypes "github.com/babylonchain/babylon/x/btccheckpoint/types"
 	btclctypes "github.com/babylonchain/babylon/x/btclightclient/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -21,21 +18,6 @@ func (c *Client) InsertBTCSpvProof(msg *btcctypes.MsgInsertBTCSpvProof) (*sdk.Tx
 	ctx.Done()
 
 	return res, err
-}
-
-func (c *Client) MustInsertBTCSpvProof(msg *btcctypes.MsgInsertBTCSpvProof) *sdk.TxResponse {
-	var (
-		res *sdk.TxResponse
-		err error
-	)
-	err = retry.Do(c.retrySleepTime, c.maxRetrySleepTime, func() error {
-		res, err = c.InsertBTCSpvProof(msg)
-		return err
-	})
-	if err != nil {
-		panic(fmt.Errorf("failed to insert new MsgInsertBTCSpvProof: %v", err))
-	}
-	return res
 }
 
 func (c *Client) InsertHeader(msg *btclctypes.MsgInsertHeader) (*sdk.TxResponse, error) {

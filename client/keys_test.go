@@ -1,11 +1,6 @@
 package client_test
 
 import (
-	"math/rand"
-	"strings"
-	"testing"
-	"time"
-
 	bbn "github.com/babylonchain/babylon/app"
 	"github.com/babylonchain/babylon/testutil/datagen"
 	"github.com/babylonchain/rpc-client/client"
@@ -13,24 +8,27 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/stretchr/testify/require"
+	"math/rand"
+	"strings"
+	"testing"
 )
 
 func FuzzKeys(f *testing.F) {
 	datagen.AddRandomSeedsToFuzzer(f, 10)
 
 	f.Fuzz(func(t *testing.T, seed int64) {
-		rand.Seed(seed)
+		r := rand.New(rand.NewSource(seed))
 
 		// create a keyring
-		keyringName := datagen.GenRandomHexStr(10)
+		keyringName := datagen.GenRandomHexStr(r, 10)
 		dir := t.TempDir()
 		mockIn := strings.NewReader("")
-		cdc := bbn.MakeTestEncodingConfig()
+		cdc := bbn.GetEncodingConfig()
 		kr, err := keyring.New(keyringName, "test", dir, mockIn, cdc.Marshaler)
 		require.NoError(t, err)
 
 		// create a random key pair in this keyring
-		keyName := datagen.GenRandomHexStr(10)
+		keyName := datagen.GenRandomHexStr(r, 10)
 		_, _, err = kr.NewMnemonic(
 			keyName,
 			keyring.English,
@@ -38,13 +36,13 @@ func FuzzKeys(f *testing.F) {
 			keyring.DefaultBIP39Passphrase,
 			hd.Secp256k1,
 		)
-        require.NoError(t, err)
+		require.NoError(t, err)
 
 		// create a Babylon client with this random keyring
 		cfg := config.DefaultBabylonConfig()
 		cfg.KeyDirectory = dir
 		cfg.Key = keyName
-		cl, err := client.New(&cfg, 1*time.Minute, 5*time.Minute)
+		cl, err := client.New(&cfg)
 		require.NoError(t, err)
 
 		// retrieve the key info from key ring

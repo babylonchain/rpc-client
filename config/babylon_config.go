@@ -1,28 +1,15 @@
 package config
 
 import (
-	"errors"
+	"fmt"
+	bbn "github.com/babylonchain/babylon/app"
+	"github.com/cosmos/cosmos-sdk/types/module"
+	"net/url"
 	"os"
 	"path/filepath"
 	"time"
 
-	"github.com/babylonchain/babylon/x/btccheckpoint"
-	"github.com/babylonchain/babylon/x/btclightclient"
-	"github.com/babylonchain/babylon/x/checkpointing"
-	"github.com/babylonchain/babylon/x/epoching"
-	"github.com/babylonchain/babylon/x/zoneconcierge"
 	"github.com/strangelove-ventures/lens/client"
-)
-
-// ModuleBasics is the list of modules used in Babylon
-// necessary for serialising/deserialising Babylon messages/queries
-var ModuleBasics = append(
-	client.ModuleBasics,
-	epoching.AppModuleBasic{},
-	checkpointing.AppModuleBasic{},
-	btclightclient.AppModuleBasic{},
-	btccheckpoint.AppModuleBasic{},
-	zoneconcierge.AppModuleBasic{},
 )
 
 // BabylonConfig defines configuration for the Babylon client
@@ -43,20 +30,27 @@ type BabylonConfig struct {
 	OutputFormat     string        `mapstructure:"output-format"`
 	SignModeStr      string        `mapstructure:"sign-mode"`
 	SubmitterAddress string        `mapstructure:"submitter-address"`
-	TagIdx           string        `mapstructure:"tag-idx"`
 }
 
 func (cfg *BabylonConfig) Validate() error {
+	if _, err := url.Parse(cfg.RPCAddr); err != nil {
+		return fmt.Errorf("rpc-addr is not correctly formatted: %w", err)
+	}
 	if cfg.Timeout <= 0 {
-		return errors.New("cfg.Timeout must be positive")
+		return fmt.Errorf("timeout must be positive")
 	}
 	if cfg.BlockTimeout < 0 {
-		return errors.New("cfg.BlockTimeout can't be negative")
+		return fmt.Errorf("block-timeout can't be negative")
 	}
 	return nil
 }
 
 func (cfg *BabylonConfig) Unwrap() *client.ChainClientConfig {
+	var moduleBasics []module.AppModuleBasic
+	for _, mbasic := range bbn.ModuleBasics {
+		moduleBasics = append(moduleBasics, mbasic)
+	}
+
 	return &client.ChainClientConfig{
 		Key:            cfg.Key,
 		ChainID:        cfg.ChainID,
@@ -71,7 +65,7 @@ func (cfg *BabylonConfig) Unwrap() *client.ChainClientConfig {
 		Timeout:        cfg.Timeout.String(),
 		OutputFormat:   cfg.OutputFormat,
 		SignModeStr:    cfg.SignModeStr,
-		Modules:        ModuleBasics,
+		Modules:        moduleBasics,
 	}
 }
 
@@ -95,7 +89,6 @@ func DefaultBabylonConfig() BabylonConfig {
 		OutputFormat:     "json",
 		SignModeStr:      "direct",
 		SubmitterAddress: "bbn1v6k7k9s8md3k29cu9runasstq5zaa0lpznk27w", // this is currently a placeholder, will not recognized by Babylon
-		TagIdx:           "0",
 	}
 }
 

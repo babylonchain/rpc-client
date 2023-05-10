@@ -1,6 +1,8 @@
 package config_test
 
 import (
+	bbn "github.com/babylonchain/babylon/app"
+	"github.com/cosmos/cosmos-sdk/types/module"
 	"testing"
 
 	"github.com/babylonchain/rpc-client/config"
@@ -15,8 +17,12 @@ func TestBabylonConfig(t *testing.T) {
 
 	// ensure the unwrapped config has Babylon codec formats
 	lensConfig := defaultConfig.Unwrap()
-	require.Equal(t, len(config.ModuleBasics), len(lensConfig.Modules))
-	for i := range config.ModuleBasics {
-		require.Equal(t, config.ModuleBasics[i].Name(), lensConfig.Modules[i].Name())
+	lensConfigModulesMap := make(map[string]module.AppModuleBasic, len(lensConfig.Modules))
+	for i := range lensConfig.Modules {
+		lensConfigModulesMap[lensConfig.Modules[i].Name()] = lensConfig.Modules[i]
+	}
+	require.Equal(t, len(bbn.ModuleBasics), len(lensConfig.Modules))
+	for modName := range lensConfigModulesMap {
+		require.Equal(t, bbn.ModuleBasics[modName].Name(), lensConfigModulesMap[modName].Name())
 	}
 }
