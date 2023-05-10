@@ -3,7 +3,7 @@ module github.com/babylonchain/rpc-client
 go 1.20
 
 require (
-	github.com/babylonchain/babylon v0.6.0-rc0
+	github.com/babylonchain/babylon v0.6.0
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/cometbft/cometbft v0.37.1
 	github.com/cosmos/cosmos-sdk v0.47.2
