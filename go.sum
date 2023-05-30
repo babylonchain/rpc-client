@@ -252,8 +252,8 @@ github.com/aws/aws-sdk-go v1.44.122/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX
 github.com/aws/aws-sdk-go v1.44.203 h1:pcsP805b9acL3wUqa4JR2vg1k2wnItkDYNvfmcy6F+U=
 github.com/aws/aws-sdk-go v1.44.203/go.mod h1:aVsgQcEevwlmQ7qHE9I3h+dtQgpqhFB+i8Phjh7fkwI=
 github.com/aws/aws-sdk-go-v2 v0.18.0/go.mod h1:JWVYvqSMppoMJC0x5wdwiImzgXTI9FuZwxzkQq9wy+g=
-github.com/babylonchain/babylon v0.7.0 h1:Z+ePb5iSHL7wErudn5m0vO6sNIWgYF91DgzBt7qwo78=
-github.com/babylonchain/babylon v0.7.0/go.mod h1:d4BpOfuYATkNYbiaa2keTQcbaICzpfPjmalsiUfcWlw=
+github.com/babylonchain/babylon v0.7.1 h1:FFdaDwIisWeIdKhu2w4lF8UfBwFUAIyVmx05YuEsYAg=
+github.com/babylonchain/babylon v0.7.1/go.mod h1:d4BpOfuYATkNYbiaa2keTQcbaICzpfPjmalsiUfcWlw=
 github.com/babylonchain/ibc-go/v7 v7.0.0-20230324085744-4d6a0d2c0fcf h1:NJU3YuruPqV8w6/y45Zsb8FudcWSkTBugdpTT7kJmjw=
 github.com/babylonchain/ibc-go/v7 v7.0.0-20230324085744-4d6a0d2c0fcf/go.mod h1:BFh8nKWjr5zeR2OZfhkzdgDzj1+KjRn3aJLpwapStj8=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
