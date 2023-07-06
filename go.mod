@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/babylonchain/babylon v0.7.1
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
-	github.com/cometbft/cometbft v0.37.1
+	github.com/cometbft/cometbft v0.37.2
 	github.com/cosmos/cosmos-sdk v0.47.2
 	github.com/golang/mock v1.6.0
 	github.com/sirupsen/logrus v1.9.0
