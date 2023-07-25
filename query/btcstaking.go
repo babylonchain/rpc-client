@@ -35,14 +35,14 @@ func (c *QueryClient) BTCValidators(pagination *sdkquerytypes.PageRequest) (*btc
 }
 
 // BTCValidatorDelegations queries the BTCStaking module for all delegations of a btc validator
-func (c *QueryClient) BTCValidatorDelegations(valBtcPkHex string, noJurySigOnly bool, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error) {
+func (c *QueryClient) BTCValidatorDelegations(valBtcPkHex string, delStatus btcstakingtypes.BTCDelegationStatus, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error) {
 	var resp *btcstakingtypes.QueryBTCValidatorDelegationsResponse
 	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
 		var err error
 		req := &btcstakingtypes.QueryBTCValidatorDelegationsRequest{
-			ValBtcPkHex:   valBtcPkHex,
-			NoJurySigOnly: noJurySigOnly,
-			Pagination:    pagination,
+			ValBtcPkHex: valBtcPkHex,
+			DelStatus:   delStatus,
+			Pagination:  pagination,
 		}
 		resp, err = queryClient.BTCValidatorDelegations(ctx, req)
 		return err
@@ -51,16 +51,17 @@ func (c *QueryClient) BTCValidatorDelegations(valBtcPkHex string, noJurySigOnly 
 	return resp, err
 }
 
-// BTCValidatorsAtHeight queries the BTCStaking module for all btc validators at a given height
-func (c *QueryClient) BTCValidatorsAtHeight(height uint64, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorsAtHeightResponse, error) {
-	var resp *btcstakingtypes.QueryBTCValidatorsAtHeightResponse
+// ActiveBTCValidatorsAtHeight queries the BTCStaking module for all btc validators
+// with non-zero voting power at a given height
+func (c *QueryClient) ActiveBTCValidatorsAtHeight(height uint64, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryActiveBTCValidatorsAtHeightResponse, error) {
+	var resp *btcstakingtypes.QueryActiveBTCValidatorsAtHeightResponse
 	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
 		var err error
-		req := &btcstakingtypes.QueryBTCValidatorsAtHeightRequest{
+		req := &btcstakingtypes.QueryActiveBTCValidatorsAtHeightRequest{
 			Height:     height,
 			Pagination: pagination,
 		}
-		resp, err = queryClient.BTCValidatorsAtHeight(ctx, req)
+		resp, err = queryClient.ActiveBTCValidatorsAtHeight(ctx, req)
 		return err
 	})
 
