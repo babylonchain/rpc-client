@@ -34,13 +34,13 @@ func (c *QueryClient) VotesAtHeight(height uint64) (*finalitytypes.QueryVotesAtH
 	return resp, err
 }
 
-// ListBlocks queries the Finality module to get list of finalized or non-finalized blocks
-func (c *QueryClient) ListBlocks(finalized bool, pagination *sdkquerytypes.PageRequest) (*finalitytypes.QueryListBlocksResponse, error) {
+// ListBlocks queries the Finality module to get blocks with a given status.
+func (c *QueryClient) ListBlocks(status finalitytypes.QueriedBlockStatus, pagination *sdkquerytypes.PageRequest) (*finalitytypes.QueryListBlocksResponse, error) {
 	var resp *finalitytypes.QueryListBlocksResponse
 	err := c.QueryFinality(func(ctx context.Context, queryClient finalitytypes.QueryClient) error {
 		var err error
 		req := &finalitytypes.QueryListBlocksRequest{
-			Finalized:  finalized,
+			Status:     status,
 			Pagination: pagination,
 		}
 		resp, err = queryClient.ListBlocks(ctx, req)
