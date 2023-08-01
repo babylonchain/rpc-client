@@ -5,8 +5,10 @@ import (
 
 	btcctypes "github.com/babylonchain/babylon/x/btccheckpoint/types"
 	btclctypes "github.com/babylonchain/babylon/x/btclightclient/types"
+	btcstakingtypes "github.com/babylonchain/babylon/x/btcstaking/types"
 	checkpointingtypes "github.com/babylonchain/babylon/x/checkpointing/types"
 	epochingtypes "github.com/babylonchain/babylon/x/epoching/types"
+	finalitytypes "github.com/babylonchain/babylon/x/finality/types"
 	monitortypes "github.com/babylonchain/babylon/x/monitor/types"
 	zctypes "github.com/babylonchain/babylon/x/zoneconcierge/types"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
@@ -61,6 +63,18 @@ type BabylonQueryClient interface {
 	ConnectedChainHeaders(chainID string, pagination *sdkquerytypes.PageRequest) (*zctypes.QueryListHeadersResponse, error)
 	ConnectedChainsEpochInfo(chainIds []string, epochNum uint64) (*zctypes.QueryEpochChainsInfoResponse, error)
 
+	// APIs for BTCStaking
+	QueryBTCStaking(f func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error) error
+	BTCValidators(pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorsResponse, error)
+	BTCValidatorDelegations(valBtcPkHex string, delStatus btcstakingtypes.BTCDelegationStatus, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error)
+	ActiveBTCValidatorsAtHeight(height uint64, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryActiveBTCValidatorsAtHeightResponse, error)
+	BTCValidatorPowerAtHeight(valBtcPkHex string, height uint64) (*btcstakingtypes.QueryBTCValidatorPowerAtHeightResponse, error)
+
+	// APIs for Finality
+	QueryFinality(f func(ctx context.Context, queryClient finalitytypes.QueryClient) error) error
+	VotesAtHeight(height uint64) (*finalitytypes.QueryVotesAtHeightResponse, error)
+	ListBlocks(status finalitytypes.QueriedBlockStatus, pagination *sdkquerytypes.PageRequest) (*finalitytypes.QueryListBlocksResponse, error)
+
 	// APIs for Staking
 	QueryStaking(f func(ctx context.Context, queryClient stakingtypes.QueryClient) error) error
 	StakingParams() (*stakingtypes.QueryParamsResponse, error)
@@ -69,4 +83,7 @@ type BabylonQueryClient interface {
 	GetBlock(height int64) (*coretypes.ResultBlock, error)
 	TxSearch(events []string, prove bool, page *int, perPage *int, orderBy string) (*coretypes.ResultTxSearch, error)
 	GetTx(hash []byte) (*coretypes.ResultTx, error)
+	Subscribe(subscriber, query string, outCapacity ...int) (out <-chan coretypes.ResultEvent, err error)
+	Unsubscribe(subscriber, query string) error
+	UnsubscribeAll(subscriber string) error
 }
