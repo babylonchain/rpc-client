@@ -18,6 +18,7 @@ jobs:
           command: "go env"
       - go/load-cache:
           key: go-mod-v6-{{ checksum "go.sum" }}
+      - add_ssh_keys
       - go/mod-download
       - go/save-cache:
           key: go-mod-v6-{{ checksum "go.sum" }}
@@ -33,6 +34,7 @@ jobs:
       - go/install:
           version: "1.20"
       - checkout
+      - add_ssh_keys
       - run:
           name: Lint
           command: |

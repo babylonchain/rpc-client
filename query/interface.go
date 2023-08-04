@@ -66,7 +66,7 @@ type BabylonQueryClient interface {
 	// APIs for BTCStaking
 	QueryBTCStaking(f func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error) error
 	BTCValidators(pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorsResponse, error)
-	BTCValidatorDelegations(valBtcPkHex string, delStatus btcstakingtypes.BTCDelegationStatus, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error)
+	BTCValidatorDelegations(valBtcPkHex string, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error)
 	ActiveBTCValidatorsAtHeight(height uint64, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryActiveBTCValidatorsAtHeightResponse, error)
 	BTCValidatorPowerAtHeight(valBtcPkHex string, height uint64) (*btcstakingtypes.QueryBTCValidatorPowerAtHeightResponse, error)
 

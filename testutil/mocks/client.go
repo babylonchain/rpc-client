@@ -154,18 +154,18 @@ func (mr *MockBabylonClientMockRecorder) BTCMainChain(pagination interface{}) *g
 }
 
 // BTCValidatorDelegations mocks base method.
-func (m *MockBabylonClient) BTCValidatorDelegations(valBtcPkHex string, delStatus types1.BTCDelegationStatus, pagination *query.PageRequest) (*types1.QueryBTCValidatorDelegationsResponse, error) {
+func (m *MockBabylonClient) BTCValidatorDelegations(valBtcPkHex string, pagination *query.PageRequest) (*types1.QueryBTCValidatorDelegationsResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BTCValidatorDelegations", valBtcPkHex, delStatus, pagination)
+	ret := m.ctrl.Call(m, "BTCValidatorDelegations", valBtcPkHex, pagination)
 	ret0, _ := ret[0].(*types1.QueryBTCValidatorDelegationsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // BTCValidatorDelegations indicates an expected call of BTCValidatorDelegations.
-func (mr *MockBabylonClientMockRecorder) BTCValidatorDelegations(valBtcPkHex, delStatus, pagination interface{}) *gomock.Call {
+func (mr *MockBabylonClientMockRecorder) BTCValidatorDelegations(valBtcPkHex, pagination interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCValidatorDelegations", reflect.TypeOf((*MockBabylonClient)(nil).BTCValidatorDelegations), valBtcPkHex, delStatus, pagination)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BTCValidatorDelegations", reflect.TypeOf((*MockBabylonClient)(nil).BTCValidatorDelegations), valBtcPkHex, pagination)
 }
 
 // BTCValidatorPowerAtHeight mocks base method.

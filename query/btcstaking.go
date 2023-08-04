@@ -35,13 +35,12 @@ func (c *QueryClient) BTCValidators(pagination *sdkquerytypes.PageRequest) (*btc
 }
 
 // BTCValidatorDelegations queries the BTCStaking module for all delegations of a btc validator
-func (c *QueryClient) BTCValidatorDelegations(valBtcPkHex string, delStatus btcstakingtypes.BTCDelegationStatus, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error) {
+func (c *QueryClient) BTCValidatorDelegations(valBtcPkHex string, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error) {
 	var resp *btcstakingtypes.QueryBTCValidatorDelegationsResponse
 	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
 		var err error
 		req := &btcstakingtypes.QueryBTCValidatorDelegationsRequest{
 			ValBtcPkHex: valBtcPkHex,
-			DelStatus:   delStatus,
 			Pagination:  pagination,
 		}
 		resp, err = queryClient.BTCValidatorDelegations(ctx, req)
