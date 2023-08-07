@@ -7,8 +7,6 @@ import (
 	"github.com/babylonchain/rpc-client/query"
 )
 
-var _ BabylonClient = &Client{}
-
 type Client struct {
 	*lensclient.ChainClient
 	*query.QueryClient
