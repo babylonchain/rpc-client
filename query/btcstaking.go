@@ -19,6 +19,19 @@ func (c *QueryClient) QueryBTCStaking(f func(ctx context.Context, queryClient bt
 	return f(ctx, queryClient)
 }
 
+// BTCStakingParams queries the BTC staking module parameters
+func (c *QueryClient) BTCStakingParams() (*btcstakingtypes.Params, error) {
+	var resp *btcstakingtypes.QueryParamsResponse
+	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
+		var err error
+		req := &btcstakingtypes.QueryParamsRequest{}
+		resp, err = queryClient.Params(ctx, req)
+		return err
+	})
+
+	return &resp.Params, err
+}
+
 // BTCValidators queries the BTCStaking module for all btc validators
 func (c *QueryClient) BTCValidators(pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorsResponse, error) {
 	var resp *btcstakingtypes.QueryBTCValidatorsResponse

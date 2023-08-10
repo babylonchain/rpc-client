@@ -19,6 +19,19 @@ func (c *QueryClient) QueryFinality(f func(ctx context.Context, queryClient fina
 	return f(ctx, queryClient)
 }
 
+// FinalityParams queries the finality module parameters
+func (c *QueryClient) FinalityParams() (*finalitytypes.Params, error) {
+	var resp *finalitytypes.QueryParamsResponse
+	err := c.QueryFinality(func(ctx context.Context, queryClient finalitytypes.QueryClient) error {
+		var err error
+		req := &finalitytypes.QueryParamsRequest{}
+		resp, err = queryClient.Params(ctx, req)
+		return err
+	})
+
+	return &resp.Params, err
+}
+
 // VotesAtHeight queries the Finality module to get signature set at a given babylon block height
 func (c *QueryClient) VotesAtHeight(height uint64) (*finalitytypes.QueryVotesAtHeightResponse, error) {
 	var resp *finalitytypes.QueryVotesAtHeightResponse
