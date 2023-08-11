@@ -95,3 +95,15 @@ func (c *QueryClient) BTCValidatorPowerAtHeight(valBtcPkHex string, height uint6
 
 	return resp, err
 }
+
+func (c *QueryClient) ActivatedHeight() (*btcstakingtypes.QueryActivatedHeightResponse, error) {
+	var resp *btcstakingtypes.QueryActivatedHeightResponse
+	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
+		var err error
+		req := &btcstakingtypes.QueryActivatedHeightRequest{}
+		resp, err = queryClient.ActivatedHeight(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
