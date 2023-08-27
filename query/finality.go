@@ -62,3 +62,19 @@ func (c *QueryClient) ListBlocks(status finalitytypes.QueriedBlockStatus, pagina
 
 	return resp, err
 }
+
+// ListEvidences queries the Finality module to get evidences after a given height.
+func (c *QueryClient) ListEvidences(startHeight uint64, pagination *sdkquerytypes.PageRequest) (*finalitytypes.QueryListEvidencesResponse, error) {
+	var resp *finalitytypes.QueryListEvidencesResponse
+	err := c.QueryFinality(func(ctx context.Context, queryClient finalitytypes.QueryClient) error {
+		var err error
+		req := &finalitytypes.QueryListEvidencesRequest{
+			StartHeight: startHeight,
+			Pagination:  pagination,
+		}
+		resp, err = queryClient.ListEvidences(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
