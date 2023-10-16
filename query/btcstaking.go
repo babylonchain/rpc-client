@@ -63,6 +63,37 @@ func (c *QueryClient) BTCValidatorDelegations(valBtcPkHex string, pagination *sd
 	return resp, err
 }
 
+// BTCDelegations queries the BTCStaking module for all delegations under a given status
+func (c *QueryClient) BTCDelegations(status btcstakingtypes.BTCDelegationStatus, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCDelegationsResponse, error) {
+	var resp *btcstakingtypes.QueryBTCDelegationsResponse
+	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
+		var err error
+		req := &btcstakingtypes.QueryBTCDelegationsRequest{
+			Status:     status,
+			Pagination: pagination,
+		}
+		resp, err = queryClient.BTCDelegations(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
+
+// BTCDelegation queries the BTCStaking module to retrieve delegation by corresponding staking tx hash
+func (c *QueryClient) BTCDelegation(stakingTxHashHex string) (*btcstakingtypes.QueryBTCDelegationResponse, error) {
+	var resp *btcstakingtypes.QueryBTCDelegationResponse
+	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
+		var err error
+		req := &btcstakingtypes.QueryBTCDelegationRequest{
+			StakingTxHashHex: stakingTxHashHex,
+		}
+		resp, err = queryClient.BTCDelegation(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
+
 // ActiveBTCValidatorsAtHeight queries the BTCStaking module for all btc validators
 // with non-zero voting power at a given height
 func (c *QueryClient) ActiveBTCValidatorsAtHeight(height uint64, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryActiveBTCValidatorsAtHeightResponse, error) {
