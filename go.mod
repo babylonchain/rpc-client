@@ -38,7 +38,7 @@ require (
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/bgentry/speakeasy v0.1.1-0.20220910012023-760eaf8b6816 // indirect
 	github.com/boljen/go-bitmap v0.0.0-20151001105940-23cd2fb0ce7d // indirect
-	github.com/btcsuite/btcd v0.23.4 // indirect
+	github.com/btcsuite/btcd v0.23.5-0.20230711222809-7faa9b266231 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.3.2 // indirect
 	github.com/btcsuite/btcd/btcutil v1.1.3 // indirect
 	github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f // indirect
@@ -195,7 +195,7 @@ require (
 
 replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
-	github.com/babylonchain/babylon v0.7.2 => github.com/babylonchain/babylon-private v0.0.0-20231012233618-eeacd5f24308
+	github.com/babylonchain/babylon v0.7.2 => github.com/babylonchain/babylon-private v0.0.0-20231109083355-a680fcc5261f
 
 	// slay the dragonberry
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
