@@ -7,6 +7,7 @@ import (
 	"github.com/babylonchain/rpc-client/config"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 	"math/rand"
 	"strings"
@@ -24,7 +25,7 @@ func FuzzKeys(f *testing.F) {
 		dir := t.TempDir()
 		mockIn := strings.NewReader("")
 		cdc := bbn.GetEncodingConfig()
-		kr, err := keyring.New(keyringName, "test", dir, mockIn, cdc.Marshaler)
+		kr, err := keyring.New(keyringName, "test", dir, mockIn, cdc.Codec)
 		require.NoError(t, err)
 
 		// create a random key pair in this keyring
@@ -42,7 +43,7 @@ func FuzzKeys(f *testing.F) {
 		cfg := config.DefaultBabylonConfig()
 		cfg.KeyDirectory = dir
 		cfg.Key = keyName
-		cl, err := client.New(&cfg)
+		cl, err := client.New(&cfg, logrus.New())
 		require.NoError(t, err)
 
 		// retrieve the key info from key ring
@@ -53,6 +54,6 @@ func FuzzKeys(f *testing.F) {
 		// test if the key is consistent in Babylon client and keyring
 		bbnAddr := cl.MustGetAddr()
 		addr, _ := keys[0].GetAddress()
-		require.Equal(t, addr, bbnAddr)
+		require.Equal(t, addr.String(), bbnAddr)
 	})
 }

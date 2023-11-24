@@ -3,6 +3,7 @@ package query
 import (
 	"context"
 	"fmt"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"strconv"
 	"time"
 
@@ -10,7 +11,6 @@ import (
 	rpcclient "github.com/cometbft/cometbft/rpc/client"
 	"github.com/cosmos/cosmos-sdk/client"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
-	lensquery "github.com/strangelove-ventures/lens/client/query"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -69,9 +69,26 @@ func (c *QueryClient) IsRunning() bool {
 // getQueryContext returns a context that includes the height and uses the timeout from the config
 // (adapted from https://github.com/strangelove-ventures/lens/blob/v0.5.4/client/query/query_options.go#L29-L36)
 func (c *QueryClient) getQueryContext() (context.Context, context.CancelFunc) {
-	defaultOptions := lensquery.DefaultOptions()
+	defaultOptions := DefaultQueryOptions()
 	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
 	strHeight := strconv.Itoa(int(defaultOptions.Height))
 	ctx = metadata.AppendToOutgoingContext(ctx, grpctypes.GRPCBlockHeightHeader, strHeight)
 	return ctx, cancel
+}
+
+type QueryOptions struct {
+	Pagination *query.PageRequest
+	Height     int64
+}
+
+func DefaultQueryOptions() *QueryOptions {
+	return &QueryOptions{
+		Pagination: &query.PageRequest{
+			Key:        []byte(""),
+			Offset:     0,
+			Limit:      1000,
+			CountTotal: true,
+		},
+		Height: 0,
+	}
 }
