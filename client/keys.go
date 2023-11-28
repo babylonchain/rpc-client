@@ -2,9 +2,10 @@ package client
 
 import (
 	"fmt"
+	"path"
+
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/juju/fslock"
-	"path"
 )
 
 func (c *Client) GetAddr() (string, error) {
@@ -14,7 +15,7 @@ func (c *Client) GetAddr() (string, error) {
 func (c *Client) MustGetAddr() string {
 	addr, err := c.provider.Address()
 	if err != nil {
-		panic(fmt.Errorf("Failed to get signer: %v", err))
+		panic(fmt.Errorf("failed to get signer: %v", err))
 	}
 	return addr
 }

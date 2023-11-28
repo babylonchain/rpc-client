@@ -14,7 +14,6 @@ require (
 	github.com/cosmos/relayer/v2 v2.4.3-0.20231121194223-be8ebe0a83db
 	github.com/jsternberg/zap-logfmt v1.3.0
 	github.com/juju/fslock v0.0.0-20160525022230-4d5c94c67b4b
-	github.com/sirupsen/logrus v1.9.0
 	github.com/stretchr/testify v1.8.4
 	go.uber.org/zap v1.26.0
 	google.golang.org/grpc v1.59.0

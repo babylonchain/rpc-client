@@ -1,17 +1,17 @@
 package client_test
 
 import (
+	"math/rand"
+	"strings"
+	"testing"
+
 	bbn "github.com/babylonchain/babylon/app"
 	"github.com/babylonchain/babylon/testutil/datagen"
 	"github.com/babylonchain/rpc-client/client"
 	"github.com/babylonchain/rpc-client/config"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
-	"math/rand"
-	"strings"
-	"testing"
 )
 
 func FuzzKeys(f *testing.F) {
@@ -43,7 +43,7 @@ func FuzzKeys(f *testing.F) {
 		cfg := config.DefaultBabylonConfig()
 		cfg.KeyDirectory = dir
 		cfg.Key = keyName
-		cl, err := client.New(&cfg, logrus.New())
+		cl, err := client.New(&cfg, nil)
 		require.NoError(t, err)
 
 		// retrieve the key info from key ring

@@ -2,16 +2,17 @@ package client
 
 import (
 	"context"
-	"cosmossdk.io/errors"
 	"fmt"
+	"sync"
+
+	"cosmossdk.io/errors"
 	"github.com/avast/retry-go/v4"
 	btcctypes "github.com/babylonchain/babylon/x/btccheckpoint/types"
 	btclctypes "github.com/babylonchain/babylon/x/btclightclient/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
 	pv "github.com/cosmos/relayer/v2/relayer/provider"
-	"github.com/sirupsen/logrus"
-	"sync"
+	"go.uber.org/zap"
 )
 
 // ToProviderMsgs converts a list of sdk.Msg to a list of provider.RelayerMessage
@@ -39,18 +40,12 @@ func (c *Client) SendMsgsToMempool(ctx context.Context, msgs []sdk.Msg) error {
 			sendMsgErr = c.provider.SendMessagesToMempool(ctx, relayerMsgs, "", ctx, []func(*pv.RelayerTxResponse, error){})
 		})
 		if krErr != nil {
-			c.logger.WithFields(logrus.Fields{
-				"error": krErr,
-			}).Error("unrecoverable err when submitting the tx, skip retrying")
+			c.logger.Error("unrecoverable err when submitting the tx, skip retrying", zap.Error(krErr))
 			return retry.Unrecoverable(krErr)
 		}
 		return sendMsgErr
 	}, retry.Context(ctx), rtyAtt, rtyDel, rtyErr, retry.OnRetry(func(n uint, err error) {
-		c.logger.WithFields(logrus.Fields{
-			"attempt":      n + 1,
-			"max_attempts": rtyAttNum,
-			"error":        err,
-		}).Error()
+		c.logger.Debug("retrying", zap.Uint("attemp", n+1), zap.Uint("max_attempts", rtyAttNum), zap.Error(err))
 	})); err != nil {
 		return err
 	}
@@ -93,16 +88,12 @@ func (c *Client) ReliablySendMsgs(ctx context.Context, msgs []sdk.Msg, expectedE
 			sendMsgErr = c.provider.SendMessagesToMempool(ctx, relayerMsgs, "", ctx, []func(*pv.RelayerTxResponse, error){callback})
 		})
 		if krErr != nil {
-			c.logger.WithFields(logrus.Fields{
-				"error": krErr,
-			}).Error("unrecoverable err when submitting the tx, skip retrying")
+			c.logger.Error("unrecoverable err when submitting the tx, skip retrying", zap.Error(krErr))
 			return retry.Unrecoverable(krErr)
 		}
 		if sendMsgErr != nil {
 			if errorContained(sendMsgErr, unrecoverableErrors) {
-				c.logger.WithFields(logrus.Fields{
-					"error": sendMsgErr,
-				}).Error("unrecoverable err when submitting the tx, skip retrying")
+				c.logger.Error("unrecoverable err when submitting the tx, skip retrying", zap.Error(sendMsgErr))
 				return retry.Unrecoverable(sendMsgErr)
 			}
 			if errorContained(sendMsgErr, expectedErrors) {
@@ -110,20 +101,14 @@ func (c *Client) ReliablySendMsgs(ctx context.Context, msgs []sdk.Msg, expectedE
 				// the callback function will not be executed so
 				// that the inside wg.Done will not be executed
 				wg.Done()
-				c.logger.WithFields(logrus.Fields{
-					"error": sendMsgErr,
-				}).Error("expected err when submitting the tx, skip retrying")
+				c.logger.Error("expected err when submitting the tx, skip retrying", zap.Error(sendMsgErr))
 				return nil
 			}
 			return sendMsgErr
 		}
 		return nil
 	}, retry.Context(ctx), rtyAtt, rtyDel, rtyErr, retry.OnRetry(func(n uint, err error) {
-		c.logger.WithFields(logrus.Fields{
-			"attempt":      n + 1,
-			"max_attempts": rtyAttNum,
-			"error":        err,
-		}).Error()
+		c.logger.Debug("retrying", zap.Uint("attemp", n+1), zap.Uint("max_attempts", rtyAttNum), zap.Error(err))
 	})); err != nil {
 		return nil, err
 	}

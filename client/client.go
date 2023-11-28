@@ -2,10 +2,11 @@ package client
 
 import (
 	"context"
+	"time"
+
 	bbn "github.com/babylonchain/babylon/app"
 	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
-	"github.com/sirupsen/logrus"
-	"time"
+	"go.uber.org/zap"
 
 	"github.com/babylonchain/rpc-client/config"
 	"github.com/babylonchain/rpc-client/query"
@@ -16,19 +17,28 @@ type Client struct {
 
 	provider *cosmos.CosmosProvider
 	timeout  time.Duration
-	logger   *logrus.Logger
+	logger   *zap.Logger
 	cfg      *config.BabylonConfig
 }
 
-func New(cfg *config.BabylonConfig, logger *logrus.Logger) (*Client, error) {
+func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
+	var (
+		zapLogger *zap.Logger
+		err       error
+	)
+
 	// ensure cfg is valid
 	if err := cfg.Validate(); err != nil {
 		return nil, err
 	}
 
-	zapLogger, err := newRootLogger("console", true)
-	if err != nil {
-		return nil, err
+	// use the existing logger or create a new one if not given
+	zapLogger = logger
+	if zapLogger == nil {
+		zapLogger, err = newRootLogger("console", true)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// Create tmp Babylon app to retrieve and register codecs
@@ -70,7 +80,7 @@ func New(cfg *config.BabylonConfig, logger *logrus.Logger) (*Client, error) {
 		queryClient,
 		cp,
 		cfg.Timeout,
-		logger,
+		zapLogger,
 		cfg,
 	}, nil
 }
