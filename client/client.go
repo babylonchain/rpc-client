@@ -42,7 +42,7 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 	}
 
 	// Create tmp Babylon app to retrieve and register codecs
-	tmpBabylon := bbn.NewTmpBabylonApp()
+	encCfg := bbn.GetEncodingConfig()
 
 	cosmosConfig := cfg.ToCosmosProviderConfig()
 	provider, err := cosmosConfig.NewProvider(
@@ -59,10 +59,10 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 	cp.PCfg.KeyDirectory = cfg.KeyDirectory
 	// Need to override this manually as otherwise option from config is ignored
 	cp.Cdc = cosmos.Codec{
-		InterfaceRegistry: tmpBabylon.InterfaceRegistry(),
-		Marshaler:         tmpBabylon.AppCodec(),
-		TxConfig:          tmpBabylon.TxConfig(),
-		Amino:             tmpBabylon.LegacyAmino(),
+		InterfaceRegistry: encCfg.InterfaceRegistry,
+		Marshaler:         encCfg.Codec,
+		TxConfig:          encCfg.TxConfig,
+		Amino:             encCfg.Amino,
 	}
 
 	err = cp.Init(context.Background())
