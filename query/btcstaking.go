@@ -32,31 +32,31 @@ func (c *QueryClient) BTCStakingParams() (*btcstakingtypes.QueryParamsResponse, 
 	return resp, err
 }
 
-// BTCValidators queries the BTCStaking module for all btc validators
-func (c *QueryClient) BTCValidators(pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorsResponse, error) {
-	var resp *btcstakingtypes.QueryBTCValidatorsResponse
+// FinalityProviders queries the BTCStaking module for all finality providers
+func (c *QueryClient) FinalityProviders(pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryFinalityProvidersResponse, error) {
+	var resp *btcstakingtypes.QueryFinalityProvidersResponse
 	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
 		var err error
-		req := &btcstakingtypes.QueryBTCValidatorsRequest{
+		req := &btcstakingtypes.QueryFinalityProvidersRequest{
 			Pagination: pagination,
 		}
-		resp, err = queryClient.BTCValidators(ctx, req)
+		resp, err = queryClient.FinalityProviders(ctx, req)
 		return err
 	})
 
 	return resp, err
 }
 
-// BTCValidatorDelegations queries the BTCStaking module for all delegations of a btc validator
-func (c *QueryClient) BTCValidatorDelegations(valBtcPkHex string, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryBTCValidatorDelegationsResponse, error) {
-	var resp *btcstakingtypes.QueryBTCValidatorDelegationsResponse
+// FinalityProviderDelegations queries the BTCStaking module for all delegations of a finality provider
+func (c *QueryClient) FinalityProviderDelegations(fpBtcPkHex string, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryFinalityProviderDelegationsResponse, error) {
+	var resp *btcstakingtypes.QueryFinalityProviderDelegationsResponse
 	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
 		var err error
-		req := &btcstakingtypes.QueryBTCValidatorDelegationsRequest{
-			ValBtcPkHex: valBtcPkHex,
-			Pagination:  pagination,
+		req := &btcstakingtypes.QueryFinalityProviderDelegationsRequest{
+			FpBtcPkHex: fpBtcPkHex,
+			Pagination: pagination,
 		}
-		resp, err = queryClient.BTCValidatorDelegations(ctx, req)
+		resp, err = queryClient.FinalityProviderDelegations(ctx, req)
 		return err
 	})
 
@@ -94,33 +94,33 @@ func (c *QueryClient) BTCDelegation(stakingTxHashHex string) (*btcstakingtypes.Q
 	return resp, err
 }
 
-// ActiveBTCValidatorsAtHeight queries the BTCStaking module for all btc validators
+// ActiveFinalityProvidersAtHeight queries the BTCStaking module for all finality providers
 // with non-zero voting power at a given height
-func (c *QueryClient) ActiveBTCValidatorsAtHeight(height uint64, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryActiveBTCValidatorsAtHeightResponse, error) {
-	var resp *btcstakingtypes.QueryActiveBTCValidatorsAtHeightResponse
+func (c *QueryClient) ActiveFinalityProvidersAtHeight(height uint64, pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryActiveFinalityProvidersAtHeightResponse, error) {
+	var resp *btcstakingtypes.QueryActiveFinalityProvidersAtHeightResponse
 	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
 		var err error
-		req := &btcstakingtypes.QueryActiveBTCValidatorsAtHeightRequest{
+		req := &btcstakingtypes.QueryActiveFinalityProvidersAtHeightRequest{
 			Height:     height,
 			Pagination: pagination,
 		}
-		resp, err = queryClient.ActiveBTCValidatorsAtHeight(ctx, req)
+		resp, err = queryClient.ActiveFinalityProvidersAtHeight(ctx, req)
 		return err
 	})
 
 	return resp, err
 }
 
-// BTCValidatorPowerAtHeight queries the BTCStaking module for the power of a btc validator at a given height
-func (c *QueryClient) BTCValidatorPowerAtHeight(valBtcPkHex string, height uint64) (*btcstakingtypes.QueryBTCValidatorPowerAtHeightResponse, error) {
-	var resp *btcstakingtypes.QueryBTCValidatorPowerAtHeightResponse
+// FinalityProviderPowerAtHeight queries the BTCStaking module for the power of a finality provider at a given height
+func (c *QueryClient) FinalityProviderPowerAtHeight(fpBtcPkHex string, height uint64) (*btcstakingtypes.QueryFinalityProviderPowerAtHeightResponse, error) {
+	var resp *btcstakingtypes.QueryFinalityProviderPowerAtHeightResponse
 	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
 		var err error
-		req := &btcstakingtypes.QueryBTCValidatorPowerAtHeightRequest{
-			ValBtcPkHex: valBtcPkHex,
-			Height:      height,
+		req := &btcstakingtypes.QueryFinalityProviderPowerAtHeightRequest{
+			FpBtcPkHex: fpBtcPkHex,
+			Height:     height,
 		}
-		resp, err = queryClient.BTCValidatorPowerAtHeight(ctx, req)
+		resp, err = queryClient.FinalityProviderPowerAtHeight(ctx, req)
 		return err
 	})
 

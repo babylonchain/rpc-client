@@ -234,7 +234,7 @@ require (
 
 replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
-	github.com/babylonchain/babylon v0.7.2 => github.com/babylonchain/babylon-private v0.0.0-20231205045726-d9b6629dcf13
+	github.com/babylonchain/babylon v0.7.2 => github.com/babylonchain/babylon-private v0.0.0-20231213105136-11792cad8a84
 
 	// slay the dragonberry
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
