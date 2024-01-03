@@ -32,6 +32,21 @@ func (c *QueryClient) BTCStakingParams() (*btcstakingtypes.QueryParamsResponse, 
 	return resp, err
 }
 
+// FinalityProvider queries the BTCStaking module for a given finlaity provider
+func (c *QueryClient) FinalityProvider(fpBtcPkHex string) (*btcstakingtypes.QueryFinalityProviderResponse, error) {
+	var resp *btcstakingtypes.QueryFinalityProviderResponse
+	err := c.QueryBTCStaking(func(ctx context.Context, queryClient btcstakingtypes.QueryClient) error {
+		var err error
+		req := &btcstakingtypes.QueryFinalityProviderRequest{
+			FpBtcPkHex: fpBtcPkHex,
+		}
+		resp, err = queryClient.FinalityProvider(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
+
 // FinalityProviders queries the BTCStaking module for all finality providers
 func (c *QueryClient) FinalityProviders(pagination *sdkquerytypes.PageRequest) (*btcstakingtypes.QueryFinalityProvidersResponse, error) {
 	var resp *btcstakingtypes.QueryFinalityProvidersResponse

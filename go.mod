@@ -9,9 +9,9 @@ require (
 	github.com/avast/retry-go/v4 v4.5.1
 	github.com/babylonchain/babylon v0.7.2
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.2
-	github.com/cometbft/cometbft v0.38.1
+	github.com/cometbft/cometbft v0.38.2
 	github.com/cosmos/cosmos-sdk v0.50.1
-	github.com/cosmos/relayer/v2 v2.4.3-0.20231121194223-be8ebe0a83db
+	github.com/cosmos/relayer/v2 v2.4.3-0.20231227002143-820caf5ab483
 	github.com/jsternberg/zap-logfmt v1.3.0
 	github.com/juju/fslock v0.0.0-20160525022230-4d5c94c67b4b
 	github.com/stretchr/testify v1.8.4
@@ -92,7 +92,7 @@ require (
 	github.com/distribution/reference v0.5.0 // indirect
 	github.com/docker/docker v23.0.1+incompatible // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/dvsekhvalnov/jose2go v1.5.0 // indirect
+	github.com/dvsekhvalnov/jose2go v1.6.0 // indirect
 	github.com/emicklei/dot v1.6.0 // indirect
 	github.com/ethereum/c-kzg-4844 v0.4.0 // indirect
 	github.com/ethereum/go-ethereum v1.13.5 // indirect
@@ -206,14 +206,14 @@ require (
 	go.etcd.io/bbolt v1.3.7 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.15.0 // indirect
+	golang.org/x/crypto v0.17.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/net v0.18.0 // indirect
 	golang.org/x/oauth2 v0.12.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/term v0.14.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/api v0.143.0 // indirect
@@ -234,7 +234,7 @@ require (
 
 replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
-	github.com/babylonchain/babylon v0.7.2 => github.com/babylonchain/babylon-private v0.0.0-20231213105136-11792cad8a84
+	github.com/babylonchain/babylon v0.7.2 => github.com/babylonchain/babylon-private v0.0.0-20231224153404-79decc6a6866
 
 	// slay the dragonberry
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
