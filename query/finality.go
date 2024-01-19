@@ -63,6 +63,21 @@ func (c *QueryClient) ListBlocks(status finalitytypes.QueriedBlockStatus, pagina
 	return resp, err
 }
 
+// Block queries a block at a given height.
+func (c *QueryClient) Block(height uint64) (*finalitytypes.QueryBlockResponse, error) {
+	var resp *finalitytypes.QueryBlockResponse
+	err := c.QueryFinality(func(ctx context.Context, queryClient finalitytypes.QueryClient) error {
+		var err error
+		req := &finalitytypes.QueryBlockRequest{
+			Height: height,
+		}
+		resp, err = queryClient.Block(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
+
 // ListEvidences queries the Finality module to get evidences after a given height.
 func (c *QueryClient) ListEvidences(startHeight uint64, pagination *sdkquerytypes.PageRequest) (*finalitytypes.QueryListEvidencesResponse, error) {
 	var resp *finalitytypes.QueryListEvidencesResponse
@@ -73,6 +88,22 @@ func (c *QueryClient) ListEvidences(startHeight uint64, pagination *sdkquerytype
 			Pagination:  pagination,
 		}
 		resp, err = queryClient.ListEvidences(ctx, req)
+		return err
+	})
+
+	return resp, err
+}
+
+// ListPublicRandomness is a range query for public randomness of a given finality provider.
+func (c *QueryClient) ListPublicRandomness(fpBtcPkHex string, pagination *sdkquerytypes.PageRequest) (*finalitytypes.QueryListPublicRandomnessResponse, error) {
+	var resp *finalitytypes.QueryListPublicRandomnessResponse
+	err := c.QueryFinality(func(ctx context.Context, queryClient finalitytypes.QueryClient) error {
+		var err error
+		req := &finalitytypes.QueryListPublicRandomnessRequest{
+			FpBtcPkHex: fpBtcPkHex,
+			Pagination: pagination,
+		}
+		resp, err = queryClient.ListPublicRandomness(ctx, req)
 		return err
 	})
 
