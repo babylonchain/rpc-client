@@ -2,14 +2,11 @@ package config
 
 import (
 	"fmt"
-	bbn "github.com/babylonchain/babylon/app"
-	"github.com/cosmos/cosmos-sdk/types/module"
+	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
 	"net/url"
 	"os"
 	"path/filepath"
 	"time"
-
-	"github.com/strangelove-ventures/lens/client"
 )
 
 // BabylonConfig defines configuration for the Babylon client
@@ -45,17 +42,11 @@ func (cfg *BabylonConfig) Validate() error {
 	return nil
 }
 
-func (cfg *BabylonConfig) Unwrap() *client.ChainClientConfig {
-	var moduleBasics []module.AppModuleBasic
-	for _, mbasic := range bbn.ModuleBasics {
-		moduleBasics = append(moduleBasics, mbasic)
-	}
-
-	return &client.ChainClientConfig{
+func (cfg *BabylonConfig) ToCosmosProviderConfig() cosmos.CosmosProviderConfig {
+	return cosmos.CosmosProviderConfig{
 		Key:            cfg.Key,
 		ChainID:        cfg.ChainID,
 		RPCAddr:        cfg.RPCAddr,
-		GRPCAddr:       cfg.GRPCAddr,
 		AccountPrefix:  cfg.AccountPrefix,
 		KeyringBackend: cfg.KeyringBackend,
 		GasAdjustment:  cfg.GasAdjustment,
@@ -63,9 +54,9 @@ func (cfg *BabylonConfig) Unwrap() *client.ChainClientConfig {
 		KeyDirectory:   cfg.KeyDirectory,
 		Debug:          cfg.Debug,
 		Timeout:        cfg.Timeout.String(),
+		BlockTimeout:   cfg.BlockTimeout.String(),
 		OutputFormat:   cfg.OutputFormat,
 		SignModeStr:    cfg.SignModeStr,
-		Modules:        moduleBasics,
 	}
 }
 
