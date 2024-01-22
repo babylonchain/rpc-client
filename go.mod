@@ -7,7 +7,7 @@ toolchain go1.21.4
 require (
 	cosmossdk.io/errors v1.0.0
 	github.com/avast/retry-go/v4 v4.5.1
-	github.com/babylonchain/babylon v0.7.2-0.20240121090242-60e5612f9acb
+	github.com/babylonchain/babylon v0.8.0-rc.0
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.2
 	github.com/cometbft/cometbft v0.38.2
 	github.com/cosmos/cosmos-sdk v0.50.2
