@@ -88,11 +88,3 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 func (c *Client) GetConfig() *config.BabylonConfig {
 	return c.cfg
 }
-
-func (c *Client) Stop() error {
-	if !c.provider.RPCClient.IsRunning() {
-		return nil
-	}
-
-	return c.provider.RPCClient.Stop()
-}

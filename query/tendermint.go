@@ -1,7 +1,6 @@
 package query
 
 import (
-	"context"
 	"strings"
 
 	coretypes "github.com/cometbft/cometbft/rpc/core/types"
@@ -45,16 +44,4 @@ func (c *QueryClient) GetTx(hash []byte) (*coretypes.ResultTx, error) {
 	defer cancel()
 
 	return c.RPCClient.Tx(ctx, hash, false)
-}
-
-func (c *QueryClient) Subscribe(subscriber, query string, outCapacity ...int) (out <-chan coretypes.ResultEvent, err error) {
-	return c.RPCClient.Subscribe(context.Background(), subscriber, query, outCapacity...)
-}
-
-func (c *QueryClient) Unsubscribe(subscriber, query string) error {
-	return c.RPCClient.Unsubscribe(context.Background(), subscriber, query)
-}
-
-func (c *QueryClient) UnsubscribeAll(subscriber string) error {
-	return c.RPCClient.UnsubscribeAll(context.Background(), subscriber)
 }

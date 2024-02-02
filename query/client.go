@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/babylonchain/rpc-client/config"
-	rpcclient "github.com/cometbft/cometbft/rpc/client"
-	"github.com/cosmos/cosmos-sdk/client"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
+	cwclient "github.com/cosmos/relayer/v2/client"
+	"github.com/strangelove-ventures/cometbft-client/client"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -18,7 +18,7 @@ import (
 // It only requires `Cfg` to have `Timeout` and `RPCAddr`, but not other fields
 // such as keyring, chain ID, etc..
 type QueryClient struct {
-	RPCClient rpcclient.Client
+	RPCClient cwclient.RPCClient
 	timeout   time.Duration
 }
 
@@ -28,20 +28,20 @@ func New(cfg *config.BabylonQueryConfig) (*QueryClient, error) {
 		return nil, err
 	}
 
-	tmClient, err := client.NewClientFromNode(cfg.RPCAddr)
+	tmClient, err := client.NewClient(cfg.RPCAddr, cfg.Timeout)
 	if err != nil {
 		return nil, err
 	}
 
 	return &QueryClient{
-		RPCClient: tmClient,
+		RPCClient: cwclient.NewRPCClient(tmClient),
 		timeout:   cfg.Timeout,
 	}, nil
 }
 
 // NewWithClient creates a new QueryClient with a given existing rpcClient and timeout
 // used by `client/` where `ChainClient` already creates an rpc client
-func NewWithClient(rpcClient rpcclient.Client, timeout time.Duration) (*QueryClient, error) {
+func NewWithClient(rpcClient cwclient.RPCClient, timeout time.Duration) (*QueryClient, error) {
 	if timeout <= 0 {
 		return nil, fmt.Errorf("timeout must be positive")
 	}
@@ -52,18 +52,6 @@ func NewWithClient(rpcClient rpcclient.Client, timeout time.Duration) (*QueryCli
 	}
 
 	return client, nil
-}
-
-func (c *QueryClient) Start() error {
-	return c.RPCClient.Start()
-}
-
-func (c *QueryClient) Stop() error {
-	return c.RPCClient.Stop()
-}
-
-func (c *QueryClient) IsRunning() bool {
-	return c.RPCClient.IsRunning()
 }
 
 // getQueryContext returns a context that includes the height and uses the timeout from the config
