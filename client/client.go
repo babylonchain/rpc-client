@@ -1,15 +1,17 @@
 package client
 
 import (
-	"context"
 	"time"
 
 	bbn "github.com/babylonchain/babylon/app"
-	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
-	"go.uber.org/zap"
-
 	"github.com/babylonchain/rpc-client/config"
 	"github.com/babylonchain/rpc-client/query"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	cwrapper "github.com/cosmos/relayer/v2/client"
+	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
+	"github.com/strangelove-ventures/cometbft-client/client"
+	"go.uber.org/zap"
 )
 
 type Client struct {
@@ -41,9 +43,6 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 		}
 	}
 
-	// Create tmp Babylon app to retrieve and register codecs
-	encCfg := bbn.GetEncodingConfig()
-
 	cosmosConfig := cfg.ToCosmosProviderConfig()
 	provider, err := cosmosConfig.NewProvider(
 		zapLogger,
@@ -57,7 +56,10 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 
 	cp := provider.(*cosmos.CosmosProvider)
 	cp.PCfg.KeyDirectory = cfg.KeyDirectory
+
+	// Create tmp Babylon app to retrieve and register codecs
 	// Need to override this manually as otherwise option from config is ignored
+	encCfg := bbn.GetEncodingConfig()
 	cp.Cdc = cosmos.Codec{
 		InterfaceRegistry: encCfg.InterfaceRegistry,
 		Marshaler:         encCfg.Codec,
@@ -65,13 +67,41 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 		Amino:             encCfg.Amino,
 	}
 
-	err = cp.Init(context.Background())
+	// set keyring
+	keybase, err := keyring.New(
+		cp.PCfg.ChainID,
+		cp.PCfg.KeyringBackend,
+		cp.PCfg.KeyDirectory,
+		cp.Input,
+		cp.Cdc.Marshaler,
+		cp.KeyringOptions...,
+	)
 	if err != nil {
 		return nil, err
 	}
+	cp.Keybase = keybase
+
+	// TODO: figure out how to deal with input or maybe just make all keyring backends test?
+
+	// create RPC client
+
+	// TODO: temporary solution for working with Strangelove's client wrapper
+	// will be replaced when Cosmos relayer finishes the migration to new
+	// RPC client
+	// NOTE: this RPC client won't create long connection with Babylon node. It will only be
+	// used for submitting txs
+	slClient, err := client.NewClient(cp.PCfg.RPCAddr, cfg.Timeout)
+	if err != nil {
+		return nil, err
+	}
+	cp.RPCClient = cwrapper.NewRPCClient(slClient)
 
 	// create a queryClient so that the Client inherits all query functions
-	queryClient, err := query.NewWithClient(cp.RPCClient, cfg.Timeout)
+	c, err := rpchttp.NewWithTimeout(cp.PCfg.RPCAddr, "/websocket", uint(cfg.Timeout.Seconds()))
+	if err != nil {
+		return nil, err
+	}
+	queryClient, err := query.NewWithClient(c, cfg.Timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -90,9 +120,5 @@ func (c *Client) GetConfig() *config.BabylonConfig {
 }
 
 func (c *Client) Stop() error {
-	if !c.provider.RPCClient.IsRunning() {
-		return nil
-	}
-
-	return c.provider.RPCClient.Stop()
+	return c.QueryClient.Stop()
 }
