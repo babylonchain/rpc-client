@@ -41,8 +41,7 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 		}
 	}
 
-	cosmosConfig := cfg.ToCosmosProviderConfig()
-	provider, err := cosmosConfig.NewProvider(
+	provider, err := cfg.ToCosmosProviderConfig().NewProvider(
 		zapLogger,
 		"", // TODO: set home path
 		true,
