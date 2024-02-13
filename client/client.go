@@ -1,16 +1,14 @@
 package client
 
 import (
+	"context"
 	"time"
 
 	bbn "github.com/babylonchain/babylon/app"
 	"github.com/babylonchain/rpc-client/config"
 	"github.com/babylonchain/rpc-client/query"
 	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	cwrapper "github.com/cosmos/relayer/v2/client"
 	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
-	"github.com/strangelove-ventures/cometbft-client/client"
 	"go.uber.org/zap"
 )
 
@@ -67,36 +65,19 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 		Amino:             encCfg.Amino,
 	}
 
-	// set keyring
-	keybase, err := keyring.New(
-		cp.PCfg.ChainID,
-		cp.PCfg.KeyringBackend,
-		cp.PCfg.KeyDirectory,
-		cp.Input,
-		cp.Cdc.Marshaler,
-		cp.KeyringOptions...,
-	)
+	// initialise Cosmos provider
+	// NOTE: this will create a RPC client. The RPC client will be used for
+	// submitting txs and making ad hoc queries. It won't create WebSocket
+	// connection with Babylon node
+	err = cp.Init(context.Background())
 	if err != nil {
 		return nil, err
 	}
-	cp.Keybase = keybase
-
-	// TODO: figure out how to deal with input or maybe just make all keyring backends test?
-
-	// create RPC client
-
-	// TODO: temporary solution for working with Strangelove's client wrapper
-	// will be replaced when Cosmos relayer finishes the migration to new
-	// RPC client
-	// NOTE: this RPC client won't create long connection with Babylon node. It will only be
-	// used for submitting txs
-	slClient, err := client.NewClient(cp.PCfg.RPCAddr, cfg.Timeout)
-	if err != nil {
-		return nil, err
-	}
-	cp.RPCClient = cwrapper.NewRPCClient(slClient)
 
 	// create a queryClient so that the Client inherits all query functions
+	// TODO: merge this RPC client with the one in `cp` after Cosmos side
+	// finishes the migration to new RPC client
+	// see github.com/strangelove-ventures/cometbft-client
 	c, err := rpchttp.NewWithTimeout(cp.PCfg.RPCAddr, "/websocket", uint(cfg.Timeout.Seconds()))
 	if err != nil {
 		return nil, err
@@ -117,8 +98,4 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 
 func (c *Client) GetConfig() *config.BabylonConfig {
 	return c.cfg
-}
-
-func (c *Client) Stop() error {
-	return c.QueryClient.Stop()
 }
