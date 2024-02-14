@@ -76,7 +76,7 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 	// create a queryClient so that the Client inherits all query functions
 	// TODO: merge this RPC client with the one in `cp` after Cosmos side
 	// finishes the migration to new RPC client
-	// see github.com/strangelove-ventures/cometbft-client
+	// see https://github.com/strangelove-ventures/cometbft-client
 	c, err := rpchttp.NewWithTimeout(cp.PCfg.RPCAddr, "/websocket", uint(cfg.Timeout.Seconds()))
 	if err != nil {
 		return nil, err
