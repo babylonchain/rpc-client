@@ -5,11 +5,11 @@ import (
 	"time"
 
 	bbn "github.com/babylonchain/babylon/app"
-	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
-	"go.uber.org/zap"
-
 	"github.com/babylonchain/rpc-client/config"
 	"github.com/babylonchain/rpc-client/query"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
+	"go.uber.org/zap"
 )
 
 type Client struct {
@@ -41,11 +41,7 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 		}
 	}
 
-	// Create tmp Babylon app to retrieve and register codecs
-	encCfg := bbn.GetEncodingConfig()
-
-	cosmosConfig := cfg.ToCosmosProviderConfig()
-	provider, err := cosmosConfig.NewProvider(
+	provider, err := cfg.ToCosmosProviderConfig().NewProvider(
 		zapLogger,
 		"", // TODO: set home path
 		true,
@@ -57,7 +53,10 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 
 	cp := provider.(*cosmos.CosmosProvider)
 	cp.PCfg.KeyDirectory = cfg.KeyDirectory
+
+	// Create tmp Babylon app to retrieve and register codecs
 	// Need to override this manually as otherwise option from config is ignored
+	encCfg := bbn.GetEncodingConfig()
 	cp.Cdc = cosmos.Codec{
 		InterfaceRegistry: encCfg.InterfaceRegistry,
 		Marshaler:         encCfg.Codec,
@@ -65,13 +64,24 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 		Amino:             encCfg.Amino,
 	}
 
+	// initialise Cosmos provider
+	// NOTE: this will create a RPC client. The RPC client will be used for
+	// submitting txs and making ad hoc queries. It won't create WebSocket
+	// connection with Babylon node
 	err = cp.Init(context.Background())
 	if err != nil {
 		return nil, err
 	}
 
 	// create a queryClient so that the Client inherits all query functions
-	queryClient, err := query.NewWithClient(cp.RPCClient, cfg.Timeout)
+	// TODO: merge this RPC client with the one in `cp` after Cosmos side
+	// finishes the migration to new RPC client
+	// see https://github.com/strangelove-ventures/cometbft-client
+	c, err := rpchttp.NewWithTimeout(cp.PCfg.RPCAddr, "/websocket", uint(cfg.Timeout.Seconds()))
+	if err != nil {
+		return nil, err
+	}
+	queryClient, err := query.NewWithClient(c, cfg.Timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -87,12 +97,4 @@ func New(cfg *config.BabylonConfig, logger *zap.Logger) (*Client, error) {
 
 func (c *Client) GetConfig() *config.BabylonConfig {
 	return c.cfg
-}
-
-func (c *Client) Stop() error {
-	if !c.provider.RPCClient.IsRunning() {
-		return nil
-	}
-
-	return c.provider.RPCClient.Stop()
 }
